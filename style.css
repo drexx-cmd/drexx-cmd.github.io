@@ -1,82 +1,125 @@
+/* --- CONFIG --- */
 :root {
     --bg-color: #050505;
-    --card-bg: rgba(15, 15, 15, 0.98);
+    --card-bg: rgba(12, 12, 12, 0.98); /* Tối hơn chút cho sâu */
     --text-main: #e0e0e0;
     --text-dim: #888;
-    --accent: #ff003c;
+    --accent: #ff003c; /* Đỏ Cyber */
     --border: #333;
-    --grid-color: rgba(255, 0, 60, 0.05);
+    --grid-color: rgba(255, 0, 60, 0.07);
     --glitch-shadow: #00ffff;
 }
 
 [data-theme="light"] {
-    --bg-color: #f0f2f5;
+    --bg-color: #e6e9ef;
     --card-bg: rgba(255, 255, 255, 0.98);
     --text-main: #1a1a1a;
     --text-dim: #555;
     --accent: #d90429;
     --border: #ccc;
-    --grid-color: rgba(0, 0, 0, 0.05);
+    --grid-color: rgba(0, 0, 0, 0.08);
     --glitch-shadow: #2ec4b6;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; transition: 0.3s; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     background-color: var(--bg-color);
     background-image: linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-    background-size: 30px 30px;
+    background-size: 40px 40px; /* Lưới to hơn chút */
     font-family: 'Share Tech Mono', monospace;
     min-height: 100vh;
     display: flex; justify-content: center; align-items: center;
     color: var(--text-main); padding: 20px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-.control-panel { position: fixed; top: 20px; right: 20px; display: flex; gap: 10px; z-index: 100; }
+/* --- CONTROLS --- */
+.control-panel { position: fixed; top: 25px; right: 25px; display: flex; gap: 12px; z-index: 100; }
 .control-btn {
     background: var(--card-bg); border: 1px solid var(--accent); color: var(--accent);
-    width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;
+    width: 42px; height: 42px; display: flex; align-items: center; justify-content: center;
     cursor: pointer; clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    transition: 0.3s; font-family: inherit; font-weight: bold;
 }
+.control-btn:hover { background: var(--accent); color: var(--bg-color); transform: translateY(-2px); }
 
+/* --- MAIN CARD --- */
 .card {
-    width: 100%; max-width: 900px; background: var(--card-bg); border: 1px solid var(--accent);
+    width: 100%; max-width: 950px; background: var(--card-bg); border: 1px solid var(--accent);
     display: flex; position: relative;
     clip-path: polygon(40px 0, 100% 0, 100% calc(100% - 40px), calc(100% - 40px) 100%, 0 100%, 0 40px);
+    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5); /* Thêm bóng đổ */
 }
 
-.side-left { width: 40%; padding: 50px 40px; border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.avatar-box { position: relative; width: 180px; height: 180px; margin-bottom: 25px; }
-.avatar { width: 100%; height: 100%; object-fit: cover; border: 2px solid var(--border); filter: grayscale(1); }
-.card:hover .avatar { filter: grayscale(0); border-color: var(--accent); }
-.scanner { position: absolute; top: -8px; left: -8px; right: -8px; bottom: -8px; border: 1px dashed var(--accent); border-radius: 50%; animation: spin 10s linear infinite; opacity: 0.4; }
+/* Left Side */
+.side-left { width: 38%; padding: 60px 40px; border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255, 0, 60, 0.03); }
+.avatar-box { position: relative; width: 190px; height: 190px; margin-bottom: 30px; }
+.avatar { width: 100%; height: 100%; object-fit: cover; border: 2px solid var(--border); filter: grayscale(1) contrast(1.2); transition: 0.5s; }
+.card:hover .avatar { filter: grayscale(0) contrast(1); border-color: var(--accent); }
+.scanner { position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; border: 1px dashed var(--accent); border-radius: 50%; animation: spin 12s linear infinite; opacity: 0.4; }
+.status-box { font-size: 13px; letter-spacing: 2px; color: var(--accent); font-weight: bold; }
 
-.side-right { width: 60%; padding: 50px; }
-h1 { font-size: 32px; text-transform: uppercase; letter-spacing: 2px; position: relative; }
-.role { color: var(--accent); font-size: 14px; margin-bottom: 30px; display: block; }
+/* Right Side */
+.side-right { width: 62%; padding: 60px 50px; }
 
-.skill-item { margin-bottom: 15px; }
-.skill-header { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 5px; }
-.progress-bar { height: 4px; background: var(--border); }
-.progress-fill { height: 100%; background: var(--accent); width: 0; animation: loadSkill 1.5s forwards; }
+/* Typography & Glitch */
+h1 {
+    font-size: 38px; text-transform: uppercase; letter-spacing: 3px; position: relative; display: inline-block; margin-bottom: 8px;
+}
+.glitch-text::before, .glitch-text::after {
+    content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--card-bg); opacity: 0.8;
+}
+.glitch-text::before { left: 2px; text-shadow: -2px 0 var(--glitch-shadow); clip: rect(24px, 550px, 90px, 0); animation: glitch 3s infinite alternate-reverse; }
+.glitch-text::after { left: -2px; text-shadow: -2px 0 var(--accent); clip: rect(85px, 550px, 140px, 0); animation: glitch 2.5s infinite alternate-reverse; }
 
-.btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px; }
+.role { color: var(--accent); font-size: 15px; margin-bottom: 40px; display: block; font-weight: bold; letter-spacing: 1px; }
+
+/* Skills */
+.skill-item { margin-bottom: 18px; }
+.skill-header { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; font-weight: bold; letter-spacing: 1px; }
+.progress-bar { height: 6px; background: var(--border); position: relative; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); width: 0; animation: loadSkill 1.5s cubic-bezier(0.22, 0.61, 0.36, 1) forwards; }
+
+/* Premium Buttons */
+.btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 40px; }
 .btn {
-    border: 1px solid var(--border); color: var(--text-main); padding: 12px;
-    text-decoration: none; font-size: 13px; text-align: center;
+    border: 1px solid var(--border); color: var(--text-main); padding: 15px;
+    text-decoration: none; font-size: 13px; text-align: center; font-weight: bold; letter-spacing: 1px;
+    position: relative; overflow: hidden; z-index: 1; transition: border-color 0.3s, color 0.3s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
 }
-.btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+.btn::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 0; height: 100%;
+    background: var(--accent); z-index: -1; transition: width 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.btn:hover { border-color: var(--accent); color: var(--bg-color); }
+.btn:hover::before { width: 100%; }
 
-.social { display: flex; gap: 20px; margin-top: 30px; padding-top: 20px; border-top: 1px dashed var(--border); }
-.social a { color: var(--text-dim); font-size: 20px; }
-.social a:hover { color: var(--accent); }
+/* Social */
+.social { display: flex; gap: 25px; margin-top: 40px; padding-top: 25px; border-top: 1px dashed var(--border); }
+.social a { color: var(--text-dim); font-size: 22px; transition: 0.3s; }
+.social a:hover { color: var(--accent); transform: translateY(-3px); }
 
+/* Terminal Log */
+.terminal-log { position: fixed; bottom: 20px; left: 25px; font-size: 11px; color: var(--accent); opacity: 0.7; }
+
+/* Animations */
 @keyframes spin { 100% { transform: rotate(360deg); } }
 @keyframes loadSkill { to { width: var(--w); } }
+@keyframes glitch {
+    0% { clip: rect(10px, 9999px, 30px, 0); transform: skew(0.5deg); }
+    10% { clip: rect(40px, 9999px, 60px, 0); transform: skew(-0.5deg); }
+    100% { clip: rect(10px, 9999px, 100px, 0); transform: skew(0); }
+}
 
+/* Mobile Responsive */
 @media (max-width: 850px) {
-    .card { flex-direction: column; }
-    .side-left, .side-right { width: 100%; border: none; text-align: center; }
+    .card { flex-direction: column; max-width: 450px; }
+    .side-left, .side-right { width: 100%; border: none; text-align: center; padding: 40px 30px; }
+    .side-left { border-bottom: 1px solid var(--border); }
     .btn-group { grid-template-columns: 1fr; }
     .social { justify-content: center; }
+    h1 { font-size: 28px; }
+    .terminal-log { display: none; } /* Ẩn log trên mobile cho gọn */
 }
