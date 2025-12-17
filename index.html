@@ -3,227 +3,277 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>khizm | Real Liquid Glass</title>
+    <title>khizm | Miku Aura UI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --text: #ffffff;
-            --blob-1: #ff00cc; /* Hồng tím */
-            --blob-2: #3333ff; /* Xanh đậm */
-            --blob-3: #00ffff; /* Cyan neon */
+            /* Palette lấy từ Avatar Miku */
+            --miku-cyan: #39FF14; /* Xanh neon sáng hơn chút */
+            --miku-teal: #00f2ea; /* Màu tóc Miku */
+            --miku-pink: #ff0050; /* Màu mắt/nơ */
+            --miku-purple: #a100f2; /* Màu chuyển tiếp */
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --text-white: #ffffff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: #080808; /* Nền đen sâu */
-            min-height: 100vh;
+            font-family: 'Outfit', sans-serif;
+            background: #050505;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            color: var(--text-white);
             position: relative;
-            color: var(--text);
         }
 
-        /* --- PHẦN TẠO HIỆU ỨNG LIQUID (Blobs di chuyển) --- */
-        .blobs-container {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+        /* --- BACKGROUND AURORA (CỰC QUANG) --- */
+        .aurora-container {
+            position: absolute; inset: 0;
+            background: radial-gradient(circle at 50% 50%, #1a1a2e, #000);
             z-index: 0;
             overflow: hidden;
-            pointer-events: none;
         }
 
-        .blob {
+        .aurora-blob {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px); /* Làm nhòe cực mạnh để tạo cảm giác lỏng */
-            opacity: 0.8;
-            animation: moveBlobs 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+            filter: blur(80px); /* Độ mờ vừa phải để tạo dải màu */
+            opacity: 0.6;
+            animation: auroraMove 15s infinite alternate ease-in-out;
         }
 
-        .b1 {
-            width: 600px; height: 600px;
-            background: var(--blob-1);
-            top: -100px; left: -100px;
-            animation-duration: 25s;
+        /* Cục màu 1: Xanh Miku (Góc trái trên) */
+        .blob-1 {
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, var(--miku-teal), transparent 70%);
+            top: -200px; left: -200px;
+            animation-duration: 20s;
         }
 
-        .b2 {
-            width: 500px; height: 500px;
-            background: var(--blob-2);
-            bottom: -100px; right: -100px;
+        /* Cục màu 2: Hồng Tím (Góc phải dưới) */
+        .blob-2 {
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, var(--miku-pink), transparent 70%);
+            bottom: -150px; right: -150px;
             animation-delay: -5s;
-            animation-duration: 22s;
         }
 
-        .b3 {
-            width: 400px; height: 400px;
-            background: var(--blob-3);
-            bottom: 20%; left: 30%;
-            animation-delay: -10s;
-            animation-duration: 18s;
+        /* Cục màu 3: Tím Đậm (Ở giữa nối 2 màu kia) */
+        .blob-3 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, var(--miku-purple), transparent 70%);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            animation: auroraPulse 10s infinite alternate;
         }
 
-        /* --- THẺ KÍNH CHÍNH (THE GLASS) --- */
-        .glass-card {
+        /* --- MAIN GLASS CARD --- */
+        .glass-panel {
             position: relative; z-index: 10;
-            width: 900px;
-            min-height: 500px;
-            /* Công thức kính mờ chuẩn: Nền trắng cực mỏng + Blur cực dày */
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(40px);
+            width: 950px;
+            padding: 70px;
+            border-radius: 40px;
+            
+            /* Công thức kính trong vắt */
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(40px); /* Làm mờ background phía sau */
             -webkit-backdrop-filter: blur(40px);
+            border: 1px solid var(--glass-border);
+            /* Bóng đổ nhẹ tạo độ nổi */
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
             
-            border-radius: 30px;
-            /* Viền kính phát sáng */
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-top: 1px solid rgba(255, 255, 255, 0.5); /* Đỉnh sáng hơn tạo khối 3D */
-            border-left: 1px solid rgba(255, 255, 255, 0.5);
-            
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            padding: 60px;
             display: flex;
             align-items: center;
             gap: 60px;
         }
 
-        /* Nội dung bên trái */
-        .left-content { flex: 1; }
+        /* LEFT CONTENT */
+        .content { flex: 1; }
 
-        .tag {
-            display: inline-block;
-            padding: 6px 14px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 12px; font-weight: 700; letter-spacing: 1px; color: #00ffff;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        .status-pill {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 16px; 
+            border-radius: 30px;
+            background: rgba(0, 242, 234, 0.1);
+            border: 1px solid rgba(0, 242, 234, 0.3);
+            font-size: 12px; font-weight: 700; letter-spacing: 1px;
+            color: var(--miku-teal);
+            margin-bottom: 25px;
+            box-shadow: 0 0 15px rgba(0, 242, 234, 0.2);
         }
+        .status-dot { width: 6px; height: 6px; background: var(--miku-teal); border-radius: 50%; box-shadow: 0 0 10px var(--miku-teal); }
 
         h1 {
-            font-size: 4rem; font-weight: 900; line-height: 1; margin-bottom: 20px;
-            text-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-        
-        .role {
-            font-size: 1.2rem; color: rgba(255,255,255,0.8); margin-bottom: 30px; font-weight: 500;
+            font-size: 4.5rem; font-weight: 800; line-height: 1; margin-bottom: 20px;
+            letter-spacing: -2px;
         }
 
-        /* BUTTONS - SỬA LẠI CHO ĐÚNG CHẤT LIQUID */
-        .btn-container { display: flex; gap: 20px; }
+        /* Gradient Text theo màu Avatar */
+        .gradient-name {
+            background: linear-gradient(135deg, #fff 30%, var(--miku-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .job-title {
+            font-size: 1.25rem; color: rgba(255,255,255,0.7); font-weight: 400; margin-bottom: 30px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .slash { color: var(--miku-pink); font-weight: bold; }
+
+        .desc {
+            font-size: 16px; line-height: 1.6; color: rgba(255,255,255,0.6); margin-bottom: 40px; max-width: 90%;
+        }
+
+        /* --- BUTTONS XỊN --- */
+        .actions { display: flex; gap: 20px; }
 
         .btn {
-            padding: 15px 35px; border-radius: 15px;
-            text-decoration: none; font-weight: 700;
-            transition: 0.3s; position: relative; overflow: hidden;
+            padding: 16px 36px; border-radius: 16px;
+            text-decoration: none; font-weight: 700; font-size: 15px;
+            transition: all 0.3s ease;
+            position: relative; overflow: hidden;
             display: flex; align-items: center; gap: 10px;
         }
 
-        /* Nút chính: Giả lập bề mặt nước */
-        .btn-liquid {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.4);
+        /* Nút chính: Gradient từ Tím sang Hồng (Hợp mắt Miku) */
+        .btn-primary {
+            background: linear-gradient(90deg, var(--miku-purple), var(--miku-pink));
             color: white;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(255, 0, 80, 0.3);
         }
-        
-        /* Hiệu ứng lướt ánh sáng qua nút */
-        .btn-liquid::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: 0.5s;
+        .btn-primary:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 20px 40px rgba(255, 0, 80, 0.5); 
+            filter: brightness(1.1);
         }
-        .btn-liquid:hover::before { left: 100%; }
-        .btn-liquid:hover { transform: translateY(-3px); background: rgba(255,255,255,0.2); box-shadow: 0 0 20px var(--blob-1); border-color: white; }
 
-        /* Nút phụ */
-        .btn-ghost {
-            background: transparent; color: rgba(255,255,255,0.7);
+        /* Nút phụ: Kính mờ */
+        .btn-glass {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
         }
-        .btn-ghost:hover { color: white; transform: translateX(5px); }
-
-        /* Social Icons */
-        .socials { margin-top: 40px; display: flex; gap: 25px; font-size: 20px; }
-        .socials a { color: rgba(255,255,255,0.6); transition: 0.3s; }
-        .socials a:hover { color: white; transform: scale(1.2); }
-
-        /* Phần ảnh bên phải */
-        .right-content {
-            width: 320px; height: 320px; position: relative; flex-shrink: 0;
+        .btn-glass:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+            transform: translateY(-3px);
         }
-        
+
+        /* RIGHT IMAGE */
+        .image-wrapper {
+            width: 380px; height: 380px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        /* Vòng hào quang sau ảnh */
+        .glow-circle {
+            position: absolute; inset: -20px;
+            border-radius: 40px;
+            background: linear-gradient(135deg, var(--miku-teal), var(--miku-pink));
+            filter: blur(40px);
+            opacity: 0.5;
+            z-index: 1;
+            animation: rotateGlow 8s infinite linear;
+        }
+
         .avatar-box {
+            position: relative; z-index: 2;
             width: 100%; height: 100%;
             border-radius: 40px;
             overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.2);
-            position: relative; z-index: 2;
-            /* Bóng đổ phản chiếu màu nền */
+            /* Viền kép tạo cảm giác cao cấp */
+            border: 3px solid rgba(255,255,255,0.1);
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-        
-        .avatar { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Animation Keyframes */
-        @keyframes moveBlobs {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(50px, -50px) scale(1.1); }
-            100% { transform: translate(-50px, 50px) scale(0.9); }
+        .avatar { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .avatar-box:hover .avatar { transform: scale(1.05); }
+
+        /* SOCIALS */
+        .social-bar {
+            margin-top: 40px; display: flex; gap: 25px;
+        }
+        .social-link {
+            color: rgba(255,255,255,0.5); font-size: 20px; transition: 0.3s;
+        }
+        .social-link:hover { color: var(--miku-teal); transform: translateY(-3px); }
+
+
+        /* ANIMATIONS */
+        @keyframes auroraMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 30px); }
+        }
+        @keyframes auroraPulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+        }
+        @keyframes rotateGlow {
+            0% { filter: blur(40px) hue-rotate(0deg); }
+            100% { filter: blur(40px) hue-rotate(360deg); }
         }
 
-        /* Responsive */
-        @media (max-width: 968px) {
-            .glass-card { width: 95%; flex-direction: column-reverse; padding: 40px 20px; text-align: center; }
-            h1 { font-size: 3rem; }
-            .btn-container, .socials { justify-content: center; }
-            .right-content { width: 250px; height: 250px; margin-bottom: 20px; }
-            .b1, .b2, .b3 { opacity: 0.6; } /* Giảm độ sáng blob trên mobile cho đỡ chói */
+        /* MOBILE */
+        @media (max-width: 1024px) {
+            .glass-panel { width: 90%; flex-direction: column-reverse; text-align: center; padding: 40px 20px; gap: 40px;}
+            h1 { font-size: 3.5rem; }
+            .job-title, .actions, .social-bar { justify-content: center; }
+            .image-wrapper { width: 280px; height: 280px; }
+            .aurora-blob { opacity: 0.4; } /* Giảm sáng trên mobile */
         }
     </style>
 </head>
 <body>
 
-    <div class="blobs-container">
-        <div class="blob b1"></div>
-        <div class="blob b2"></div>
-        <div class="blob b3"></div>
-    </div>
+    <div class="aurora-container">
+        <div class="aurora-blob blob-1"></div> <div class="aurora-blob blob-2"></div> <div class="aurora-blob blob-3"></div> </div>
 
-    <div class="glass-card">
+    <div class="glass-panel">
         
-        <div class="left-content">
-            <div class="tag">● OPEN TO WORK</div>
-            
-            <h1>Phạm Anh<br>Khiêm</h1>
-            <p class="role">&lt;Game Developer /&gt; • UI Designer</p>
+        <div class="content">
+            <div class="status-pill">
+                <div class="status-dot"></div> AVAILABLE FOR WORK
+            </div>
 
-            <div class="btn-container">
-                <a href="#" class="btn btn-liquid">
-                    <i class="fa-solid fa-cube"></i> View Projects
+            <h1>Phạm Anh<br><span class="gradient-name">Khiêm</span></h1>
+            
+            <div class="job-title">
+                Game Developer <span class="slash">//</span> UI Designer
+            </div>
+
+            <p class="desc">
+                Chuyên tạo ra trải nghiệm người dùng sống động và các hệ thống gameplay mượt mà. Đam mê phong cách Anime Cyberpunk và thiết kế giao diện tương lai.
+            </p>
+
+            <div class="actions">
+                <a href="#" class="btn btn-primary">
+                    <i class="fa-solid fa-code"></i> View Projects
                 </a>
-                <a href="https://github.com/drexx-cmd" target="_blank" class="btn btn-ghost">
-                    GitHub <i class="fa-solid fa-arrow-right"></i>
+                <a href="https://github.com/drexx-cmd" target="_blank" class="btn btn-glass">
+                    <i class="fa-brands fa-github"></i> Github
                 </a>
             </div>
 
-            <div class="socials">
-                <a href="#"><i class="fa-brands fa-facebook"></i></a>
-                <a href="#"><i class="fa-brands fa-discord"></i></a>
-                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#"><i class="fa-solid fa-envelope"></i></a>
+            <div class="social-bar">
+                <a href="#" class="social-link"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="social-link"><i class="fa-brands fa-discord"></i></a>
+                <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+                <a href="mailto:contact@drexx.dev" class="social-link"><i class="fa-solid fa-envelope"></i></a>
             </div>
         </div>
 
-        <div class="right-content">
+        <div class="image-wrapper">
+            <div class="glow-circle"></div>
             <div class="avatar-box">
-                <img src="https://i.ibb.co/3mYwrQM9/118951885-p0-1.jpg" alt="Avatar" class="avatar">
+                <img src="https://i.ibb.co/3mYwrQM9/118951885-p0-1.jpg" alt="Avatar Miku Style" class="avatar">
             </div>
         </div>
 
