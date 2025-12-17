@@ -1,13 +1,12 @@
 :root {
-    --primary: #00d2ff;
-    --accent: #bb86fc;
-    --bg-card: rgba(10, 10, 10, 0.6);
+    --neon-blue: #00d2ff;
+    --neon-purple: #bb86fc;
+    --bg-dark: rgba(5, 5, 5, 0.85);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    /* Giữ nguyên background nhưng bỏ cái animation zoom gây xấu */
     background: url('https://i.ibb.co/n8Dx4y72/sea-horizon-sky.jpg') no-repeat center center fixed;
     background-size: cover;
     font-family: 'JetBrains Mono', monospace;
@@ -15,103 +14,98 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-}
-
-.container {
-    background: var(--bg-card);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 24px;
-    padding: 40px;
-    width: 85%;
-    max-width: 380px;
-    text-align: center;
     color: white;
-    /* Hiệu ứng đổ bóng sâu nhưng nhẹ nhàng */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-    /* Animation hiện lên mượt mà (Fade In) */
-    animation: fadeIn 1.2s ease-in-out;
 }
 
-.avatar {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    padding: 5px;
-    margin-bottom: 20px;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+/* Hiệu ứng sọc ngang màn hình cũ */
+.scanline {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    background-size: 100% 4px, 3px 100%;
+    pointer-events: none;
+    z-index: 10;
 }
 
-/* Chỉ to ra nhẹ và phát sáng khi chỉ chuột vào */
-.avatar:hover {
-    transform: translateY(-5px);
-    border-color: var(--primary);
-    box-shadow: 0 0 20px rgba(0, 210, 255, 0.5);
-}
-
-h1 { 
-    font-size: 22px; 
-    font-weight: 800; 
-    margin-bottom: 5px; 
-    letter-spacing: -0.5px;
-}
-
-.tagline { 
-    color: var(--primary); 
-    font-size: 12px; 
-    margin-bottom: 25px;
-    opacity: 0.8;
-}
-
-.links { display: flex; flex-direction: column; gap: 12px; }
-
-.btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 12px 20px;
+.terminal-container {
+    background: var(--bg-dark);
+    width: 95%;
+    max-width: 500px;
     border-radius: 12px;
-    color: white;
-    text-decoration: none;
-    font-size: 13px;
+    border: 1px solid rgba(0, 210, 255, 0.3);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.terminal-header {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: 0.3s all ease;
+    gap: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Nút bấm chỉ đổi màu và nhích nhẹ, không làm to bảng */
-.btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: var(--primary);
-    transform: scale(1.02);
-    box-shadow: 0 5px 15px rgba(0, 210, 255, 0.2);
+.dots { display: flex; gap: 6px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+.title { font-size: 11px; opacity: 0.7; font-weight: bold; }
+
+.content { padding: 30px; }
+
+.profile-section { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; }
+
+.avatar-frame {
+    border: 2px solid var(--neon-blue);
+    padding: 4px;
+    border-radius: 8px;
+    position: relative;
 }
 
-.social-footer {
-    margin-top: 30px;
+.avatar { width: 80px; height: 80px; display: block; filter: grayscale(0.5); transition: 0.3s; }
+.avatar-frame:hover .avatar { filter: grayscale(0); transform: scale(1.05); }
+
+h1 { font-size: 20px; font-weight: 800; color: var(--neon-blue); }
+.role { font-size: 11px; opacity: 0.6; margin: 4px 0 10px; }
+
+.status-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; }
+.status-fill { height: 100%; background: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); }
+
+.links-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.grid-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+    font-size: 13px;
     display: flex;
-    justify-content: center;
-    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
 }
 
-.social-footer a { 
-    color: white; 
-    font-size: 20px; 
-    transition: 0.3s; 
-    opacity: 0.5; 
-}
-
-.social-footer a:hover { 
-    opacity: 1; 
-    color: var(--accent); 
+.grid-item:hover {
+    background: rgba(0, 210, 255, 0.1);
+    border-color: var(--neon-blue);
     transform: translateY(-3px);
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+.grid-item.highlight { grid-column: span 2; flex-direction: row; justify-content: center; border-color: var(--neon-purple); }
+.grid-item.highlight:hover { background: rgba(187, 134, 252, 0.1); border-color: var(--neon-purple); }
+
+.social-bar {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    display: flex;
+    justify-content: space-around;
+    font-size: 11px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
+
+.social-bar a { color: white; text-decoration: none; opacity: 0.5; transition: 0.3s; }
+.social-bar a:hover { opacity: 1; color: var(--neon-blue); }
