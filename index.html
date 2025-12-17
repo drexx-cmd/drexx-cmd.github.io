@@ -3,90 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHẠM ANH KHIÊM | Social Portfolio</title>
+    <title>Phạm Anh Khiêm | Anime Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <nav class="top-nav">
+        <div class="nav-links">
+            <a href="#"><i class="fa-solid fa-home"></i> HOME</a>
+            <a href="#"><i class="fa-brands fa-twitter"></i> TWITTER</a>
+            <a href="#"><i class="fa-brands fa-discord"></i> DISCORD</a>
+            <a href="#"><i class="fa-brands fa-github"></i> GITHUB</a>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <button>POST</button>
+        </div>
+    </nav>
+
     <div class="container">
-        <header class="profile-header">
-            <div class="banner">
-                <img src="https://via.placeholder.com/1200x400" alt="Banner" class="banner-img">
-                <div class="banner-overlay"></div>
-            </div>
-            <div class="profile-info-bar">
-                <div class="avatar-wrapper">
-                    <img src="https://via.placeholder.com/150" alt="Avatar" class="profile-avatar">
-                </div>
-                <div class="user-meta">
-                    <h1>Phạm Anh Khiêm</h1>
-                    <p>Game Developer & UI Designer</p>
-                </div>
-                <div class="header-actions">
-                    <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Theo dõi</button>
-                    <button class="btn btn-secondary"><i class="fa-solid fa-message"></i> Nhắn tin</button>
-                </div>
-            </div>
-        </header>
+        <div class="banner">
+            <img src="https://i.pinimg.com/originals/ee/12/a9/ee12a91e127395029c782782e38c7512.jpg" alt="Banner">
+        </div>
 
-        <main class="main-layout">
+        <div class="content-wrapper">
             <aside class="sidebar">
-                <div class="card intro-card">
-                    <h3>Giới thiệu</h3>
-                    <ul class="intro-list">
-                        <li><i class="fa-solid fa-briefcase"></i> Làm việc tại <span>VKU Studio</span></li>
-                        <li><i class="fa-solid fa-graduation-cap"></i> Học tại <span>Đại học CNTT & TT Việt - Hàn</span></li>
-                        <li><i class="fa-solid fa-house"></i> Sống tại <span>Đà Nẵng, Việt Nam</span></li>
-                        <li><i class="fa-solid fa-heart"></i> Đam mê <span>Anime & Cyberpunk</span></li>
-                    </ul>
-                    <button class="btn btn-full">Chỉnh sửa tiểu sử</button>
+                <div class="profile-section">
+                    <div class="avatar-holder">
+                        <img src="https://i.pinimg.com/736x/8f/c3/0f/8fc30fa2a9121d51a62c47671239857d.jpg" alt="Avatar">
+                    </div>
+                    <h1 class="username">Phạm Anh Khiêm</h1>
+                    <span class="handle">@khizm_dev</span>
+                    
+                    <div class="bio">
+                        <p>Game Dev | UI Designer | VKU Student</p>
+                        <p>Đam mê code dạo và wibu chính hiệu. Thích tạo ra những thứ hay ho bằng Unity.</p>
+                    </div>
+
+                    <div class="info-meta">
+                        <i class="fa-regular fa-calendar"></i> Tham gia từ 2020
+                    </div>
                 </div>
 
-                <div class="card skills-card">
-                    <h3>Kỹ năng</h3>
-                    <div class="skill-tags">
-                        <span>Unity</span>
-                        <span>C#</span>
-                        <span>UI Design</span>
-                        <span>Photoshop</span>
-                        <span>Github</span>
+                <div class="widget-box">
+                    <h3>Social Media</h3>
+                    <ul class="social-list">
+                        <li>
+                            <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="Github">
+                            <div class="social-info">
+                                <strong>Github</strong>
+                                <span>@drexx-cmd</span>
+                            </div>
+                            <a href="#" class="follow-btn">Follow</a>
+                        </li>
+                        <li>
+                            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png" alt="Facebook">
+                            <div class="social-info">
+                                <strong>Facebook</strong>
+                                <span>Phạm Anh Khiêm</span>
+                            </div>
+                            <a href="#" class="follow-btn">Add</a>
+                        </li>
+                        <li>
+                            <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="Discord">
+                            <div class="social-info">
+                                <strong>Discord</strong>
+                                <span>khizm#1234</span>
+                            </div>
+                            <a href="#" class="follow-btn">Chat</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="widget-box">
+                    <h3>Current Focus</h3>
+                    <div class="tags">
+                        <span>#Unity3D</span>
+                        <span>#CSharp</span>
+                        <span>#UIDesign</span>
+                        <span>#Anime</span>
+                        <span>#Cyberpunk</span>
                     </div>
                 </div>
             </aside>
 
-            <section class="content">
-                <div class="card post-editor">
-                    <div class="editor-top">
-                        <img src="https://via.placeholder.com/40" alt="mini-avatar" class="mini-avatar">
-                        <div class="fake-input">Khiêm ơi, dự án mới của bạn là gì thế?</div>
+            <main class="main-content">
+                <div class="tabs">
+                    <a href="#" class="active">POSTS</a>
+                    <a href="#">ANIME LIST</a>
+                    <a href="#">ABOUT</a>
+                    <a href="#">PORTFOLIO</a>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <h2>:: about me</h2>
+                        <i class="fa-solid fa-bookmark"></i>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Hi! Mình là <strong>Khiêm</strong>, nhưng cứ gọi mình là Khizm. 
+                            Hiện mình đang là sinh viên tại <strong>VKU</strong>. Mình thích dành cả ngày để ngồi code game và nghiên cứu UI/UX.
+                        </p>
+                        <p>
+                            Mình là một người hướng nội (Introvert) nhưng khi nói về Tech hay Anime thì mình nói hơi nhiều.
+                            Mục tiêu của mình là trở thành một <strong>Game Developer</strong> chuyên nghiệp.
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <span><i class="fa-solid fa-pen"></i> Updated: Dec 18, 2025</span>
+                        <div class="reactions">
+                             <i class="fa-regular fa-heart"></i> 124 notes
+                        </div>
                     </div>
                 </div>
 
-                <article class="card project-post">
-                    <div class="post-header">
-                        <img src="https://via.placeholder.com/40" alt="mini-avatar" class="mini-avatar">
-                        <div class="post-meta">
-                            <h4>Phạm Anh Khiêm</h4>
-                            <span>Vừa xong • <i class="fa-solid fa-earth-americas"></i></span>
+                <div class="content-card project-list">
+                    <div class="project-item">
+                        <img src="https://i.pinimg.com/564x/d5/b6/a5/d5b6a50d3032d8478d1f05908e063df4.jpg" class="proj-img">
+                        <div class="proj-info">
+                            <h3>GAME RPG PROJECT</h3>
+                            <ul class="stats">
+                                <li>Engine: <span>Unity</span></li>
+                                <li>Lang: <span>C#</span></li>
+                                <li>Status: <span>Developing</span></li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="post-content">
-                        <p>Vừa hoàn thành xong bản UI cho dự án Game RPG mới. Mọi người thấy sao? 🎮✨</p>
-                        <div class="post-image-grid">
-                             <img src="https://via.placeholder.com/600x400" alt="Project Demo">
-                        </div>
-                    </div>
-                    <div class="post-footer">
-                        <div class="stat-item"><i class="fa-regular fa-thumbs-up"></i> Thích</div>
-                        <div class="stat-item"><i class="fa-regular fa-comment"></i> Bình luận</div>
-                        <div class="stat-item"><i class="fa-solid fa-share"></i> Chia sẻ</div>
-                    </div>
-                </article>
-            </section>
-        </main>
-    </div>
 
+                    <div class="project-item">
+                        <img src="https://i.pinimg.com/564x/56/65/56/566556e87b7381598f45a70711690460.jpg" class="proj-img">
+                        <div class="proj-info">
+                            <h3>PORTFOLIO UI</h3>
+                            <ul class="stats">
+                                <li>Type: <span>Web Design</span></li>
+                                <li>Style: <span>Anime/Clean</span></li>
+                                <li>Status: <span>Done</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
 </body>
 </html>
