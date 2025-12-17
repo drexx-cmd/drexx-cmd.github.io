@@ -4,32 +4,120 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>khizm | drexx Portfolio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            /* Giữ nguyên background của Khiêm */
+            background: url('https://i.ibb.co/n8Dx4y72/sea-horizon-sky.jpg') no-repeat center center fixed;
+            background-size: cover;
+            /* Font JetBrains Mono mạnh mẽ */
+            font-family: 'JetBrains Mono', monospace;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            background: rgba(10, 10, 10, 0.5); /* Tối hơn để nổi bật font trắng */
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            padding: 50px 30px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .avatar {
+            width: 115px;
+            height: 115px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            padding: 5px;
+            transition: 0.4s ease;
+            margin-bottom: 15px;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+            border-color: #00d2ff;
+        }
+
+        h1 { font-size: 22px; font-weight: 700; margin-bottom: 5px; letter-spacing: -0.5px; }
+        .tagline { color: #00d2ff; font-size: 12px; margin-bottom: 25px; opacity: 0.8; }
+        .bio { font-size: 13px; line-height: 1.5; margin-bottom: 30px; opacity: 0.85; font-weight: 400; }
+
+        .links { display: flex; flex-direction: column; gap: 15px; }
+
+        /* Nút bấm kiểu tối giản, icon gọn hơn */
+        .btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px;
+            border-radius: 15px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+            border-color: #00d2ff;
+        }
+
+        .social-footer {
+            margin-top: 35px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .social-footer a { color: white; font-size: 22px; transition: 0.3s; opacity: 0.6; }
+        .social-footer a:hover { opacity: 1; color: #00d2ff; transform: scale(1.2); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="avatar-wrapper">
-            <img src="https://i.ibb.co/3mYwrQM9/118951885-p0-1.jpg" alt="drexx" class="avatar">
-        </div>
+        <img src="https://i.ibb.co/3mYwrQM9/118951885-p0-1.jpg" alt="drexx" class="avatar">
         
         <h1>Phạm Anh Khiêm</h1>
-        <div class="tagline">Game Dev Student @ VKU</div>
+        <div class="tagline">~/vku/game-dev-student</div>
         
         <p class="bio">
-            Chào! Mình là <b>drexx</b>. Đam mê thiết kế Game và vọc vạch công nghệ. Đây là nơi mình chia sẻ các tài nguyên và project cá nhân.
+            Chào! Mình là <b>drexx</b>.<br>Đam mê thiết kế Game và coding.
         </p>
 
         <div class="links">
-            <a href="#" class="btn"><i class="fa-solid fa-download"></i> Kho File Share Đồ</a>
-            <a href="#" class="btn"><i class="fa-solid fa-gamepad"></i> My Games</a>
-            <a href="https://github.com/drexx-cmd" class="btn" target="_blank"><i class="fa-brands fa-github"></i> GitHub Project</a>
+            <a href="#" class="btn"><i class="fa-regular fa-folder-open"></i> Kho File Share</a>
+            <a href="#" class="btn"><i class="fa-solid fa-ghost"></i> My Projects</a>
+            <a href="https://github.com/drexx-cmd" class="btn" target="_blank"><i class="fa-brands fa-github-alt"></i> GitHub</a>
         </div>
 
         <div class="social-footer">
-            <a href="https://www.facebook.com/notkhizm/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+            <a href="https://www.facebook.com/notkhizm/" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
             <a href="https://discord.gg/h5RmRAycc3" target="_blank"><i class="fa-brands fa-discord"></i></a>
             <a href="https://www.instagram.com/dr3xx8/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
         </div>
