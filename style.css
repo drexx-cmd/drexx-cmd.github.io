@@ -7,7 +7,7 @@ body {
     align-items: center;
     height: 100vh;
     overflow: hidden;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Poppins', sans-serif;
 }
 
 /* Khung kính mờ Glassmorphism */
