@@ -6,17 +6,192 @@
     <title>khizm | drexx Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* --- PHẦN CSS GIAO DIỆN --- */
+        :root {
+            --neon-cyan: #00e5ff;
+            --neon-purple: #b026ff;
+            --text-white: #e0e0e0;
+            --glass-bg: rgba(20, 15, 30, 0.75);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            /* Background Anime City đêm tím */
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                        url('https://images.alphacoders.com/905/905481.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'JetBrains Mono', monospace;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-white);
+            overflow: hidden;
+        }
+
+        .main-card {
+            background: var(--glass-bg);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            display: flex;
+            width: 90%;
+            max-width: 750px;
+            min-height: 400px;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 
+                        0 0 30px rgba(176, 38, 255, 0.2); /* Glow tím nhẹ */
+            animation: popIn 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+
+        /* --- CỘT TRÁI (PROFILE) --- */
+        .profile-side {
+            background: rgba(255, 255, 255, 0.02);
+            width: 40%;
+            padding: 45px 20px;
+            text-align: center;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid var(--neon-cyan);
+            object-fit: cover;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.6);
+            transition: transform 0.5s ease;
+        }
+
+        .avatar:hover { transform: rotate(5deg) scale(1.05); }
+
+        .online-indicator {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            background: #00ff00;
+            border: 3px solid #1a1a2e;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        h1 { font-size: 20px; font-weight: 800; margin-bottom: 5px; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .id { font-size: 11px; color: var(--neon-cyan); margin-bottom: 25px; letter-spacing: 1px; font-weight: 500; }
+
+        .social-icons { display: flex; gap: 18px; margin-top: auto; }
+        .social-icons a { 
+            color: var(--text-white); 
+            font-size: 20px; 
+            transition: 0.3s; 
+            opacity: 0.7; 
+        }
+        .social-icons a:hover { 
+            opacity: 1; 
+            color: var(--neon-cyan); 
+            transform: translateY(-3px); 
+            filter: drop-shadow(0 0 5px var(--neon-cyan));
+        }
+
+        /* --- CỘT PHẢI (LINKS) --- */
+        .links-side {
+            width: 60%;
+            padding: 45px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-title { 
+            font-size: 13px; 
+            color: var(--neon-purple); 
+            font-weight: 800; 
+            margin-bottom: 25px; 
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: rgba(176, 38, 255, 0.3); }
+
+        .nav-button {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 16px 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-button:hover {
+            background: linear-gradient(90deg, rgba(176, 38, 255, 0.15), transparent);
+            border-color: var(--neon-purple);
+            padding-left: 25px;
+            box-shadow: -5px 0 15px rgba(176, 38, 255, 0.2);
+        }
+
+        .nav-button i { opacity: 0.5; transition: 0.3s; }
+        .nav-button:hover i { opacity: 1; color: var(--neon-purple); transform: translateX(5px); }
+
+        .system-footer { 
+            margin-top: 20px; 
+            font-size: 10px; 
+            opacity: 0.4; 
+            text-align: right; 
+            font-family: monospace; 
+        }
+        .blink { animation: blinker 1.5s infinite; color: #00ff00; font-weight: bold; }
+
+        @keyframes blinker { 50% { opacity: 0; } }
+        @keyframes popIn { 
+            0% { opacity: 0; transform: scale(0.9); } 
+            100% { opacity: 1; transform: scale(1); } 
+        }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 700px) {
+            .main-card { flex-direction: column; width: 92%; height: auto; min-height: auto; }
+            .profile-side { width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 30px 20px; }
+            .links-side { width: 100%; padding: 30px 20px; }
+            .nav-button { padding: 14px; }
+        }
+    </style>
 </head>
 <body>
+
     <div class="main-card">
         <div class="profile-side">
             <div class="avatar-container">
                 <img src="https://i.ibb.co/3mYwrQM9/118951885-p0-1.jpg" alt="drexx" class="avatar">
                 <div class="online-indicator"></div>
             </div>
+            
             <h1>Phạm Anh Khiêm</h1>
-            <p class="id">UID: 021206_DREXX</p>
+            <p class="id">&lt;UID: 021206_DREXX /&gt;</p>
+            
             <div class="social-icons">
                 <a href="https://www.facebook.com/notkhizm/" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
                 <a href="https://discord.gg/h5RmRAycc3" target="_blank"><i class="fa-brands fa-discord"></i></a>
@@ -25,21 +200,26 @@
         </div>
 
         <div class="links-side">
-            <div class="section-title">// RESOURCE_ACCESS</div>
+            <div class="section-title">// ACCESS_TERMINAL</div>
+            
             <a href="#" class="nav-button">
-                <span class="btn-text">DATA_ARCHIVE</span>
+                <span><i class="fa-regular fa-folder-open" style="margin-right: 10px;"></i> DATA_ARCHIVE</span>
                 <i class="fa-solid fa-chevron-right"></i>
             </a>
+            
             <a href="#" class="nav-button">
-                <span class="btn-text">PROJECT_LOGS</span>
+                <span><i class="fa-solid fa-gamepad" style="margin-right: 10px;"></i> MY_PROJECTS</span>
                 <i class="fa-solid fa-chevron-right"></i>
             </a>
+            
             <a href="https://github.com/drexx-cmd" class="nav-button" target="_blank">
-                <span class="btn-text">GIT_SOURCE</span>
+                <span><i class="fa-brands fa-github-alt" style="margin-right: 10px;"></i> GIT_SOURCE</span>
                 <i class="fa-solid fa-chevron-right"></i>
             </a>
-            <div class="system-footer">SYSTEM STATUS: <span class="blink">RUNNING</span></div>
+
+            <div class="system-footer">SYSTEM STATUS: <span class="blink">ONLINE</span></div>
         </div>
     </div>
+
 </body>
 </html>
