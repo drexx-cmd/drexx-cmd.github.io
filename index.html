@@ -3,40 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khiêm | drexx Portfolio</title>
+    <title>khizm | drexx Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            /* Link ảnh Ganyu giống trong ảnh bạn gửi */
-            background: url('https://images2.alphacoders.com/112/1124237.jpg') no-repeat center center fixed;
+            /* Thay link ảnh Ganyu hoặc ảnh Game Khiêm thích ở đây */
+            background: url('https://i.ibb.co/n8Dx4y72/sea-horizon-sky.jpg') no-repeat center center fixed;
             background-size: cover;
-            margin: 0;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Segoe UI', sans-serif;
         }
+
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
+            background: rgba(15, 15, 15, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
             padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 90%;
+            max-width: 400px;
             text-align: center;
             color: white;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         }
-        .avatar { width: 100px; height: 100px; border-radius: 50%; border: 3px solid white; }
+
+        .avatar-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 3px solid #00d2ff;
+            padding: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .avatar:hover { transform: scale(1.1) rotate(5deg); }
+
+        h1 { font-size: 24px; margin-bottom: 5px; letter-spacing: 1px; }
+        .tagline { color: #00d2ff; font-size: 14px; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; }
+        
+        .bio { font-size: 14px; line-height: 1.6; opacity: 0.9; margin-bottom: 25px; }
+
+        .links { display: flex; flex-direction: column; gap: 12px; }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px;
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #00d2ff;
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.6);
+            transform: translateY(-3px);
+        }
+
+        .social-footer {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-footer a { color: white; font-size: 20px; transition: 0.3s; opacity: 0.7; }
+        .social-footer a:hover { opacity: 1; transform: scale(1.2); color: #00d2ff; }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <img src="https://via.placeholder.com/100" class="avatar">
-        <h1>Phạm Anh Khiêm (drexx)</h1>
-        <p>Sinh viên Công nghệ Game @ VKU</p>
-        <hr>
-        <p>👇 Link share đồ ở đây 👇</p>
-        <a href="https://github.com/drexx-cmd" style="color: cyan;">GitHub của mình</a>
+        <div class="avatar-wrapper">
+            <img src="https://i.ibb.co/VYpdj5Qc/118951885-p0-1.jpg" alt="drexx" class="avatar">
+        </div>
+        
+        <h1>Phạm Anh Khiêm</h1>
+        <div class="tagline">Game Dev Student @ VKU</div>
+        
+        <p class="bio">
+            Chào! Mình là <b>drexx</b>. Đam mê thiết kế Game và vọc vạch công nghệ. Đây là nơi mình chia sẻ các tài nguyên và project cá nhân.
+        </p>
+
+        <div class="links">
+            <a href="#" class="btn"><i class="fa-solid fa-download"></i> Kho File Share Đồ</a>
+            <a href="#" class="btn"><i class="fa-solid fa-gamepad"></i> My Games</a>
+            <a href="https://github.com/drexx-cmd" class="btn"><i class="fa-brands fa-github"></i> GitHub Project</a>
+        </div>
+
+        <div class="social-footer">
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#"><i class="fa-brands fa-discord"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        </div>
     </div>
+
 </body>
 </html>
