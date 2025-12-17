@@ -3,260 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>khizm | Catppuccin Pro</title>
+    <title>khizm | SYSTEM OVERRIDE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
     <style>
-        /* --- HỆ THỐNG MÀU CATPPUCCIN --- */
         :root {
-            /* Mocha (Dark Mode Default) */
-            --bg: #1e1e2e;
-            --surface: #313244;
-            --text: #cdd6f4;
-            --subtext: #a6adc8;
-            --mauve: #cba6f7;
-            --pink: #f5c2e7;
-            --blue: #89b4fa;
-            --green: #a6e3a1;
-            --border: rgba(255, 255, 255, 0.05);
+            /* Dark Mode (Cyber Red) */
+            --bg-color: #050505;
+            --card-bg: rgba(15, 15, 15, 0.98);
+            --text-main: #e0e0e0;
+            --text-dim: #888;
+            --accent: #ff003c;
+            --border: #333;
+            --grid-color: rgba(255, 0, 60, 0.05);
+            --glitch-shadow: #00ffff;
         }
 
-        body.light-mode {
-            /* Latte (Light Mode) */
-            --bg: #eff1f5;
-            --surface: #e6e9ef;
-            --text: #4c4f69;
-            --subtext: #6c6f85;
-            --mauve: #8839ef;
-            --pink: #ea76cb;
-            --blue: #1e66f5;
-            --green: #40a02b;
-            --border: rgba(0, 0, 0, 0.05);
+        [data-theme="light"] {
+            /* Light Mode (Lab White) */
+            --bg-color: #f0f2f5;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --text-main: #1a1a1a;
+            --text-dim: #555;
+            --accent: #d90429;
+            --border: #ccc;
+            --grid-color: rgba(0, 0, 0, 0.05);
+            --glitch-shadow: #2ec4b6;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s; }
 
         body {
-            background-color: var(--bg);
-            background-image: radial-gradient(var(--surface) 1px, transparent 1px);
-            background-size: 20px 20px;
-            font-family: 'JetBrains Mono', monospace;
-            height: 100vh;
+            background-color: var(--bg-color);
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 30px 30px;
+            font-family: 'Share Tech Mono', monospace;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: var(--text);
+            color: var(--text-main);
             padding: 20px;
         }
 
-        /* --- CARD --- */
-        .card {
-            background: var(--surface);
-            width: 100%;
-            max-width: 850px;
-            border-radius: 24px;
-            display: flex;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            border: 2px solid var(--border);
-            position: relative;
+        /* --- CONTROLS --- */
+        .control-panel {
+            position: fixed; top: 20px; right: 20px;
+            display: flex; gap: 10px; z-index: 100;
         }
-
-        /* --- CONTROL PANEL (Light/Dark/Lang) --- */
-        .controls {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            display: flex;
-            gap: 15px;
-            z-index: 10;
-        }
-
         .control-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 5px 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 700;
+            background: var(--card-bg); border: 1px solid var(--accent); color: var(--accent);
+            width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-weight: bold;
+            clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
         }
-        .control-btn:hover { background: var(--mauve); color: var(--bg); }
+        .control-btn:hover { background: var(--accent); color: var(--bg-color); }
 
-        /* Left Side */
-        .card-left {
-            width: 35%;
-            background: rgba(0, 0, 0, 0.1);
+        /* --- MAIN CARD --- */
+        .card {
+            width: 100%;
+            max-width: 900px; /* Rộng hơn để làm giao diện ngang */
+            background: var(--card-bg);
+            border: 1px solid var(--accent);
+            display: flex; /* Bật Flexbox để chia 2 bên */
+            position: relative;
+            clip-path: polygon(40px 0, 100% 0, 100% calc(100% - 40px), calc(100% - 40px) 100%, 0 100%, 0 40px);
+            box-shadow: 0 0 50px rgba(0,0,0,0.2);
+        }
+
+        /* BÊN TRÁI: AVATAR & STATUS */
+        .side-left {
+            width: 40%;
+            padding: 50px 40px;
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px;
-            border-right: 2px solid var(--border);
+            background: rgba(255, 0, 60, 0.02);
         }
 
-        .avatar-wrap {
-            width: 160px; height: 160px;
-            margin-bottom: 25px;
+        .avatar-box {
+            position: relative; width: 180px; height: 180px; margin-bottom: 25px;
         }
-
         .avatar {
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--mauve);
+            width: 100%; height: 100%; object-fit: cover;
+            border: 2px solid var(--border); filter: grayscale(1); transition: 0.5s;
+        }
+        .card:hover .avatar { filter: grayscale(0); border-color: var(--accent); }
+        .scanner {
+            position: absolute; top: -8px; left: -8px; right: -8px; bottom: -8px;
+            border: 1px dashed var(--accent); border-radius: 50%; animation: spin 10s linear infinite; opacity: 0.4;
         }
 
-        .status-badge {
-            background: rgba(166, 227, 161, 0.1);
-            color: var(--green);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 800;
-            display: flex; align-items: center; gap: 8px;
-        }
-        .dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
-
-        /* Right Side */
-        .card-right {
-            width: 65%;
+        /* BÊN PHẢI: INFO & ACTIONS */
+        .side-right {
+            width: 60%;
             padding: 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            text-align: left;
         }
 
-        h1 { font-size: 32px; font-weight: 800; color: var(--pink); margin-bottom: 5px; }
-        .tagline { color: var(--blue); font-size: 14px; margin-bottom: 20px; font-weight: 600; }
-        .bio { color: var(--subtext); font-size: 14px; line-height: 1.6; margin-bottom: 30px; }
-
-        /* Button Grid (Đã fix lỗi) */
-        .btn-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr; 
-            gap: 15px;
-            margin-bottom: 30px;
+        h1 {
+            font-size: 32px; text-transform: uppercase; letter-spacing: 2px;
+            position: relative; display: inline-block; margin-bottom: 10px;
         }
+        .role { color: var(--accent); font-size: 14px; margin-bottom: 30px; display: block; opacity: 0.8; }
 
+        /* Skills */
+        .skills { margin-bottom: 35px; }
+        .skill-item { margin-bottom: 12px; }
+        .skill-header { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-dim); margin-bottom: 4px; }
+        .progress-bar { height: 4px; background: var(--border); position: relative; }
+        .progress-fill { height: 100%; background: var(--accent); width: 0; animation: loadSkill 1.5s ease-out forwards; }
+
+        /* Buttons Grid */
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
         .btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border);
-            padding: 15px;
-            border-radius: 15px;
-            color: var(--text);
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 700;
+            background: transparent; border: 1px solid var(--border); color: var(--text-main);
+            padding: 14px; text-decoration: none; font-size: 13px; font-weight: bold;
             display: flex; align-items: center; justify-content: center; gap: 10px;
-            transition: 0.3s;
+            position: relative; overflow: hidden; z-index: 1;
         }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .btn-res:hover { background: var(--mauve); color: var(--bg); }
-        .btn-game:hover { background: var(--blue); color: var(--bg); }
-
-        /* Socials */
-        .socials { display: flex; gap: 25px; border-top: 1px solid var(--border); padding-top: 25px; }
-        .socials a { color: var(--subtext); font-size: 22px; transition: 0.3s; }
-        .socials a:hover { color: var(--pink); transform: translateY(-3px); }
-
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(166, 227, 161, 0.4); } 70% { box-shadow: 0 0 0 8px rgba(166, 227, 161, 0); } 100% { box-shadow: 0 0 0 0 rgba(166, 227, 161, 0); } }
-
-        @media (max-width: 768px) {
-            .card { flex-direction: column; max-width: 400px; }
-            .card-left, .card-right { width: 100%; text-align: center; }
-            .card-left { border-right: none; border-bottom: 2px solid var(--border); }
-            .btn-grid { grid-template-columns: 1fr; }
-            .socials { justify-content: center; }
-            .controls { right: 50%; transform: translateX(50%); top: 10px; }
+        .btn:hover { border-color: var(--accent); color: white; }
+        .btn::before {
+            content: ""; position: absolute; left: 0; top: 0; width: 0; height: 100%;
+            background: var(--accent); z-index: -1; transition: 0.3s;
         }
+        .btn:hover::before { width: 100%; }
+
+        .social { display: flex; gap: 20px; border-top: 1px dashed var(--border); padding-top: 25px; }
+        .social a { color: var(--text-dim); font-size: 20px; transition: 0.3s; }
+        .social a:hover { color: var(--accent); transform: translateY(-3px); }
+
+        /* Glitch Effect */
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--card-bg);
+        }
+        .glitch-text::before { left: 2px; text-shadow: -1px 0 var(--glitch-shadow); clip: rect(24px, 550px, 90px, 0); animation: glitch 3s infinite alternate-reverse; }
+        .glitch-text::after { left: -2px; text-shadow: -1px 0 var(--accent); clip: rect(85px, 550px, 140px, 0); animation: glitch 2s infinite alternate-reverse; }
+
+        /* Animation */
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes loadSkill { to { width: var(--w); } }
+        @keyframes glitch { 0% { clip: rect(10px, 9999px, 30px, 0); } 100% { clip: rect(10px, 9999px, 100px, 0); } }
+
+        /* --- MOBILE RESPONSIVE (XOAY DỌC) --- */
+        @media (max-width: 850px) {
+            .card { flex-direction: column; clip-path: polygon(25px 0, 100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 25px); }
+            .side-left { width: 100%; border-right: none; border-bottom: 1px solid var(--border); padding: 40px 20px; }
+            .side-right { width: 100%; padding: 40px 30px; text-align: center; }
+            .btn-group { grid-template-columns: 1fr; }
+            .social { justify-content: center; }
+            .skill-header { font-size: 10px; }
+            .avatar-box { width: 140px; height: 140px; }
+        }
+
+        /* Logs footer */
+        .terminal-log { position: fixed; bottom: 15px; left: 20px; font-size: 10px; color: var(--accent); opacity: 0.6; font-family: monospace; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="controls">
-            <button class="control-btn" onclick="toggleLang()" id="langBtn">EN</button>
-            <button class="control-btn" onclick="toggleTheme()" id="themeBtn"><i class="fa-solid fa-moon"></i></button>
-        </div>
+    <div class="control-panel">
+        <div class="control-btn" onclick="toggleTheme()" id="themeBtn"><i class="fa-solid fa-sun"></i></div>
+        <div class="control-btn" onclick="toggleLang()" id="langBtn">EN</div>
+    </div>
 
-        <div class="card-left">
-            <div class="avatar-wrap">
+    <div class="card">
+        <div class="side-left">
+            <div class="avatar-box">
+                <div class="scanner"></div>
                 <img src="https://i.ibb.co/3mYwrQM9/118951885-p0-1.jpg" alt="drexx" class="avatar">
             </div>
-            <div class="status-badge">
-                <div class="dot"></div> <span id="statusTxt">Đang code...</span>
+            <div style="font-size: 12px; letter-spacing: 2px; color: var(--accent);">
+                ● <span id="statusTxt">SYSTEM_ONLINE</span>
             </div>
         </div>
 
-        <div class="card-right">
-            <div class="header">
-                <h1 id="name">Phạm Anh Khiêm</h1>
-                <div class="tagline" id="tagline">@drexx.dev • Sinh viên VKU</div>
-                <p class="bio" id="bio">
-                    Thích code dạo, chơi game và vọc vạch Unity. Đang trên hành trình trở thành Game Developer thực thụ.
-                </p>
+        <div class="side-right">
+            <h1 class="glitch-text" data-text="PHẠM ANH KHIÊM">PHẠM ANH KHIÊM</h1>
+            <span class="role" id="txt-role">/// VKU.GAME_DEV_STUDENT</span>
+
+            <div class="skills">
+                <div class="skill-item">
+                    <div class="skill-header"><span>C# / UNITY</span><span>85%</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="--w: 85%"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-header"><span>UI/UX DESIGN</span><span>70%</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="--w: 70%"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-header"><span>DEBUGGING</span><span>99%</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="--w: 99%"></div></div>
+                </div>
             </div>
 
-            <div class="btn-grid">
-                <a href="#" class="btn btn-res"><i class="fa-regular fa-folder-open"></i> <span id="btnRes">Tài Nguyên</span></a>
-                <a href="#" class="btn btn-game"><i class="fa-solid fa-gamepad"></i> <span id="btnGame">Dự Án Game</span></a>
+            <div class="btn-group">
+                <a href="#" class="btn"><i class="fa-solid fa-database"></i> <span id="btn-1">RESOURCES</span></a>
+                <a href="#" class="btn"><i class="fa-solid fa-microchip"></i> <span id="btn-2">PROJECTS</span></a>
             </div>
 
-            <div class="socials">
+            <div class="social">
                 <a href="https://github.com/drexx-cmd" target="_blank"><i class="fa-brands fa-github"></i></a>
-                <a href="https://www.facebook.com/notkhizm/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://www.facebook.com/notkhizm/" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
                 <a href="https://discord.gg/h5RmRAycc3" target="_blank"><i class="fa-brands fa-discord"></i></a>
                 <a href="mailto:contact@drexx.dev"><i class="fa-solid fa-envelope"></i></a>
             </div>
         </div>
     </div>
 
-    <script>
-        // --- CHUYỂN MODE SÁNG/TỐI ---
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
-            const icon = document.querySelector('#themeBtn i');
-            if (document.body.classList.contains('light-mode')) {
-                icon.className = 'fa-solid fa-sun';
-            } else {
-                icon.className = 'fa-solid fa-moon';
-            }
-        }
+    <div class="terminal-log">
+        > TRACING_CONNECTION... OK <br>
+        > DATA_ENCRYPTION: AES-256... ACTIVE
+    </div>
 
-        // --- CHUYỂN NGÔN NGỮ ---
-        let currentLang = 'vi';
-        const data = {
+    <script>
+        const langData = {
             vi: {
-                status: "Đang code...",
-                tagline: "@drexx.dev • Sinh viên VKU",
-                bio: "Thích code dạo, chơi game và vọc vạch Unity. Đang trên hành trình trở thành Game Developer thực thụ.",
-                btnRes: "Tài Nguyên",
-                btnGame: "Dự Án Game",
-                lang: "EN"
+                role: "/// SINH VIÊN GAME DEV VKU",
+                btn1: "TÀI NGUYÊN",
+                btn2: "DỰ ÁN",
+                status: "HỆ THỐNG_ONLINE"
             },
             en: {
-                status: "Coding...",
-                tagline: "@drexx.dev • VKU Student",
-                bio: "Loves coding, gaming and messing with Unity. On the journey to becoming a real Game Developer.",
-                btnRes: "Resources",
-                btnGame: "Game Projects",
-                lang: "VI"
+                role: "/// VKU.GAME_DEV_STUDENT",
+                btn1: "RESOURCES",
+                btn2: "PROJECTS",
+                status: "SYSTEM_ONLINE"
             }
         };
 
+        let currentLang = 'en';
+        let isDark = true;
+
         function toggleLang() {
-            currentLang = currentLang === 'vi' ? 'en' : 'vi';
-            document.getElementById('statusTxt').innerText = data[currentLang].status;
-            document.getElementById('tagline').innerText = data[currentLang].tagline;
-            document.getElementById('bio').innerText = data[currentLang].bio;
-            document.getElementById('btnRes').innerText = data[currentLang].btnRes;
-            document.getElementById('btnGame').innerText = data[currentLang].btnGame;
-            document.getElementById('langBtn').innerText = data[currentLang].lang;
+            currentLang = currentLang === 'en' ? 'vi' : 'en';
+            document.getElementById('langBtn').innerText = currentLang.toUpperCase();
+            document.getElementById('txt-role').innerText = langData[currentLang].role;
+            document.getElementById('btn-1').innerText = langData[currentLang].btn1;
+            document.getElementById('btn-2').innerText = langData[currentLang].btn2;
+            document.getElementById('statusTxt').innerText = langData[currentLang].status;
+        }
+
+        function toggleTheme() {
+            isDark = !isDark;
+            document.body.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            document.getElementById('themeBtn').innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
         }
     </script>
-
 </body>
 </html>
