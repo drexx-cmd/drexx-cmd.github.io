@@ -3,81 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>khizm | SYSTEM OVERRIDE V2</title>
+    <title>PHẠM ANH KHIÊM | Social Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="control-panel">
-        <button class="control-btn" onclick="toggleTheme()" id="themeBtn"><i class="fa-solid fa-sun"></i></button>
-        <button class="control-btn" onclick="toggleLang()" id="langBtn">EN</button>
-    </div>
-
-    <div class="card">
-        <div class="side-left">
-            <div class="avatar-box">
-                <div class="scanner"></div>
-                <img src="https://i.ibb.co/3mYwrQM9/118951885-p0-1.jpg" alt="drexx" class="avatar">
+    <div class="container">
+        <header class="profile-header">
+            <div class="banner">
+                <img src="https://via.placeholder.com/1200x400" alt="Banner" class="banner-img">
+                <div class="banner-overlay"></div>
             </div>
-            <div class="status-box">
-                ● <span id="statusTxt">SYSTEM_ONLINE</span>
-            </div>
-        </div>
-
-        <div class="side-right">
-            <h1 class="glitch-text" data-text="PHẠM ANH KHIÊM">PHẠM ANH KHIÊM</h1>
-            <span class="role" id="txt-role">/// VKU.GAME_DEV_STUDENT</span>
-
-            <div class="skills">
-                <div class="skill-item">
-                    <div class="skill-header"><span>C# / UNITY</span><span>85%</span></div>
-                    <div class="progress-bar"><div class="progress-fill" style="--w: 85%"></div></div>
+            <div class="profile-info-bar">
+                <div class="avatar-wrapper">
+                    <img src="https://via.placeholder.com/150" alt="Avatar" class="profile-avatar">
                 </div>
-                <div class="skill-item">
-                    <div class="skill-header"><span>UI/UX DESIGN</span><span>70%</span></div>
-                    <div class="progress-bar"><div class="progress-fill" style="--w: 70%"></div></div>
+                <div class="user-meta">
+                    <h1>Phạm Anh Khiêm</h1>
+                    <p>Game Developer & UI Designer</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Theo dõi</button>
+                    <button class="btn btn-secondary"><i class="fa-solid fa-message"></i> Nhắn tin</button>
                 </div>
             </div>
+        </header>
 
-            <div class="btn-group">
-                <a href="#" class="btn"><i class="fa-solid fa-database"></i> <span id="btn-1">RESOURCES</span></a>
-                <a href="#" class="btn"><i class="fa-solid fa-microchip"></i> <span id="btn-2">PROJECTS</span></a>
-            </div>
+        <main class="main-layout">
+            <aside class="sidebar">
+                <div class="card intro-card">
+                    <h3>Giới thiệu</h3>
+                    <ul class="intro-list">
+                        <li><i class="fa-solid fa-briefcase"></i> Làm việc tại <span>VKU Studio</span></li>
+                        <li><i class="fa-solid fa-graduation-cap"></i> Học tại <span>Đại học CNTT & TT Việt - Hàn</span></li>
+                        <li><i class="fa-solid fa-house"></i> Sống tại <span>Đà Nẵng, Việt Nam</span></li>
+                        <li><i class="fa-solid fa-heart"></i> Đam mê <span>Anime & Cyberpunk</span></li>
+                    </ul>
+                    <button class="btn btn-full">Chỉnh sửa tiểu sử</button>
+                </div>
 
-            <div class="social">
-                <a href="https://github.com/drexx-cmd" target="_blank"><i class="fa-brands fa-github"></i></a>
-                <a href="https://www.facebook.com/notkhizm/" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="https://discord.gg/h5RmRAycc3" target="_blank"><i class="fa-brands fa-discord"></i></a>
-            </div>
-        </div>
+                <div class="card skills-card">
+                    <h3>Kỹ năng</h3>
+                    <div class="skill-tags">
+                        <span>Unity</span>
+                        <span>C#</span>
+                        <span>UI Design</span>
+                        <span>Photoshop</span>
+                        <span>Github</span>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="content">
+                <div class="card post-editor">
+                    <div class="editor-top">
+                        <img src="https://via.placeholder.com/40" alt="mini-avatar" class="mini-avatar">
+                        <div class="fake-input">Khiêm ơi, dự án mới của bạn là gì thế?</div>
+                    </div>
+                </div>
+
+                <article class="card project-post">
+                    <div class="post-header">
+                        <img src="https://via.placeholder.com/40" alt="mini-avatar" class="mini-avatar">
+                        <div class="post-meta">
+                            <h4>Phạm Anh Khiêm</h4>
+                            <span>Vừa xong • <i class="fa-solid fa-earth-americas"></i></span>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>Vừa hoàn thành xong bản UI cho dự án Game RPG mới. Mọi người thấy sao? 🎮✨</p>
+                        <div class="post-image-grid">
+                             <img src="https://via.placeholder.com/600x400" alt="Project Demo">
+                        </div>
+                    </div>
+                    <div class="post-footer">
+                        <div class="stat-item"><i class="fa-regular fa-thumbs-up"></i> Thích</div>
+                        <div class="stat-item"><i class="fa-regular fa-comment"></i> Bình luận</div>
+                        <div class="stat-item"><i class="fa-solid fa-share"></i> Chia sẻ</div>
+                    </div>
+                </article>
+            </section>
+        </main>
     </div>
 
-    <div class="terminal-log">
-        > TRACING_CONNECTION... OK <br>
-        > ESTABLISHING_LINK...
-    </div>
-
-    <script>
-        const langData = {
-            vi: { role: "/// SINH VIÊN GAME DEV VKU", btn1: "TÀI NGUYÊN", btn2: "DỰ ÁN", status: "HỆ THỐNG_ONLINE" },
-            en: { role: "/// VKU.GAME_DEV_STUDENT", btn1: "RESOURCES", btn2: "PROJECTS", status: "SYSTEM_ONLINE" }
-        };
-        let currentLang = 'en';
-        function toggleLang() {
-            currentLang = currentLang === 'en' ? 'vi' : 'en';
-            document.getElementById('langBtn').innerText = currentLang.toUpperCase();
-            document.getElementById('txt-role').innerText = langData[currentLang].role;
-            document.getElementById('btn-1').innerText = langData[currentLang].btn1;
-            document.getElementById('btn-2').innerText = langData[currentLang].btn2;
-            document.getElementById('statusTxt').innerText = langData[currentLang].status;
-        }
-        function toggleTheme() {
-            const isDark = document.body.getAttribute('data-theme') !== 'light';
-            document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-            document.getElementById('themeBtn').innerHTML = isDark ? '<i class="fa-solid fa-moon"></i>' : '<i class="fa-solid fa-sun"></i>';
-        }
-    </script>
 </body>
 </html>
