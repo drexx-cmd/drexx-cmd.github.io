@@ -1,165 +1,115 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>khizm | drexx Portfolio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500;800&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary-color: #00d2ff;
-            --accent-color: #bb86fc;
-            --glass-bg: rgba(10, 10, 10, 0.7);
-        }
+:root {
+    --primary: #00d2ff;
+    --accent: #bb86fc;
+    --bg-card: rgba(10, 10, 10, 0.7);
+}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            background: url('https://i.ibb.co/n8Dx4y72/sea-horizon-sky.jpg') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'JetBrains Mono', monospace;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            /* Hiệu ứng zoom nhẹ cho background */
-            animation: bgZoom 20s infinite alternate;
-        }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-        @keyframes bgZoom {
-            from { transform: scale(1); }
-            to { transform: scale(1.1); }
-        }
+body {
+    background: url('https://i.ibb.co/n8Dx4y72/sea-horizon-sky.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'JetBrains Mono', monospace;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    animation: bgMovement 20s infinite alternate;
+}
 
-        .container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 35px;
-            padding: 50px 30px;
-            width: 90%;
-            max-width: 420px;
-            text-align: center;
-            color: white;
-            position: relative;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
-            /* Viền phát sáng chạy quanh card */
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.1), inset 0 0 15px rgba(255,255,255,0.05);
-        }
+@keyframes bgMovement {
+    from { background-position: center; transform: scale(1); }
+    to { background-position: top; transform: scale(1.05); }
+}
 
-        .avatar {
-            width: 125px;
-            height: 125px;
-            border-radius: 50%;
-            border: 3px solid transparent;
-            background: linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
-                        linear-gradient(45deg, var(--primary-color), var(--accent-color)) border-box;
-            padding: 5px;
-            margin-bottom: 20px;
-            transition: 0.5s ease;
-            cursor: pointer;
-        }
+.container {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 45px 35px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    animation: slideUp 0.8s ease-out;
+}
 
-        .avatar:hover {
-            transform: scale(1.1) rotate(10deg);
-            box-shadow: 0 0 30px var(--primary-color);
-        }
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    padding: 5px;
+    margin-bottom: 15px;
+    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+}
 
-        h1 { font-size: 26px; font-weight: 800; margin-bottom: 8px; letter-spacing: -1px; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
-        .tagline { color: var(--primary-color); font-size: 13px; margin-bottom: 25px; font-weight: 500; opacity: 0.9; }
-        
-        .links { display: flex; flex-direction: column; gap: 18px; }
+.avatar:hover {
+    transform: rotate(10deg) scale(1.1);
+    box-shadow: 0 0 30px var(--primary);
+}
 
-        .btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 16px;
-            border-radius: 18px;
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: space-between; /* Icon hai đầu nhìn xịn hơn */
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-        }
+h1 { font-size: 24px; font-weight: 800; margin-bottom: 5px; }
 
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: scale(1.03);
-            border-color: var(--primary-color);
-            box-shadow: 0 0 25px rgba(0, 210, 255, 0.4);
-        }
+.tagline { 
+    color: var(--primary); 
+    font-size: 13px; 
+    margin-bottom: 25px; 
+    letter-spacing: 1px;
+}
 
-        /* Thêm hiệu ứng mũi tên nhỏ bên phải */
-        .btn::after { content: '→'; opacity: 0; transition: 0.3s; }
-        .btn:hover::after { opacity: 1; transform: translateX(-5px); }
+.links { display: flex; flex-direction: column; gap: 15px; }
 
-        .social-footer {
-            margin-top: 40px;
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-        }
+.btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 14px;
+    border-radius: 15px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: 0.4s;
+}
 
-        .social-footer a { 
-            color: white; 
-            font-size: 24px; 
-            transition: 0.3s; 
-            opacity: 0.5;
-            filter: drop-shadow(0 0 0 white);
-        }
+.btn:hover {
+    background: var(--primary);
+    color: #000;
+    font-weight: 800;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 210, 255, 0.4);
+}
 
-        .social-footer a:hover { 
-            opacity: 1; 
-            color: var(--accent-color); 
-            transform: translateY(-5px);
-            filter: drop-shadow(0 0 8px var(--accent-color));
-        }
+.social-footer {
+    margin-top: 35px;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
 
-        /* Animation cho toàn bộ card khi load */
-        .container {
-            animation: cardEntrance 1s ease-out;
-        }
+.social-footer a { 
+    color: white; 
+    font-size: 22px; 
+    transition: 0.3s; 
+    opacity: 0.6; 
+}
 
-        @keyframes cardEntrance {
-            from { opacity: 0; transform: scale(0.9) translateY(30px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-    </style>
-</head>
-<body>
+.social-footer a:hover { 
+    opacity: 1; 
+    color: var(--accent); 
+    transform: scale(1.25);
+    filter: drop-shadow(0 0 8px var(--accent));
+}
 
-    <div class="container">
-        <img src="https://i.ibb.co/3mYwrQM9/118951885-p0-1.jpg" alt="drexx" class="avatar">
-        
-        <h1>Phạm Anh Khiêm</h1>
-        <div class="tagline">&lt;drexx.vku.game_dev /&gt;</div>
-
-        <div class="links">
-            <a href="#" class="btn">
-                <span><i class="fa-solid fa-cloud-arrow-down" style="margin-right: 10px;"></i> Kho File Share</span>
-            </a>
-            <a href="#" class="btn">
-                <span><i class="fa-solid fa-terminal" style="margin-right: 10px;"></i> My Projects</span>
-            </a>
-            <a href="https://github.com/drexx-cmd" class="btn" target="_blank">
-                <span><i class="fa-brands fa-github" style="margin-right: 10px;"></i> GitHub Source</span>
-            </a>
-        </div>
-
-        <div class="social-footer">
-            <a href="https://www.facebook.com/notkhizm/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
-            <a href="https://discord.gg/h5RmRAycc3" target="_blank"><i class="fa-brands fa-discord"></i></a>
-            <a href="https://www.instagram.com/dr3xx8/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-        </div>
-    </div>
-
-</body>
-</html>
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
