@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>khizm | SYSTEM OVERRIDE</title>
+    <title>khizm | SYSTEM OVERRIDE V2</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -11,8 +11,8 @@
 <body>
 
     <div class="control-panel">
-        <div class="control-btn" onclick="toggleTheme()" id="themeBtn"><i class="fa-solid fa-sun"></i></div>
-        <div class="control-btn" onclick="toggleLang()" id="langBtn">EN</div>
+        <button class="control-btn" onclick="toggleTheme()" id="themeBtn"><i class="fa-solid fa-sun"></i></button>
+        <button class="control-btn" onclick="toggleLang()" id="langBtn">EN</button>
     </div>
 
     <div class="card">
@@ -54,8 +54,12 @@
         </div>
     </div>
 
+    <div class="terminal-log">
+        > TRACING_CONNECTION... OK <br>
+        > ESTABLISHING_LINK...
+    </div>
+
     <script>
-        // Giữ lại JS ở đây để xử lý logic chuyển đổi
         const langData = {
             vi: { role: "/// SINH VIÊN GAME DEV VKU", btn1: "TÀI NGUYÊN", btn2: "DỰ ÁN", status: "HỆ THỐNG_ONLINE" },
             en: { role: "/// VKU.GAME_DEV_STUDENT", btn1: "RESOURCES", btn2: "PROJECTS", status: "SYSTEM_ONLINE" }
