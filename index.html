@@ -3,213 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>khizm | Liquid Glass Portfolio</title>
+    <title>khizm | Real Liquid Glass</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* Palette màu Neon/Liquid */
-            --neon-cyan: #00fff2;
-            --neon-pink: #ff00ff;
-            --neon-purple: #9d00ff;
-            --text-light: #ffffff;
-            --text-dim: #a1a1aa;
+            --text: #ffffff;
+            --blob-1: #ff00cc; /* Hồng tím */
+            --blob-2: #3333ff; /* Xanh đậm */
+            --blob-3: #00ffff; /* Cyan neon */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', sans-serif; /* Font mới sạch sẽ */
-            background-color: #000;
-            /* Background màu gradient mịn màng */
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(157, 0, 255, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 90% 80%, rgba(0, 255, 242, 0.3) 0%, transparent 50%),
-                linear-gradient(135deg, #1a1a2e, #000);
-            height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background: #080808; /* Nền đen sâu */
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-light);
             overflow: hidden;
+            position: relative;
+            color: var(--text);
         }
 
-        /* --- CLASS CHUNG CHO HIỆU ỨNG KÍNH LỎNG XỊN --- */
-        .liquid-glass-effect {
-            /* Nền kính mờ cơ bản */
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            /* Viền sáng nhẹ */
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            /* Hiệu ứng bóng đổ bên trong tạo độ dày */
-            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05);
-            /* Lớp phủ ánh sáng chéo tạo độ bóng (Shine) */
-            background-image: linear-gradient(125deg, rgba(255,255,255,0.15) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.05) 100%);
+        /* --- PHẦN TẠO HIỆU ỨNG LIQUID (Blobs di chuyển) --- */
+        .blobs-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
         }
 
-        /* --- MAIN CONTAINER --- */
-        .card-container {
-            width: 90%; max-width: 950px;
-            border-radius: 35px;
-            padding: 60px; /* Tăng padding cho bố cục thoáng */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px); /* Làm nhòe cực mạnh để tạo cảm giác lỏng */
+            opacity: 0.8;
+            animation: moveBlobs 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .b1 {
+            width: 600px; height: 600px;
+            background: var(--blob-1);
+            top: -100px; left: -100px;
+            animation-duration: 25s;
+        }
+
+        .b2 {
+            width: 500px; height: 500px;
+            background: var(--blob-2);
+            bottom: -100px; right: -100px;
+            animation-delay: -5s;
+            animation-duration: 22s;
+        }
+
+        .b3 {
+            width: 400px; height: 400px;
+            background: var(--blob-3);
+            bottom: 20%; left: 30%;
+            animation-delay: -10s;
+            animation-duration: 18s;
+        }
+
+        /* --- THẺ KÍNH CHÍNH (THE GLASS) --- */
+        .glass-card {
+            position: relative; z-index: 10;
+            width: 900px;
+            min-height: 500px;
+            /* Công thức kính mờ chuẩn: Nền trắng cực mỏng + Blur cực dày */
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            
+            border-radius: 30px;
+            /* Viền kính phát sáng */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.5); /* Đỉnh sáng hơn tạo khối 3D */
+            border-left: 1px solid rgba(255, 255, 255, 0.5);
+            
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            padding: 60px;
             display: flex;
             align-items: center;
-            gap: 60px; /* Tăng khoảng cách giữa 2 cột */
-            /* Áp dụng hiệu ứng kính */
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-            position: relative;
-            overflow: hidden;
-        }
-        /* Thêm lớp kính lỏng vào container */
-        .card-container.liquid-glass-effect {
-             background: rgba(20, 20, 30, 0.6); /* Nền tối hơn chút cho dễ đọc chữ */
+            gap: 60px;
         }
 
-        /* Cột trái: Nội dung */
-        .content-side { flex: 1; }
+        /* Nội dung bên trái */
+        .left-content { flex: 1; }
 
-        .status-badge {
-            display: inline-flex; align-items: center; gap: 10px;
-            padding: 8px 16px; border-radius: 50px;
-            font-size: 12px; font-weight: 700;
-            color: var(--neon-cyan);
-            margin-bottom: 25px;
+        .tag {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 12px; font-weight: 700; letter-spacing: 1px; color: #00ffff;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-        .dot { width: 8px; height: 8px; background: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 10px var(--neon-cyan); animation: pulse 2s infinite; }
 
         h1 {
-            font-size: 56px; font-weight: 900; line-height: 1.1; margin-bottom: 15px; letter-spacing: -1px;
+            font-size: 4rem; font-weight: 900; line-height: 1; margin-bottom: 20px;
+            text-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
-        /* Hiệu ứng chữ gradient */
-        .gradient-text {
-            background: linear-gradient(to right, #fff, #b3b3b3);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-
+        
         .role {
-            font-size: 18px; color: var(--text-dim); margin-bottom: 30px; font-weight: 500; display: flex; align-items: center; gap: 10px;
+            font-size: 1.2rem; color: rgba(255,255,255,0.8); margin-bottom: 30px; font-weight: 500;
         }
-        .role i { color: var(--neon-purple); }
 
-        .description { color: var(--text-dim); line-height: 1.6; margin-bottom: 40px; max-width: 90%; }
-
-        /* --- NÚT BẤM LIQUID GLASS (Đã nâng cấp) --- */
-        .btn-group { display: flex; gap: 20px; }
+        /* BUTTONS - SỬA LẠI CHO ĐÚNG CHẤT LIQUID */
+        .btn-container { display: flex; gap: 20px; }
 
         .btn {
-            padding: 16px 32px; border-radius: 16px;
-            text-decoration: none; font-weight: 700; font-size: 14px;
+            padding: 15px 35px; border-radius: 15px;
+            text-decoration: none; font-weight: 700;
+            transition: 0.3s; position: relative; overflow: hidden;
             display: flex; align-items: center; gap: 10px;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative; overflow: hidden;
         }
 
-        /* Nút chính (Có màu) */
-        .btn-primary {
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
-            color: white; border: none;
-            box-shadow: 0 10px 30px -10px rgba(157, 0, 255, 0.5);
-        }
-        /* Lớp phủ bóng kính lên nút màu */
-        .btn-primary::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
-        }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -10px rgba(157, 0, 255, 0.7); }
-
-        /* Nút phụ (Kính trong suốt) */
-        .btn-glass {
+        /* Nút chính: Giả lập bề mặt nước */
+        .btn-liquid {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.4);
             color: white;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-        .btn-glass:hover { 
-            background-color: rgba(255,255,255,0.1); 
-            border-color: rgba(255,255,255,0.3);
-            transform: translateY(-3px);
-        }
-
-        /* Cột phải: Ảnh */
-        .image-side { position: relative; width: 350px; height: 350px; flex-shrink: 0; }
         
-        /* Vầng sáng sau ảnh */
-        .glow-effect {
-            position: absolute; inset: -30px;
-            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
-            filter: blur(50px); opacity: 0.4; z-index: 0;
-            animation: glowShift 5s infinite alternate;
+        /* Hiệu ứng lướt ánh sáng qua nút */
+        .btn-liquid::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+        .btn-liquid:hover::before { left: 100%; }
+        .btn-liquid:hover { transform: translateY(-3px); background: rgba(255,255,255,0.2); box-shadow: 0 0 20px var(--blob-1); border-color: white; }
+
+        /* Nút phụ */
+        .btn-ghost {
+            background: transparent; color: rgba(255,255,255,0.7);
+        }
+        .btn-ghost:hover { color: white; transform: translateX(5px); }
+
+        /* Social Icons */
+        .socials { margin-top: 40px; display: flex; gap: 25px; font-size: 20px; }
+        .socials a { color: rgba(255,255,255,0.6); transition: 0.3s; }
+        .socials a:hover { color: white; transform: scale(1.2); }
+
+        /* Phần ảnh bên phải */
+        .right-content {
+            width: 320px; height: 320px; position: relative; flex-shrink: 0;
+        }
+        
+        .avatar-box {
+            width: 100%; height: 100%;
+            border-radius: 40px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.2);
+            position: relative; z-index: 2;
+            /* Bóng đổ phản chiếu màu nền */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        
+        .avatar { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Animation Keyframes */
+        @keyframes moveBlobs {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, -50px) scale(1.1); }
+            100% { transform: translate(-50px, 50px) scale(0.9); }
         }
 
-        .avatar-container {
-            width: 100%; height: 100%; border-radius: 40px;
-            overflow: hidden; position: relative; z-index: 2;
-            border: 2px solid rgba(255,255,255,0.1);
+        /* Responsive */
+        @media (max-width: 968px) {
+            .glass-card { width: 95%; flex-direction: column-reverse; padding: 40px 20px; text-align: center; }
+            h1 { font-size: 3rem; }
+            .btn-container, .socials { justify-content: center; }
+            .right-content { width: 250px; height: 250px; margin-bottom: 20px; }
+            .b1, .b2, .b3 { opacity: 0.6; } /* Giảm độ sáng blob trên mobile cho đỡ chói */
         }
-        .avatar { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .avatar-container:hover .avatar { transform: scale(1.05); }
-
-        /* Footer icons */
-        .socials { margin-top: 50px; display: flex; gap: 25px; }
-        .socials a { color: var(--text-dim); font-size: 20px; transition: 0.3s; }
-        .socials a:hover { color: var(--neon-cyan); transform: translateY(-3px); }
-
-        /* RESPONSIVE */
-        @media (max-width: 900px) {
-            .card-container { flex-direction: column-reverse; padding: 40px 30px; text-align: center; gap: 40px;}
-            h1 { font-size: 40px; }
-            .role, .btn-group, .socials { justify-content: center; }
-            .description { margin: 0 auto 30px; }
-            .image-side { width: 280px; height: 280px; }
-        }
-
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 242, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(0, 255, 242, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 242, 0); } }
-        @keyframes glowShift { 0% { opacity: 0.3; transform: scale(1); } 100% { opacity: 0.6; transform: scale(1.1); } }
-
     </style>
 </head>
 <body>
 
-    <div class="card-container liquid-glass-effect">
+    <div class="blobs-container">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+    </div>
+
+    <div class="glass-card">
         
-        <div class="content-side">
-            <div class="status-badge liquid-glass-effect">
-                <div class="dot"></div> AVAILABLE FOR WORK
-            </div>
+        <div class="left-content">
+            <div class="tag">● OPEN TO WORK</div>
+            
+            <h1>Phạm Anh<br>Khiêm</h1>
+            <p class="role">&lt;Game Developer /&gt; • UI Designer</p>
 
-            <h1>
-                <span class="gradient-text">PHẠM ANH</span><br>
-                <span class="gradient-text">KHIÊM</span>
-            </h1>
-
-            <div class="role">
-                <i class="fa-solid fa-code"></i> Game Developer & UI Designer
-            </div>
-
-            <p class="description">
-                Đam mê tạo ra những thế giới ảo sống động. Hiện đang học tại VKU và phát triển các dự án Unity cá nhân với phong cách độc đáo.
-            </p>
-
-            <div class="btn-group">
-                <a href="#" class="btn btn-primary">
-                    <i class="fa-solid fa-gamepad"></i> Dự án
+            <div class="btn-container">
+                <a href="#" class="btn btn-liquid">
+                    <i class="fa-solid fa-cube"></i> View Projects
                 </a>
-                <a href="https://github.com/drexx-cmd" target="_blank" class="btn btn-glass liquid-glass-effect">
-                    <i class="fa-brands fa-github"></i> Github
+                <a href="https://github.com/drexx-cmd" target="_blank" class="btn btn-ghost">
+                    GitHub <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
 
             <div class="socials">
-                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
                 <a href="#"><i class="fa-brands fa-discord"></i></a>
                 <a href="#"><i class="fa-brands fa-instagram"></i></a>
                 <a href="#"><i class="fa-solid fa-envelope"></i></a>
             </div>
         </div>
 
-        <div class="image-side">
-            <div class="glow-effect"></div>
-            <div class="avatar-container liquid-glass-effect">
-                <img src="https://i.ibb.co/3mYwrQM9/118951885-p0-1.jpg" alt="drexx avatar" class="avatar">
+        <div class="right-content">
+            <div class="avatar-box">
+                <img src="https://i.ibb.co/3mYwrQM9/118951885-p0-1.jpg" alt="Avatar" class="avatar">
             </div>
         </div>
 
