@@ -3,190 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>khizm | Catppuccin</title>
+    <title>khizm | Premium Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CATPPUCCIN MOCHA PALETTE --- */
         :root {
-            --ctp-bg: #1e1e2e;          /* Nền chính */
-            --ctp-surface: #313244;     /* Nền card */
-            --ctp-text: #cdd6f4;        /* Chữ trắng ngà */
-            --ctp-subtext: #a6adc8;     /* Chữ phụ */
-            --ctp-mauve: #cba6f7;       /* Tím pastel */
-            --ctp-pink: #f5c2e7;        /* Hồng pastel */
-            --ctp-blue: #89b4fa;        /* Xanh dương pastel */
-            --ctp-green: #a6e3a1;       /* Xanh lá pastel */
-            --ctp-overlay: rgba(30, 30, 46, 0.7);
+            /* Catppuccin Mocha Colors */
+            --bg: #11111b;
+            --card-bg: #1e1e2e;
+            --text-main: #cdd6f4;
+            --text-sub: #a6adc8;
+            
+            /* Gradient Colors */
+            --grad-1: linear-gradient(135deg, #f5c2e7, #cba6f7); /* Pink -> Purple */
+            --grad-2: linear-gradient(135deg, #89b4fa, #74c7ec); /* Blue -> Sky */
+            --grad-3: linear-gradient(135deg, #a6e3a1, #94e2d5); /* Green -> Teal */
+            
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shine: rgba(255, 255, 255, 0.03);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--ctp-bg);
-            /* Họa tiết chấm bi nhỏ nhẹ nhàng */
-            background-image: radial-gradient(var(--ctp-surface) 1px, transparent 1px);
-            background-size: 20px 20px;
+            background-color: var(--bg);
+            /* Background họa tiết lưới mờ */
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
             font-family: 'JetBrains Mono', monospace;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: var(--ctp-text);
             padding: 20px;
+            color: var(--text-main);
         }
 
-        /* --- CARD NGANG (LANDSCAPE) --- */
-        .card {
-            background: var(--ctp-surface);
+        /* --- CARD CHÍNH --- */
+        .main-card {
+            background: rgba(30, 30, 46, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
             width: 100%;
-            max-width: 800px; /* Rộng hơn hẳn */
-            border-radius: 24px;
-            display: flex; /* Xếp ngang */
+            max-width: 850px;
+            border-radius: 30px;
+            display: flex;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.05);
-            animation: floatUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
         }
 
-        /* Cột trái: Avatar */
-        .card-left {
+        /* Hiệu ứng ánh sáng chạy qua card */
+        .main-card::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-25deg);
+            animation: shine 8s infinite;
+            pointer-events: none;
+        }
+
+        /* --- CỘT TRÁI (AVATAR) --- */
+        .left-col {
             width: 35%;
-            background: rgba(0, 0, 0, 0.1);
+            padding: 50px 30px;
+            background: rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 40px;
-            border-right: 2px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid var(--glass-border);
+            text-align: center;
         }
 
-        .avatar-wrap {
+        .avatar-box {
             position: relative;
-            width: 150px;
-            height: 150px;
-            margin-bottom: 20px;
+            width: 140px; height: 140px;
+            margin-bottom: 25px;
         }
 
         .avatar {
             width: 100%; height: 100%;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid var(--ctp-mauve);
-            transition: 0.4s;
+            border: 3px solid rgba(255,255,255,0.1);
+            padding: 4px;
+            transition: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
+        
+        .avatar-box:hover .avatar { transform: scale(1.1) rotate(-5deg); border-color: #cba6f7; }
 
-        .avatar-wrap:hover .avatar {
-            transform: rotate(-5deg) scale(1.05);
-            border-color: var(--ctp-pink);
-            box-shadow: 0 0 20px rgba(245, 194, 231, 0.4);
-        }
-
-        .status-badge {
-            margin-top: 10px;
-            background: rgba(166, 227, 161, 0.1);
-            color: var(--ctp-green);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
+        .status-pill {
+            background: #181825;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 11px;
+            border: 1px solid var(--glass-border);
             display: flex; align-items: center; gap: 8px;
+            color: #a6e3a1;
+            font-weight: 700;
         }
-        .dot { width: 8px; height: 8px; background: var(--ctp-green); border-radius: 50%; animation: pulse 2s infinite; }
+        .status-dot { width: 8px; height: 8px; background: #a6e3a1; border-radius: 50%; box-shadow: 0 0 10px #a6e3a1; animation: blink 2s infinite; }
 
-        /* Cột phải: Nội dung */
-        .card-right {
+        /* --- CỘT PHẢI (INFO & BUTTONS) --- */
+        .right-col {
             width: 65%;
-            padding: 45px;
+            padding: 50px;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
-        .header { margin-bottom: 30px; }
-        h1 { font-size: 28px; font-weight: 800; color: var(--ctp-pink); margin-bottom: 5px; }
-        .tagline { color: var(--ctp-blue); font-size: 14px; margin-bottom: 15px; font-weight: 500; }
-        .bio { color: var(--ctp-subtext); font-size: 13px; line-height: 1.6; max-width: 90%; }
+        .name-box { margin-bottom: 35px; }
+        h1 { font-size: 32px; font-weight: 800; background: var(--grad-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+        .role { color: var(--text-sub); font-size: 14px; letter-spacing: 1px; }
 
-        /* Grid Button */
-        .btn-grid {
+        /* --- NÚT BẤM STYLE MỚI --- */
+        .btn-container {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* 2 cột nút */
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
-        .btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 12px;
-            color: var(--ctp-text);
+        .glass-btn {
+            position: relative;
+            padding: 18px 24px;
+            background: var(--glass-shine);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            color: var(--text-main);
             text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-            display: flex; align-items: center; gap: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow: hidden;
+        }
+
+        /* Icon styling */
+        .icon-box {
+            width: 36px; height: 36px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
             transition: 0.3s;
         }
-        
-        /* Màu riêng cho từng nút */
-        .btn:nth-child(1):hover { background: var(--ctp-mauve); color: #1e1e2e; transform: translateY(-3px); }
-        .btn:nth-child(2):hover { background: var(--ctp-blue); color: #1e1e2e; transform: translateY(-3px); }
-        .btn:nth-child(3):hover { background: var(--ctp-green); color: #1e1e2e; transform: translateY(-3px); grid-column: span 2; justify-content: center; }
 
-        /* Social Footer */
-        .socials { display: flex; gap: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; }
-        .socials a { color: var(--ctp-subtext); font-size: 20px; transition: 0.3s; }
-        .socials a:hover { color: var(--ctp-pink); transform: scale(1.2); }
+        .btn-text { display: flex; flex-direction: column; gap: 2px; }
+        .btn-title { font-size: 14px; font-weight: 700; }
+        .btn-desc { font-size: 11px; color: var(--text-sub); opacity: 0.7; }
 
-        /* Animation */
-        @keyframes floatUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(166, 227, 161, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(166, 227, 161, 0); } 100% { box-shadow: 0 0 0 0 rgba(166, 227, 161, 0); } }
+        /* Hover Effects */
+        .glass-btn:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); }
+        .glass-btn:hover .icon-box { transform: scale(1.1); color: #1e1e2e; }
+        .glass-btn:hover .btn-title { color: #fff; }
 
-        /* RESPONSIVE: Trên điện thoại sẽ tự quay về dọc */
-        @media (max-width: 768px) {
-            .card { flex-direction: column; max-width: 400px; }
-            .card-left, .card-right { width: 100%; padding: 30px; text-align: center; }
-            .card-left { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); }
-            .bio { margin: 0 auto 20px; }
-            .socials { justify-content: center; }
-            .avatar-wrap { width: 120px; height: 120px; }
+        /* Màu riêng cho từng nút khi hover */
+        .btn-1:hover { box-shadow: 0 10px 30px -10px rgba(245, 194, 231, 0.3); }
+        .btn-1:hover .icon-box { background: var(--grad-1); }
+
+        .btn-2:hover { box-shadow: 0 10px 30px -10px rgba(137, 180, 250, 0.3); }
+        .btn-2:hover .icon-box { background: var(--grad-2); }
+
+        .btn-3 { grid-column: span 2; justify-content: center; text-align: center; }
+        .btn-3:hover { box-shadow: 0 10px 30px -10px rgba(166, 227, 161, 0.3); }
+        .btn-3:hover .icon-box { background: var(--grad-3); }
+
+        /* --- SOCIAL ORBS --- */
+        .social-row { display: flex; gap: 15px; }
+        .social-orb {
+            width: 45px; height: 45px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-sub);
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 18px;
         }
+
+        .social-orb:hover {
+            background: var(--text-main);
+            color: var(--bg);
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.2);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .main-card { flex-direction: column; max-width: 400px; }
+            .left-col { width: 100%; border-right: none; border-bottom: 1px solid var(--glass-border); padding: 40px 20px; }
+            .right-col { width: 100%; padding: 30px 20px; }
+            .btn-container { grid-template-columns: 1fr; }
+            .btn-3 { grid-column: span 1; }
+            .social-row { justify-content: center; }
+            h1 { font-size: 26px; }
+        }
+
+        @keyframes shine { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+        @keyframes blink { 50% { opacity: 0.5; } }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="card-left">
-            <div class="avatar-wrap">
+    <div class="main-card">
+        <div class="left-col">
+            <div class="avatar-box">
                 <img src="https://i.ibb.co/3mYwrQM9/118951885-p0-1.jpg" alt="drexx" class="avatar">
             </div>
-            <div class="status-badge">
-                <div class="dot"></div> Coding...
+            <div class="status-pill">
+                <div class="status-dot"></div> Available
             </div>
         </div>
 
-        <div class="card-right">
-            <div class="header">
+        <div class="right-col">
+            <div class="name-box">
                 <h1>Phạm Anh Khiêm</h1>
-                <div class="tagline">@drexx • VKU Student</div>
-                <p class="bio">
-                    Thích chơi và gay...
-                </p>
+                <p class="role">&lt;drexx.dev /&gt; • Game Developer Wannabe</p>
             </div>
 
-            <div class="btn-grid">
-                <a href="#" class="btn"><i class="fa-regular fa-folder-open"></i> Tài Nguyên</a>
-                <a href="#" class="btn"><i class="fa-solid fa-gamepad"></i> Dự Án Game</a>
-                <a href="https://github.com/drexx-cmd" class="btn" target="_blank"><i class="fa-brands fa-github-alt"></i> GitHub Profile</a>
+            <div class="btn-container">
+                <a href="#" class="glass-btn btn-1">
+                    <div class="icon-box"><i class="fa-regular fa-folder-open"></i></div>
+                    <div class="btn-text">
+                        <span class="btn-title">Resources</span>
+                        <span class="btn-desc">Tài liệu chia sẻ</span>
+                    </div>
+                </a>
+
+                <a href="#" class="glass-btn btn-2">
+                    <div class="icon-box"><i class="fa-solid fa-gamepad"></i></div>
+                    <div class="btn-text">
+                        <span class="btn-title">My Projects</span>
+                        <span class="btn-desc">Game đã làm</span>
+                    </div>
+                </a>
+
+                <a href="https://github.com/drexx-cmd" class="glass-btn btn-3" target="_blank">
+                    <div class="icon-box"><i class="fa-brands fa-github-alt"></i></div>
+                    <div class="btn-text">
+                        <span class="btn-title">GitHub Profile</span>
+                        <span class="btn-desc">Xem mã nguồn</span>
+                    </div>
+                </a>
             </div>
 
-            <div class="socials">
-                <a href="https://www.facebook.com/notkhizm/" target="_blank" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
-                <a href="https://discord.gg/h5RmRAycc3" target="_blank" title="Discord"><i class="fa-brands fa-discord"></i></a>
-                <a href="https://www.instagram.com/dr3xx8/" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a href="mailto:contact@drexx.dev" title="Email"><i class="fa-solid fa-envelope"></i></a>
+            <div class="social-row">
+                <a href="https://www.facebook.com/notkhizm/" target="_blank" class="social-orb"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://discord.gg/h5RmRAycc3" target="_blank" class="social-orb"><i class="fa-brands fa-discord"></i></a>
+                <a href="https://www.instagram.com/dr3xx8/" target="_blank" class="social-orb"><i class="fa-brands fa-instagram"></i></a>
+                <a href="mailto:contact@drexx.dev" class="social-orb"><i class="fa-solid fa-envelope"></i></a>
             </div>
         </div>
     </div>
