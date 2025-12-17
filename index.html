@@ -2,90 +2,89 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>khizm | Anime Landing UI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+    <title>khizm | Liquid Glass UI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary: #cba6f7;  /* Tím Miku */
-            --accent: #89b4fa;   /* Xanh dương */
-            --text: #ffffff;
-            --glass: rgba(20, 20, 30, 0.6);
-            --border: rgba(255, 255, 255, 0.1);
+            /* Màu chủ đạo Liquid */
+            --color-1: #FF0080; /* Hồng neon */
+            --color-2: #7928CA; /* Tím đậm */
+            --color-3: #00B4DB; /* Xanh cyan */
+            --text-light: #ffffff;
+            /* Hiệu ứng kính lỏng */
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-blur: blur(40px);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Outfit', sans-serif;
-            background: #0f0f13;
-            /* Ảnh nền thành phố anime tối */
-            background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.4)), 
-                        url('https://images.alphacoders.com/134/1346067.png') no-repeat center center/cover;
+            font-family: 'Inter', sans-serif; /* Đổi sang font Inter sạch sẽ */
+            background: #000; /* Nền gốc đen để làm nổi màu */
             height: 100vh;
-            color: var(--text);
-            overflow: hidden; /* Chặn cuộn trang */
+            color: var(--text-light);
+            overflow: hidden;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
-        /* --- NAVBAR --- */
+        /* --- BACKGROUND LIQUID ANIMATION --- */
+        /* Tạo các khối màu chảy phía sau */
+        .liquid-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            filter: blur(100px); /* Làm mờ cực mạnh để tạo hiệu ứng loang màu */
+            pointer-events: none;
+        }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            animation: floatLiquid 20s infinite ease-in-out alternate;
+            opacity: 0.6;
+        }
+        .blob-1 { width: 600px; height: 600px; background: var(--color-1); top: -200px; left: -200px; animation-duration: 25s; }
+        .blob-2 { width: 500px; height: 500px; background: var(--color-2); bottom: -100px; right: -100px; animation-delay: -5s; }
+        .blob-3 { width: 400px; height: 400px; background: var(--color-3); bottom: 100px; left: 30%; animation-delay: -10s; }
+
+        /* --- NAVBAR GLASS --- */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 25px 60px;
+            padding: 20px 60px;
             z-index: 100;
-            animation: slideDown 0.8s ease;
+            /* Hiệu ứng kính cho navbar */
+            background: rgba(0,0,0,0.1);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .logo {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 800;
-            font-size: 24px;
-            letter-spacing: -1px;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-weight: 900; font-size: 24px; letter-spacing: -1px;
+            display: flex; align-items: center; gap: 10px;
         }
-        .logo i { color: var(--primary); }
+        .logo i { 
+            background: linear-gradient(135deg, var(--color-1), var(--color-3));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
 
         .nav-links {
-            display: flex;
-            gap: 40px;
-            background: var(--glass);
-            padding: 12px 30px;
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border);
+            display: flex; gap: 30px;
+            background: rgba(255,255,255,0.05);
+            padding: 10px 30px; border-radius: 50px;
+            border: 1px solid var(--glass-border);
         }
-
         .nav-links a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 14px;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            color: rgba(255,255,255,0.7); text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.3s;
         }
-
-        .nav-links a:hover, .nav-links a.active { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
-
-        .nav-action {
-            background: var(--text);
-            color: #000;
-            padding: 10px 25px;
-            border-radius: 30px;
-            font-weight: 700;
-            text-decoration: none;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-        .nav-action:hover { transform: scale(1.05); background: var(--primary); }
+        .nav-links a:hover { color: #fff; }
 
         /* --- MAIN CONTENT --- */
         main {
@@ -94,233 +93,159 @@
             align-items: center;
             padding: 0 60px;
             position: relative;
-        }
-
-        /* Cột trái: Text */
-        .content-left {
-            width: 50%;
             z-index: 10;
         }
 
-        .tag {
+        .content-left { width: 50%; }
+
+        /* Tag hiệu ứng kính */
+        .tag-glass {
             display: inline-block;
-            color: var(--accent);
-            border: 1px solid var(--accent);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-family: 'JetBrains Mono', monospace;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            padding: 8px 16px; border-radius: 30px;
+            font-size: 12px; font-weight: 600;
             margin-bottom: 20px;
-            animation: fadeIn 1s ease 0.2s backwards;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
-            font-size: 5rem;
-            line-height: 1;
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #fff, #a6adc8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: slideRight 1s ease 0.4s backwards;
+            font-size: 5rem; line-height: 1.1; font-weight: 900; margin-bottom: 20px;
+            /* Chữ gradient */
+            background: linear-gradient(135deg, #fff, #c0c0c0);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        
-        h1 span { color: var(--primary); -webkit-text-fill-color: var(--primary); }
+        h1 span {
+            background: linear-gradient(135deg, var(--color-1), var(--color-3));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
 
         .desc {
-            font-size: 16px;
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 500px;
-            line-height: 1.6;
-            margin-bottom: 40px;
-            animation: fadeIn 1s ease 0.6s backwards;
+            font-size: 18px; color: rgba(255, 255, 255, 0.8); max-width: 500px; line-height: 1.6; margin-bottom: 40px; font-weight: 400;
         }
 
-        /* Buttons style mới */
-        .btn-group {
-            display: flex;
-            gap: 20px;
-            animation: fadeIn 1s ease 0.8s backwards;
-        }
-
+        /* Buttons Liquid */
+        .btn-group { display: flex; gap: 20px; }
         .btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px 30px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.3s;
+            padding: 16px 32px; border-radius: 50px; text-decoration: none; font-weight: 700; transition: 0.3s;
+            display: flex; align-items: center; gap: 10px;
         }
-
-        .btn-primary {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 10px 30px rgba(203, 166, 247, 0.3);
-        }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(203, 166, 247, 0.5); }
-
-        .btn-glass {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
+        .btn-liquid {
+            background: linear-gradient(135deg, var(--color-1), var(--color-2));
             color: #fff;
+            box-shadow: 0 10px 30px rgba(255, 0, 128, 0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .btn-liquid:hover { transform: scale(1.05); box-shadow: 0 15px 50px rgba(255, 0, 128, 0.5); }
+
+        .btn-glass-only {
+            background: var(--glass-bg);
             backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            color: #fff;
         }
-        .btn-glass:hover { background: rgba(255, 255, 255, 0.1); border-color: #fff; }
+        .btn-glass-only:hover { background: rgba(255,255,255,0.1); }
 
-        /* Cột phải: Image Character */
+        /* --- RIGHT SIDE - LIQUID HERO --- */
         .content-right {
-            width: 50%;
-            height: 100%;
+            width: 50%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
-        /* Vòng tròn hào quang sau lưng */
-        .aura-circle {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: spin 20s linear infinite;
-        }
-        .aura-circle::before {
-            content: ''; position: absolute; inset: -20px; border: 1px dashed rgba(203, 166, 247, 0.3); border-radius: 50%;
-        }
-
-        /* Avatar chính */
-        .hero-img-container {
-            width: 450px;
-            height: 450px;
-            border-radius: 40px; /* Bo góc vuông mềm giống reference */
-            overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.1);
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-            animation: float 6s ease-in-out infinite;
+        /* Khối kính lỏng chứa ảnh */
+        .liquid-hero-container {
+            width: 500px; height: 500px;
             position: relative;
             z-index: 5;
+            /* Hình dạng giọt nước biến hình */
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            animation: morph 8s ease-in-out infinite alternate;
+            
+            /* Hiệu ứng kính siêu dày */
+            background: rgba(255, 255, 255, 0.03);
+            box-shadow: inset 0 0 30px rgba(255,255,255,0.1), 
+                        0 20px 50px rgba(0,0,0,0.5);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+            padding: 10px;
         }
 
         .hero-img {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             object-fit: cover;
+            border-radius: inherit; /* Bo theo hình dạng cha */
             transition: 0.5s;
-        }
-        .hero-img:hover { transform: scale(1.05); }
-
-        /* Widget Nhạc (Floating) */
-        .music-widget {
-            position: absolute;
-            bottom: 40px;
-            right: 60px;
-            background: rgba(20, 20, 30, 0.8);
-            backdrop-filter: blur(15px);
-            padding: 15px 25px;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            animation: slideUp 1s ease 1s backwards;
+            opacity: 0.9;
         }
 
-        .album-art { width: 40px; height: 40px; border-radius: 8px; background: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 18px; color: #000; }
-        .track-info h4 { font-size: 14px; margin-bottom: 2px; }
-        .track-info p { font-size: 10px; color: rgba(255,255,255,0.5); }
-        .play-btn { width: 30px; height: 30px; border-radius: 50%; background: #fff; color: #000; display: flex; align-items: center; justify-content: center; margin-left: 10px; cursor: pointer; transition: 0.2s;}
-        .play-btn:hover { transform: scale(1.1); }
-
-        /* Social Vertical bar */
-        .social-sidebar {
-            position: absolute;
-            left: 60px;
-            bottom: 40px;
-            display: flex;
-            gap: 20px;
-            animation: fadeIn 1s ease 1s backwards;
+        /* Animations */
+        @keyframes floatLiquid {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            50% { transform: translate(100px, 50px) rotate(20deg) scale(1.1); }
+            100% { transform: translate(-50px, 100px) rotate(-10deg) scale(0.9); }
         }
-        .social-sidebar a { color: rgba(255,255,255,0.5); font-size: 20px; transition: 0.3s; }
-        .social-sidebar a:hover { color: var(--primary); transform: translateY(-3px); }
+        @keyframes morph {
+            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        }
 
-        /* Animation Keyframes */
-        @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes slideRight { from { transform: translateX(-50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        /* RESPONSIVE */
+        /* Mobile Responsive */
         @media (max-width: 900px) {
-            main { flex-direction: column-reverse; padding: 20px; justify-content: center; text-align: center; }
+            main { flex-direction: column-reverse; padding: 20px; text-align: center; }
             .content-left, .content-right { width: 100%; }
-            .content-left { margin-top: 30px; display: flex; flex-direction: column; align-items: center; }
-            h1 { font-size: 3rem; }
-            .nav-links { display: none; } /* Giấu menu trên mobile cho gọn */
-            .hero-img-container { width: 250px; height: 250px; }
-            .aura-circle { width: 300px; height: 300px; }
-            .music-widget { display: none; }
-            .social-sidebar { width: 100%; justify-content: center; left: 0; bottom: 20px; }
+            h1 { font-size: 3.5rem; }
+            .nav-links { display: none; }
+            .liquid-hero-container { width: 300px; height: 300px; margin-bottom: 40px; }
+            .desc { margin: 0 auto 30px; }
+            .btn-group { justify-content: center; }
         }
     </style>
 </head>
 <body>
 
+    <div class="liquid-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
     <nav>
-        <div class="logo"><i class="fa-solid fa-ghost"></i> DREXX.</div>
+        <div class="logo"><i class="fa-brands fa-apple"></i> iDrexxOS</div>
         <div class="nav-links">
-            <a href="#" class="active">Home</a>
-            <a href="#">Projects</a>
-            <a href="#">About</a>
-            <a href="#">Wiki</a>
+            <a href="#">Home</a>
+            <a href="#">Widget</a>
+            <a href="#">Library</a>
         </div>
-        <a href="https://github.com/drexx-cmd" target="_blank" class="nav-action">GitHub</a>
     </nav>
 
     <main>
         <div class="content-left">
-            <div class="tag">System Status: ONLINE</div>
-            <h1>Phạm Anh<br><span>Khiêm</span>.</h1>
+            <div class="tag-glass"> iOS 18 Concept UI</div>
+            <h1>Liquid<br><span>Glass.</span></h1>
             <p class="desc">
-                Sinh viên VKU / Game Developer tập sự.<br>
-                Đam mê Unity, C# và thiết kế những trải nghiệm tương tác độc đáo. Chào mừng đến với không gian số của tôi.
+                Chào mừng đến với giao diện tương lai. Sự kết hợp giữa hiệu ứng kính lỏng, màu sắc sống động và sự tối giản.
+                <br>Phạm Anh Khiêm - Game Developer.
             </p>
             
             <div class="btn-group">
-                <a href="#" class="btn btn-primary">
-                    <i class="fa-solid fa-gamepad"></i> My Projects
+                <a href="#" class="btn btn-liquid">
+                    <i class="fa-solid fa-bolt"></i> Explore Work
                 </a>
-                <a href="#" class="btn btn-glass">
-                    <i class="fa-regular fa-folder-open"></i> Resources
+                <a href="https://github.com/drexx-cmd" target="_blank" class="btn btn-glass-only">
+                    Github
                 </a>
             </div>
         </div>
 
         <div class="content-right">
-            <div class="aura-circle"></div>
-            <div class="hero-img-container">
+            <div class="liquid-hero-container">
                 <img src="https://i.ibb.co/3mYwrQM9/118951885-p0-1.jpg" alt="drexx avatar" class="hero-img">
             </div>
-        </div>
-
-        <div class="social-sidebar">
-            <a href="https://www.facebook.com/notkhizm/" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="https://discord.gg/h5RmRAycc3" target="_blank"><i class="fa-brands fa-discord"></i></a>
-            <a href="https://www.instagram.com/dr3xx8/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-        </div>
-
-        <div class="music-widget">
-            <div class="album-art"><i class="fa-solid fa-music"></i></div>
-            <div class="track-info">
-                <h4>Cyberpunk Mix</h4>
-                <p>Now Playing...</p>
-            </div>
-            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
         </div>
     </main>
 
