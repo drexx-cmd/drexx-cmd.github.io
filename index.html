@@ -3,315 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYSTEM_ROOT | VHS_MODE</title>
+    <title>khizm | Command Center</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-
-    <style>
-        /* --- 1. CORE SETUP (VHS STYLE) --- */
-        :root {
-            --green: #4af626;
-            --green-dim: #225717;
-            --bg: #111;
-            --scanline: rgba(18, 16, 16, 0.5);
-            --crt-flicker: rgba(74, 246, 38, 0.05);
-        }
-
-        body {
-            background-color: var(--bg);
-            margin: 0; padding: 0;
-            width: 100vw; height: 100vh;
-            overflow: hidden; /* Không cuộn, full màn hình */
-            font-family: 'VT323', monospace;
-            color: var(--green);
-            text-transform: uppercase;
-        }
-
-        /* Hiệu ứng màn hình CRT + Nhiễu hạt */
-        .crt-container {
-            width: 100%; height: 100%;
-            position: relative;
-            background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
-            overflow: hidden;
-        }
-
-        /* Lớp phủ Scanlines (Vạch ngang tivi) */
-        .scanlines {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
-            background-size: 100% 4px;
-            pointer-events: none; z-index: 10;
-        }
-
-        /* Lớp phủ nhấp nháy màn hình */
-        .flicker {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(18, 16, 16, 0.1);
-            opacity: 0; z-index: 10; pointer-events: none;
-            animation: flicker 0.15s infinite;
-        }
-
-        /* --- 2. LAYOUT CHÍNH (FULL SCREEN) --- */
-        .main-interface {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            height: 100%; padding: 40px;
-            gap: 40px;
-            position: relative; z-index: 5;
-        }
-
-        /* Cột trái: Avatar & Status */
-        .profile-section {
-            display: flex; flex-direction: column; gap: 20px;
-            border-right: 2px solid var(--green-dim);
-            padding-right: 20px;
-            justify-content: center;
-        }
-
-        .avatar-frame {
-            width: 200px; height: 200px;
-            border: 4px double var(--green);
-            position: relative;
-            overflow: hidden;
-            margin: 0 auto;
-        }
-
-        .avatar-frame img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(100%) contrast(1.2) brightness(0.8);
-            /* Hiệu ứng ảnh cũ */
-        }
-
-        /* Cột phải: Nội dung chính */
-        .data-section {
-            display: flex; flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-        }
-
-        h1 {
-            font-size: 80px; margin: 0;
-            text-shadow: 2px 2px var(--green-dim), -2px -2px rgba(255,0,0,0.5); /* VHS 3D effect */
-            animation: textGlitch 3s infinite alternate;
-        }
-
-        .sub-title { font-size: 24px; color: var(--green-dim); margin-bottom: 30px; letter-spacing: 2px; }
-
-        /* Menu Links Style CMD */
-        .cmd-menu { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; width: 100%; max-width: 400px; }
-        
-        .cmd-link {
-            text-decoration: none; color: var(--green); font-size: 22px;
-            padding: 10px 15px; border: 1px dashed var(--green-dim);
-            display: flex; justify-content: space-between;
-            transition: 0.2s; background: rgba(0,0,0,0.5);
-        }
-
-        .cmd-link:hover {
-            background: var(--green); color: black;
-            border-style: solid;
-            box-shadow: 5px 5px 0px var(--green-dim);
-        }
-
-        /* --- 3. SMART MUSIC PLAYER (GÓC DƯỚI) --- */
-        .vhs-player {
-            position: fixed;
-            bottom: 30px; right: 30px;
-            width: 60px; height: 60px; /* Kích thước khi đóng */
-            background: #000;
-            border: 2px solid var(--green);
-            z-index: 100;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Hiệu ứng bung lụa */
-            box-shadow: 0 0 10px var(--green-dim);
-            display: flex; align-items: center;
-            padding: 0;
-        }
-
-        /* Trạng thái Hover: Mở rộng */
-        .vhs-player:hover {
-            width: 320px; height: 100px; /* Kích thước khi mở */
-            border-color: #fff;
-            background: rgba(0,0,0,0.9);
-        }
-
-        /* Icon đĩa xoay (Hiện khi đóng) */
-        .disk-icon {
-            width: 60px; height: 60px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 30px; flex-shrink: 0;
-            animation: spin 5s linear infinite;
-            cursor: pointer;
-        }
-        
-        /* Nội dung bên trong (Ẩn khi đóng) */
-        .player-content {
-            opacity: 0;
-            width: 0;
-            white-space: nowrap;
-            transition: 0.3s;
-            display: flex; flex-direction: column;
-            padding-right: 15px;
-            flex-grow: 1;
-        }
-
-        /* Khi hover vào cha thì hiện con */
-        .vhs-player:hover .player-content {
-            opacity: 1; width: auto;
-        }
-
-        .song-info { font-size: 16px; margin-bottom: 5px; color: #fff; }
-        .song-artist { font-size: 12px; color: #888; margin-bottom: 10px; }
-        
-        .controls { display: flex; gap: 15px; }
-        .ctrl-btn {
-            background: none; border: none; color: var(--green);
-            font-family: 'VT323'; font-size: 20px; cursor: pointer;
-        }
-        .ctrl-btn:hover { text-shadow: 0 0 5px #fff; color: #fff; }
-
-        /* --- 4. ANIMATIONS --- */
-        @keyframes flicker { 0% { opacity: 0.1; } 5% { opacity: 0.2; } 10% { opacity: 0.1; } 100% { opacity: 0.1; } }
-        @keyframes textGlitch { 
-            0% { transform: skewX(0deg); } 
-            20% { transform: skewX(-5deg); } 
-            21% { transform: skewX(5deg); } 
-            25% { transform: skewX(0deg); } 
-            100% { transform: skewX(0deg); }
-        }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        /* Responsive Mobile: Chuyển về dọc */
-        @media (max-width: 768px) {
-            .main-interface { grid-template-columns: 1fr; padding: 20px; overflow-y: auto; }
-            .profile-section { border-right: none; border-bottom: 2px solid var(--green-dim); padding-bottom: 20px; }
-            h1 { font-size: 50px; }
-            /* Mobile thì cái player hiện to luôn cho dễ bấm hoặc nằm dưới đáy */
-            .vhs-player { bottom: 10px; right: 10px; width: 50px; height: 50px; }
-            .vhs-player:hover { width: 280px; bottom: 10px; right: 10px; }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="scanline"></div>
 
-    <div class="crt-container">
-        <div class="scanlines"></div>
-        <div class="flicker"></div>
+    <div class="terminal-container">
+        <header class="terminal-header">
+            <div class="dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+            </div>
+            <div class="title">System_Access: khizm.exe</div>
+        </header>
 
-        <div class="main-interface">
-            
-            <div class="profile-section">
+        <main class="content">
+            <section class="profile-section">
                 <div class="avatar-frame">
-                    <img src="https://i.ibb.co/3mYwrQM9/118951885-p0-1.jpg" alt="User">
+                    <img src="https://i.ibb.co/3mYwrQM9/118951885-p0-1.jpg" alt="drexx" class="avatar">
                 </div>
-                <div style="text-align: center;">
-                    <p>> ID: KHIEM_PA</p>
-                    <p>> STATUS: ONLINE</p>
-                    <p>> LOC: VIETNAM</p>
+                <div class="info">
+                    <h1>Phạm Anh Khiêm</h1>
+                    <p class="role"># Game_Dev_Student_VKU</p>
+                    <div class="status-bar">
+                        <div class="status-fill" style="width: 85%;"></div>
+                    </div>
                 </div>
-                <div style="font-size: 14px; color: var(--green-dim); margin-top: 20px;">
-                    <p>[SYS] LOAD C#..... OK</p>
-                    <p>[SYS] LOAD UNITY.. OK</p>
-                    <p>[SYS] UI/UX....... 70%</p>
-                    <p>[SYS] SLEEP....... FAILED</p>
-                </div>
-            </div>
+            </section>
 
-            <div class="data-section">
-                <p>>> WELCOME TO TERMINAL V.1.0</p>
-                <h1>PHẠM ANH KHIÊM</h1>
-                <p class="sub-title">/// VKU.GAME_DEV_STUDENT</p>
+            <nav class="links-grid">
+                <a href="#" class="grid-item">
+                    <i class="fa-solid fa-folder-tree"></i>
+                    <span>Resources</span>
+                </a>
+                <a href="#" class="grid-item">
+                    <i class="fa-solid fa-box-archive"></i>
+                    <span>Projects</span>
+                </a>
+                <a href="https://github.com/drexx-cmd" class="grid-item highlight" target="_blank">
+                    <i class="fa-brands fa-github"></i>
+                    <span>Source</span>
+                </a>
+            </nav>
+        </main>
 
-                <div class="cmd-menu">
-                    <a href="#" class="cmd-link"><span>[1] RESOURCES</span> <span>&lt;DIR&gt;</span></a>
-                    <a href="#" class="cmd-link"><span>[2] PROJECTS</span> <span>.EXE</span></a>
-                    <a href="https://github.com/drexx-cmd" target="_blank" class="cmd-link"><span>[3] GITHUB REPO</span> <span>LINK</span></a>
-                    <a href="https://www.facebook.com/notkhizm/" target="_blank" class="cmd-link"><span>[4] CONTACT</span> <span>MSG</span></a>
-                </div>
-            </div>
-        </div>
+        <footer class="social-bar">
+            <a href="https://www.facebook.com/notkhizm/" target="_blank"><i class="fa-brands fa-facebook"></i> fb.me/khizm</a>
+            <a href="https://discord.gg/h5RmRAycc3" target="_blank"><i class="fa-brands fa-discord"></i> discord</a>
+            <a href="https://www.instagram.com/dr3xx8/" target="_blank"><i class="fa-brands fa-instagram"></i> insta</a>
+        </footer>
     </div>
-
-    <div class="vhs-player" id="vhsPlayer">
-        <div class="disk-icon">
-            <i class="fa-solid fa-compact-disc"></i>
-        </div>
-        
-        <div class="player-content">
-            <div class="song-info">
-                <span id="trackName">NO TAPE INSERTED</span>
-            </div>
-            <div class="song-artist" id="trackArtist">...</div>
-            
-            <div class="controls">
-                <button class="ctrl-btn" onclick="prevTrack()"><i class="fa-solid fa-backward"></i></button>
-                <button class="ctrl-btn" onclick="togglePlay()"><i class="fa-solid fa-play" id="playIcon"></i></button>
-                <button class="ctrl-btn" onclick="nextTrack()"><i class="fa-solid fa-forward"></i></button>
-            </div>
-        </div>
-    </div>
-
-    <audio id="audioSource"></audio>
-
-    <script>
-        /* --- LOGIC PLAYER NHẠC --- */
-        const playlist = [
-            { title: "Cyberpunk City", artist: "System Override", src: "https://cdn.pixabay.com/audio/2022/03/15/audio_7368686256.mp3" },
-            { title: "Retro Wave", artist: "Neon Nights", src: "https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" },
-            { title: "Terminal Login", artist: "Glitch Mob Style", src: "https://cdn.pixabay.com/audio/2024/01/16/audio_e2b992254f.mp3" }
-        ];
-
-        let currentIdx = 0;
-        const audio = document.getElementById('audioSource');
-        const playIcon = document.getElementById('playIcon');
-        const trackName = document.getElementById('trackName');
-        const trackArtist = document.getElementById('trackArtist');
-        const playerBox = document.getElementById('vhsPlayer');
-
-        function loadTrack(index) {
-            trackName.innerText = playlist[index].title;
-            trackArtist.innerText = playlist[index].artist;
-            audio.src = playlist[index].src;
-        }
-
-        function togglePlay() {
-            if (audio.paused) {
-                audio.play();
-                playIcon.classList.remove('fa-play');
-                playIcon.classList.add('fa-pause');
-                // Thêm class để đĩa quay hoặc đổi màu nếu thích
-                document.querySelector('.disk-icon').style.color = '#fff';
-            } else {
-                audio.pause();
-                playIcon.classList.remove('fa-pause');
-                playIcon.classList.add('fa-play');
-                document.querySelector('.disk-icon').style.color = 'var(--green)';
-            }
-        }
-
-        function nextTrack() {
-            currentIdx = (currentIdx + 1) % playlist.length;
-            loadTrack(currentIdx);
-            audio.play();
-            playIcon.classList.remove('fa-play');
-            playIcon.classList.add('fa-pause');
-        }
-
-        function prevTrack() {
-            currentIdx = (currentIdx - 1 + playlist.length) % playlist.length;
-            loadTrack(currentIdx);
-            audio.play();
-            playIcon.classList.remove('fa-play');
-            playIcon.classList.add('fa-pause');
-        }
-
-        // Tự qua bài
-        audio.addEventListener('ended', nextTrack);
-
-        // Load bài đầu (không play)
-        loadTrack(currentIdx);
-        audio.volume = 0.4;
-    </script>
-
 </body>
 </html>
