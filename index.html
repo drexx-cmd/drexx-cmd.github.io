@@ -8,194 +8,199 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. THEME: HOLO MOONLIGHT (Lấy màu từ ảnh) --- */
+        /* --- 1. THEME: WARM SHADOW (Nâu Xám + Vàng Lúa Mạch) --- */
         :root {
-            /* Màu nền cửa sổ (85% opacity như yêu cầu) */
-            --window-bg: rgba(22, 24, 33, 0.85); 
+            /* Nền cửa sổ: Màu xám nâu đen, độ mờ 85% */
+            --window-bg: rgba(35, 32, 30, 0.85); 
             
-            /* Màu chữ & Viền */
-            --text: #c0caf5;         /* Màu ánh trăng (Moonlight) */
-            --subtext: #565f89;      /* Màu xám xanh tối */
-            --accent: #7dcfff;       /* Màu xanh dương nhạt (Highlight) */
-            --accent-dim: #3d59a1;   /* Màu xanh đậm hơn cho các nút chưa active */
+            /* Màu chữ */
+            --text: #e6e1cf;         /* Màu kem nhạt (dễ đọc trên nền nâu) */
+            --subtext: #948e85;      /* Màu xám tro */
             
-            /* Màu phụ trợ */
-            --border-color: rgba(125, 207, 255, 0.2); /* Viền mờ */
-            --radius: 12px;
+            /* Màu nhấn (Accent) - Vàng nâu kiểu Spice & Wolf */
+            --accent: #dcb175;       
+            --accent-dim: #5c4b35;   /* Màu nhấn tối hơn */
+            
+            /* Border & Setup */
+            --border-color: rgba(220, 177, 117, 0.15); /* Viền vàng mờ */
+            --radius: 8px;           /* Bo góc nhẹ hơn cho nam tính */
             --gap: 20px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: #1a1b26; /* Màu dự phòng nếu ảnh lỗi */
-            /* ĐẶT TÊN FILE ẢNH CỦA ÔNG LÀ bg.jpg NHÉ */
+            background-color: #151412; /* Màu nền backup */
+            
+            /* NHỚ ĐỔI TÊN ẢNH CỦA ÔNG THÀNH bg.jpg */
             background-image: url('bg.jpg'); 
             background-size: cover; background-position: center;
+            
             font-family: 'JetBrains Mono', monospace;
             color: var(--text);
             height: 100vh;
             overflow: hidden;
-            padding: 30px; /* Thêm padding cho layout thoáng hơn */
+            padding: 25px;
             display: flex; flex-direction: column; gap: var(--gap);
         }
 
-        /* --- 2. TOP BAR --- */
+        /* --- 2. TOP BAR (Thanh trạng thái) --- */
         .top-bar {
             height: 45px;
             background: var(--window-bg);
-            backdrop-filter: blur(20px); /* Blur mạnh hơn */
+            backdrop-filter: blur(15px); /* Hiệu ứng kính */
             border-radius: var(--radius);
-            border: 1px solid var(--border-color);
+            border-bottom: 2px solid var(--accent-dim);
             display: flex; justify-content: space-between; align-items: center;
             padding: 0 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            z-index: 10;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         }
 
         .workspaces { display: flex; gap: 8px; }
         .ws-btn {
-            width: 30px; height: 30px; border-radius: 8px;
+            width: 28px; height: 28px; border-radius: 4px;
             background: rgba(255,255,255,0.05); color: var(--subtext);
-            border: none; cursor: pointer; font-weight: bold; transition: 0.3s;
+            border: none; cursor: pointer; font-weight: bold; transition: 0.2s;
+            font-family: inherit;
         }
-        .ws-btn:hover { background: var(--accent-dim); color: #fff; }
-        .ws-btn.active { background: var(--accent); color: #1a1b26; width: 45px; }
+        .ws-btn:hover { color: var(--text); background: var(--accent-dim); }
+        .ws-btn.active { background: var(--accent); color: #1e1b18; }
 
-        .center-module { font-size: 18px; color: var(--text); letter-spacing: 2px; }
-        
+        /* Icon giữa: Dạng chuỗi sao */
+        .center-module { 
+            font-size: 16px; color: var(--accent); 
+            font-weight: bold; letter-spacing: 3px;
+            text-shadow: 0 0 10px var(--accent-dim);
+        }
+
         .clock-module {
-            font-size: 14px; font-weight: bold; color: var(--accent);
-            background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 6px;
+            font-size: 13px; font-weight: bold; color: var(--text);
+            display: flex; gap: 10px;
         }
+        .clock-module span { color: var(--accent); }
 
-        /* --- 3. MAIN LAYOUT --- */
+        /* --- 3. MAIN LAYOUT (CHỈNH LẠI TỈ LỆ) --- */
         .workspace-container { flex-grow: 1; position: relative; }
         .workspace {
             position: absolute; inset: 0; display: none;
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: fadeIn 0.4s ease;
         }
         .workspace.active { display: grid; }
 
-        /* Chia cột WS-1 */
+        /* LAYOUT CHÍNH: Trái 65% - Phải 35% */
         #ws-1 {
-            grid-template-columns: 450px 1fr; /* Cố định cột trái, cột phải giãn hết cỡ */
+            grid-template-columns: 65% 1fr; 
             gap: var(--gap);
         }
 
-        /* Styling cửa sổ chung */
+        /* Style chung cho cửa sổ */
         .window {
             background: var(--window-bg);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px); /* Blur mạnh nền sau */
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
             padding: 30px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
             display: flex; flex-direction: column;
-            transition: transform 0.2s;
         }
         .window:hover { border-color: var(--accent); }
 
-        /* --- CỘT TRÁI: FASTFETCH INFO --- */
-        .terminal-window { overflow-y: auto; }
-        .cmd-header { 
-            color: var(--subtext); font-size: 13px; margin-bottom: 25px; 
+        /* --- CỬA SỔ TRÁI: TERMINAL TO --- */
+        .terminal-window { overflow-y: auto; position: relative; }
+        
+        /* Trang trí góc cửa sổ */
+        .terminal-window::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+
+        .term-top {
+            display: flex; justify-content: space-between; margin-bottom: 30px;
             border-bottom: 1px dashed var(--subtext); padding-bottom: 10px;
         }
 
-        /* ASCII ART MỚI (Anime Girl Profile) */
-        .ascii-art {
-            font-size: 10px; /* Chỉnh nhỏ lại cho vừa khung */
-            line-height: 10px;
-            color: var(--accent);
-            white-space: pre;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-align: center; /* Căn giữa hình */
-            text-shadow: 0 0 15px var(--accent-dim);
+        /* Layout bên trong Terminal: Ảnh ASCII bên trái, Text bên phải */
+        .fetch-layout {
+            display: flex; align-items: flex-start; gap: 40px;
+            height: 100%; justify-content: center;
         }
 
-        .info-grid {
-            display: grid; grid-template-columns: auto 1fr; gap: 8px 15px;
-            font-size: 14px;
+        .ascii-art {
+            font-size: 11px; line-height: 11px;
+            color: var(--accent); font-weight: bold;
+            white-space: pre;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
         }
+
+        .info-list { font-size: 15px; display: flex; flex-direction: column; gap: 8px; }
+        .info-row { display: grid; grid-template-columns: 100px 1fr; }
         .key { color: var(--accent); font-weight: bold; }
         .val { color: var(--text); }
-        .separator { grid-column: 1 / -1; height: 1px; background: rgba(255,255,255,0.1); margin: 10px 0; }
-
-        /* --- CỘT PHẢI: STACK --- */
-        .right-stack { display: flex; flex-direction: column; gap: var(--gap); height: 100%; }
-
-        /* Social Window */
-        .social-window { flex: 0 0 auto; } /* Không giãn, chiều cao tự động */
-        .social-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .s-link {
-            text-decoration: none; padding: 15px;
-            background: rgba(0,0,0,0.2); border: 1px solid transparent;
-            color: var(--text); border-radius: 8px;
-            display: flex; align-items: center; gap: 12px; transition: 0.2s;
+        
+        .color-blocks {
+            display: flex; gap: 8px; margin-top: 20px;
         }
-        .s-link:hover { background: var(--accent-dim); border-color: var(--accent); transform: translateX(5px); }
+        .block { width: 12px; height: 12px; border-radius: 50%; }
 
-        /* Music Window (To & Đẹp hơn) */
+        /* --- CỬA SỔ PHẢI: STACK NHỎ --- */
+        .right-stack { display: flex; flex-direction: column; gap: var(--gap); }
+
+        /* Social Compact */
+        .social-window { flex: 0 0 auto; padding: 20px; }
+        .social-list { display: flex; flex-direction: column; gap: 10px; }
+        .s-item {
+            display: flex; justify-content: space-between; align-items: center;
+            text-decoration: none; color: var(--subtext);
+            padding: 10px 15px; border-radius: 6px;
+            background: rgba(0,0,0,0.2); transition: 0.2s;
+        }
+        .s-item:hover { background: var(--accent); color: #1e1b18; transform: translateX(-5px); }
+
+        /* Music Compact */
         .music-window {
-            flex: 1; /* Chiếm hết phần còn lại */
-            justify-content: center; align-items: center; text-align: center;
-            position: relative; overflow: hidden;
+            flex: 1; justify-content: space-between;
+            background-image: linear-gradient(to bottom, var(--window-bg), rgba(0,0,0,0.3));
         }
 
-        /* VISUALIZER KHỔNG LỒ */
-        .visualizer-container {
-            display: flex; align-items: flex-end; justify-content: center;
-            gap: 8px; /* Khoảng cách các thanh */
-            height: 120px; /* Cao lên */
-            width: 80%;
-            margin-bottom: 40px; /* Đẩy chữ xuống xa hơn */
-            border-bottom: 2px solid rgba(255,255,255,0.05); /* Đường kẻ sàn */
+        .visualizer-area {
+            height: 80px; display: flex; align-items: flex-end; justify-content: center; gap: 6px;
+            margin-top: 10px;
         }
         .bar {
-            width: 12px; /* Thanh to hơn */
-            background: var(--accent);
-            border-radius: 4px 4px 0 0;
-            height: 5px; min-height: 5px;
-            transition: height 0.1s ease;
-            box-shadow: 0 0 15px var(--accent-dim); /* Phát sáng */
+            width: 8px; background: var(--accent);
+            height: 4px; border-radius: 2px;
+            opacity: 0.6;
         }
-        
-        /* Animation nhạc */
-        .music-window.playing .bar { animation: dance 0.6s infinite alternate cubic-bezier(0.5, 0.05, 0.1, 0.3); }
-        .music-window.playing .bar:nth-child(1) { animation-duration: 0.5s; }
-        .music-window.playing .bar:nth-child(2) { animation-duration: 0.7s; height: 30%; }
-        .music-window.playing .bar:nth-child(3) { animation-duration: 0.4s; }
-        .music-window.playing .bar:nth-child(4) { animation-duration: 0.6s; height: 50%; }
-        .music-window.playing .bar:nth-child(5) { animation-duration: 0.5s; }
-        .music-window.playing .bar:nth-child(6) { animation-duration: 0.45s; height: 40%;} 
-
-        .song-info { margin-bottom: 25px; }
-        .song-title { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 8px; letter-spacing: -1px; }
-        .song-artist { font-size: 16px; color: var(--accent); font-style: italic; }
-
-        .controls { display: flex; gap: 30px; justify-content: center; align-items: center; }
-        .ctrl-btn {
-            background: none; border: none; color: var(--subtext);
-            font-size: 24px; cursor: pointer; transition: 0.2s;
+        .music-window.playing .bar {
+            opacity: 1; animation: jump 0.5s infinite alternate ease-in-out;
+            box-shadow: 0 0 10px var(--accent);
         }
-        .ctrl-btn:hover { color: #fff; transform: scale(1.1); }
-        .play-btn {
-            width: 60px; height: 60px; font-size: 24px;
-            border-radius: 50%; background: var(--text); color: #1a1b26;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+        /* Random delay cho thanh nhạc */
+        .bar:nth-child(1) { animation-duration: 0.6s; }
+        .bar:nth-child(2) { animation-duration: 0.4s; }
+        .bar:nth-child(3) { animation-duration: 0.7s; }
+        .bar:nth-child(4) { animation-duration: 0.5s; }
+        .bar:nth-child(5) { animation-duration: 0.8s; }
+
+        .track-info { text-align: center; margin-bottom: 10px; }
+        .t-name { font-size: 18px; font-weight: bold; color: var(--text); margin-bottom: 5px; }
+        .t-artist { font-size: 13px; color: var(--subtext); font-style: italic; }
+
+        .ctrl-box {
+            display: flex; justify-content: center; gap: 20px; align-items: center;
+            background: rgba(0,0,0,0.3); padding: 10px; border-radius: 50px;
         }
-        .play-btn:hover { background: var(--accent); transform: scale(1.1) rotate(360deg); }
+        .btn-m { background: none; border: none; color: var(--subtext); cursor: pointer; font-size: 16px; }
+        .btn-m:hover { color: var(--accent); }
+        .btn-play { font-size: 22px; color: var(--text); }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes dance { 0% { height: 10px; } 100% { height: 100%; } }
+        @keyframes jump { to { height: 100%; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+        /* Mobile */
         @media (max-width: 900px) {
-            #ws-1 { grid-template-columns: 1fr; overflow-y: auto; }
-            body { padding: 10px; height: auto; }
-            .visualizer-container { height: 80px; }
+            #ws-1 { grid-template-columns: 1fr; }
+            body { height: auto; overflow-y: auto; }
         }
     </style>
 </head>
@@ -206,81 +211,106 @@
             <button class="ws-btn active">1</button>
             <button class="ws-btn">2</button>
             <button class="ws-btn">3</button>
+            <button class="ws-btn">4</button>
         </div>
+        
         <div class="center-module">
-            <i class="fa-solid fa-moon"></i> MOONLIGHT_RICE
+            ✦ ⋆ ⁺ ₊ ✦
         </div>
-        <div class="clock-module" id="clock">00:00</div>
+
+        <div class="clock-module" id="clock">
+            Loading...
+        </div>
     </div>
 
     <div class="workspace-container">
         <div class="workspace active" id="ws-1">
             
             <div class="window terminal-window">
-                <div class="cmd-header">khiem@arch ~ fastfetch</div>
-                
-                <div class="ascii-art">
-      .---.
-     /     \
-    |  O_O  |
-    |   ^   |
-     \  ~  /
-      '---'
-    // ATTENTION \\
-   //  WOLF GIRL  \\
-  //    DETECTED   \\
+                <div class="term-top">
+                    <span>khiem@arch-linux</span>
+                    <span>~/-sys/info</span>
                 </div>
+                
+                <div class="fetch-layout">
+                    <div class="ascii-art">
+     .---.
+    /     \
+   | () () |
+    \  ^  /
+     |||||
+     |||||
+    //|||\\
+   // ||| \\
+  //  |||  \\
+  '   '''   '
+   SHADOW_DEV
+                    </div>
 
-                <div class="info-grid">
-                    <div class="key">User</div> <div class="val">khiem</div>
-                    <div class="key">Host</div> <div class="val">Arch_Machine</div>
-                    <div class="separator"></div>
-                    <div class="key">OS</div> <div class="val">Arch Linux</div>
-                    <div class="key">Kernel</div> <div class="val">6.8.1-zen</div>
-                    <div class="key">Uptime</div> <div class="val">20y 3m</div>
-                    <div class="key">Shell</div> <div class="val">zsh + oh-my-zsh</div>
-                    <div class="key">DE/WM</div> <div class="val">Hyprland</div>
-                    <div class="key">Font</div> <div class="val">JetBrains Mono</div>
-                    <div class="separator"></div>
-                    <div class="key">Status</div> <div class="val" style="color:var(--accent)">Running...</div>
+                    <div class="info-list">
+                        <div class="info-row"><span class="key">User</span><span class="val">khiem</span></div>
+                        <div class="info-row"><span class="key">Host</span><span class="val">Arch_Machine</span></div>
+                        <div class="info-row"><span class="key">Kernel</span><span class="val">6.8.9-zen1</span></div>
+                        <div class="info-row"><span class="key">Uptime</span><span class="val">20y 3m 12d</span></div>
+                        <div class="info-row"><span class="key">Shell</span><span class="val">zsh 5.9</span></div>
+                        <div class="info-row"><span class="key">Theme</span><span class="val">Holo_Shadow</span></div>
+                        <div class="info-row"><span class="key">Font</span><span class="val">JetBrains Mono</span></div>
+                        <br>
+                        <div class="info-row"><span class="key">Desc</span><span class="val">> Game Developer</span></div>
+                        <div class="info-row"><span class="key"></span><span class="val">> UI/UX Designer</span></div>
+                        
+                        <div class="color-blocks">
+                            <div class="block" style="background:#dcb175"></div>
+                            <div class="block" style="background:#5c4b35"></div>
+                            <div class="block" style="background:#e6e1cf"></div>
+                            <div class="block" style="background:#948e85"></div>
+                            <div class="block" style="background:#353230"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="right-stack">
                 
-                <div class="window social-window">
-                    <div class="cmd-header" style="margin-bottom: 15px">/// LINKS</div>
-                    <div class="social-grid">
-                        <a href="https://github.com/drexx-cmd" class="s-link"><i class="fa-brands fa-github"></i> GitHub</a>
-                        <a href="https://www.facebook.com/notkhizm/" class="s-link"><i class="fa-brands fa-facebook"></i> Facebook</a>
-                        <a href="#" class="s-link"><i class="fa-brands fa-discord"></i> Discord</a>
-                        <a href="#" class="s-link"><i class="fa-solid fa-envelope"></i> Mail</a>
-                    </div>
-                </div>
-
                 <div class="window music-window" id="musicPlayer">
-                    <div class="visualizer-container">
+                    <div class="visualizer-area">
                         <div class="bar"></div><div class="bar"></div><div class="bar"></div>
                         <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                        <div class="bar"></div>
                     </div>
                     
-                    <div class="song-info">
-                        <div class="song-title" id="trackName">Holo's Theme</div>
-                        <div class="song-artist" id="trackArtist">Waiting for input...</div>
+                    <div class="track-info">
+                        <div class="t-name" id="trackName">Select Track</div>
+                        <div class="t-artist" id="trackArtist">System Ready</div>
                     </div>
 
-                    <div class="controls">
-                        <button class="ctrl-btn" onclick="prevTrack()"><i class="fa-solid fa-backward-step"></i></button>
-                        <button class="play-btn" onclick="togglePlay()">
+                    <div class="ctrl-box">
+                        <button class="btn-m" onclick="prevTrack()"><i class="fa-solid fa-backward"></i></button>
+                        <button class="btn-m btn-play" onclick="togglePlay()">
                             <i class="fa-solid fa-play" id="playIcon"></i>
                         </button>
-                        <button class="ctrl-btn" onclick="nextTrack()"><i class="fa-solid fa-forward-step"></i></button>
+                        <button class="btn-m" onclick="nextTrack()"><i class="fa-solid fa-forward"></i></button>
                     </div>
                 </div>
-            </div>
 
+                <div class="window social-window">
+                    <div class="term-top" style="margin-bottom: 15px; border:none">/// LINKS</div>
+                    <div class="social-list">
+                        <a href="https://github.com/drexx-cmd" class="s-item">
+                            <span><i class="fa-brands fa-github"></i> GitHub</span>
+                            <span>-></span>
+                        </a>
+                        <a href="https://www.facebook.com/notkhizm/" class="s-item">
+                            <span><i class="fa-brands fa-facebook"></i> Facebook</span>
+                            <span>-></span>
+                        </a>
+                        <a href="#" class="s-item">
+                            <span><i class="fa-brands fa-discord"></i> Discord</span>
+                            <span>-></span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 
@@ -288,16 +318,20 @@
 
     <script>
         // Clock
-        setInterval(() => {
+        function updateClock() {
             const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'}) + " | " + now.getDate() + "/" + (now.getMonth()+1);
-        }, 1000);
+            const str = now.toLocaleTimeString('en-US', {hour12: false, hour:'2-digit', minute:'2-digit'});
+            const date = now.toLocaleDateString('en-GB', {day:'2-digit', month:'2-digit'});
+            document.getElementById('clock').innerHTML = `<span>${str}</span> - ${date}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
 
         // Music Logic
         const playlist = [
-            { title: "Spice & Wolf OP", artist: "Tabi no Tochuu", src: "https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" },
-            { title: "Moonlight", artist: "Kali Uchis", src: "https://cdn.pixabay.com/audio/2022/03/15/audio_7368686256.mp3" },
-            { title: "Night Coding", artist: "Lofi Beats", src: "https://cdn.pixabay.com/audio/2024/01/16/audio_e2b992254f.mp3" }
+            { title: "Spice & Wolf", artist: "Holo Theme", src: "https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" },
+            { title: "Shadows", artist: "Dark Ambient", src: "https://cdn.pixabay.com/audio/2022/03/15/audio_7368686256.mp3" },
+            { title: "Coffee Code", artist: "Lofi Beats", src: "https://cdn.pixabay.com/audio/2024/01/16/audio_e2b992254f.mp3" }
         ];
 
         let currentIdx = 0;
