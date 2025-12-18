@@ -3,151 +3,281 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phạm Anh Khiêm | Anime Profile</title>
+    <title>khizm | SYSTEM OVERRIDE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CẤU HÌNH MÀU SẮC (THEME SYSTEM) --- */
+        :root {
+            /* Mặc định là Dark Mode (Cyberpunk Red) */
+            --bg-color: #050505;
+            --card-bg: rgba(15, 15, 15, 0.95);
+            --text-main: #e0e0e0;
+            --text-dim: #888;
+            --accent: #ff003c; /* Đỏ Neon */
+            --border: #333;
+            --grid-color: rgba(255, 0, 60, 0.05);
+            --glitch-shadow: #00ffff;
+        }
+
+        /* Cấu hình Light Mode (Laboratory Style) */
+        [data-theme="light"] {
+            --bg-color: #f0f2f5;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #1a1a1a;
+            --text-dim: #555;
+            --accent: #d90429; /* Đỏ đậm hơn cho nền trắng */
+            --border: #ccc;
+            --grid-color: rgba(0, 0, 0, 0.05);
+            --glitch-shadow: #2ec4b6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s, border 0.3s; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 30px 30px;
+            font-family: 'Share Tech Mono', monospace;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-main);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- CONTROL PANEL (Góc trên phải) --- */
+        .control-panel {
+            position: absolute;
+            top: 20px; right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .control-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            font-family: 'Share Tech Mono', monospace;
+            font-weight: bold;
+            clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+        }
+
+        .control-btn:hover { background: var(--accent); color: var(--bg-color); }
+
+        /* --- CARD CHÍNH --- */
+        .card {
+            position: relative;
+            width: 90%; max-width: 480px;
+            background: var(--card-bg);
+            border: 1px solid var(--accent);
+            padding: 40px;
+            clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        /* Avatar */
+        .avatar-box {
+            position: relative;
+            width: 110px; height: 110px;
+            margin: 0 auto 15px;
+        }
+        .avatar {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+            filter: grayscale(1);
+            transition: 0.5s;
+        }
+        .card:hover .avatar { filter: grayscale(0); border-color: var(--accent); }
+        
+        /* Hiệu ứng xoay quanh avatar */
+        .scanner {
+            position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border: 1px dashed var(--accent);
+            border-radius: 50%;
+            animation: spin 8s linear infinite;
+            opacity: 0.5;
+        }
+
+        /* Text Styles */
+        h1 {
+            font-size: 26px; text-transform: uppercase; letter-spacing: 2px;
+            position: relative; display: inline-block; margin-bottom: 5px;
+            color: var(--text-main);
+        }
+        
+        /* Glitch Effect */
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--card-bg);
+        }
+        .glitch-text::before { left: 2px; text-shadow: -1px 0 var(--glitch-shadow); clip: rect(24px, 550px, 90px, 0); animation: glitch 3s infinite alternate-reverse; }
+        .glitch-text::after { left: -2px; text-shadow: -1px 0 var(--accent); clip: rect(85px, 550px, 140px, 0); animation: glitch 2s infinite alternate-reverse; }
+
+        .role { color: var(--accent); font-size: 13px; margin-bottom: 25px; background: rgba(255,0,0,0.05); padding: 5px 15px; display: inline-block; }
+
+        /* --- SKILL BARS (Thêm cho đỡ trống) --- */
+        .skills {
+            display: flex; justify-content: space-between; gap: 10px; margin-bottom: 25px; text-align: left;
+        }
+        .skill-item { width: 32%; }
+        .skill-name { font-size: 10px; color: var(--text-dim); margin-bottom: 3px; }
+        .progress-bar { height: 4px; background: var(--border); width: 100%; position: relative; }
+        .progress-fill { height: 100%; background: var(--accent); width: 0%; animation: loadSkill 1.5s ease-out forwards; }
+
+        /* Buttons */
+        .btn-group { display: flex; flex-direction: column; gap: 12px; }
+        .btn {
+            background: transparent; border: 1px solid var(--border); color: var(--text-main);
+            padding: 12px; text-decoration: none; font-size: 14px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: 0.2s; position: relative; overflow: hidden;
+        }
+        .btn:hover { border-color: var(--accent); color: white; }
+        .btn::before {
+            content: ""; position: absolute; left: 0; top: 0; width: 0; height: 100%;
+            background: var(--accent); z-index: -1; transition: 0.3s;
+        }
+        .btn:hover::before { width: 100%; }
+
+        /* Footer */
+        .social { margin-top: 25px; padding-top: 15px; border-top: 1px dashed var(--border); display: flex; justify-content: center; gap: 20px; }
+        .social a { color: var(--text-dim); font-size: 18px; transition: 0.3s; }
+        .social a:hover { color: var(--accent); transform: scale(1.2); }
+
+        /* Terminal Logs (Chạy chữ bên dưới) */
+        .terminal-log {
+            position: fixed; bottom: 10px; left: 20px;
+            font-size: 10px; color: var(--accent); opacity: 0.7;
+            font-family: monospace;
+        }
+
+        /* Animations */
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes glitch {
+            0% { clip: rect(10px, 9999px, 30px, 0); }
+            20% { clip: rect(80px, 9999px, 90px, 0); }
+            100% { clip: rect(10px, 9999px, 100px, 0); }
+        }
+        @keyframes loadSkill { to { width: var(--w); } }
+
+    </style>
 </head>
 <body>
 
-    <nav class="top-nav">
-        <div class="nav-links">
-            <a href="#"><i class="fa-solid fa-home"></i> HOME</a>
-            <a href="#"><i class="fa-brands fa-twitter"></i> TWITTER</a>
-            <a href="#"><i class="fa-brands fa-discord"></i> DISCORD</a>
-            <a href="#"><i class="fa-brands fa-github"></i> GITHUB</a>
-        </div>
-        <div class="search-bar">
-            <input type="text" placeholder="Search...">
-            <button>POST</button>
-        </div>
-    </nav>
+    <div class="control-panel">
+        <div class="control-btn" onclick="toggleTheme()" id="themeBtn"><i class="fa-solid fa-sun"></i></div>
+        <div class="control-btn" onclick="toggleLang()" id="langBtn">EN</div>
+    </div>
 
-    <div class="container">
-        <div class="banner">
-            <img src="https://i.pinimg.com/originals/ee/12/a9/ee12a91e127395029c782782e38c7512.jpg" alt="Banner">
+    <div class="card">
+        <div class="avatar-box">
+            <div class="scanner"></div>
+            <img src="https://i.ibb.co/3mYwrQM9/118951885-p0-1.jpg" alt="drexx" class="avatar">
         </div>
 
-        <div class="content-wrapper">
-            <aside class="sidebar">
-                <div class="profile-section">
-                    <div class="avatar-holder">
-                        <img src="https://i.pinimg.com/736x/8f/c3/0f/8fc30fa2a9121d51a62c47671239857d.jpg" alt="Avatar">
-                    </div>
-                    <h1 class="username">Phạm Anh Khiêm</h1>
-                    <span class="handle">@khizm_dev</span>
-                    
-                    <div class="bio">
-                        <p>Game Dev | UI Designer | VKU Student</p>
-                        <p>Đam mê code dạo và wibu chính hiệu. Thích tạo ra những thứ hay ho bằng Unity.</p>
-                    </div>
+        <h1 class="glitch-text" data-text="PHẠM ANH KHIÊM">PHẠM ANH KHIÊM</h1>
+        <div class="role" id="txt-role">/// VKU.GAME_DEV_STUDENT</div>
 
-                    <div class="info-meta">
-                        <i class="fa-regular fa-calendar"></i> Tham gia từ 2020
-                    </div>
-                </div>
+        <div class="skills">
+            <div class="skill-item">
+                <div class="skill-name">C# / UNITY</div>
+                <div class="progress-bar"><div class="progress-fill" style="--w: 85%"></div></div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-name">DESIGN</div>
+                <div class="progress-bar"><div class="progress-fill" style="--w: 70%"></div></div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-name">COFFEE</div>
+                <div class="progress-bar"><div class="progress-fill" style="--w: 99%"></div></div>
+            </div>
+        </div>
 
-                <div class="widget-box">
-                    <h3>Social Media</h3>
-                    <ul class="social-list">
-                        <li>
-                            <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="Github">
-                            <div class="social-info">
-                                <strong>Github</strong>
-                                <span>@drexx-cmd</span>
-                            </div>
-                            <a href="#" class="follow-btn">Follow</a>
-                        </li>
-                        <li>
-                            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png" alt="Facebook">
-                            <div class="social-info">
-                                <strong>Facebook</strong>
-                                <span>Phạm Anh Khiêm</span>
-                            </div>
-                            <a href="#" class="follow-btn">Add</a>
-                        </li>
-                        <li>
-                            <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="Discord">
-                            <div class="social-info">
-                                <strong>Discord</strong>
-                                <span>khizm#1234</span>
-                            </div>
-                            <a href="#" class="follow-btn">Chat</a>
-                        </li>
-                    </ul>
-                </div>
+        <div class="btn-group">
+            <a href="#" class="btn">
+                <i class="fa-solid fa-database"></i> <span id="btn-1">ACCESS RESOURCES</span>
+            </a>
+            <a href="#" class="btn">
+                <i class="fa-solid fa-microchip"></i> <span id="btn-2">PROJECT LOGS</span>
+            </a>
+            <a href="https://github.com/drexx-cmd" class="btn" target="_blank">
+                <i class="fa-brands fa-github-alt"></i> <span id="btn-3">GITHUB REPO</span>
+            </a>
+        </div>
 
-                <div class="widget-box">
-                    <h3>Current Focus</h3>
-                    <div class="tags">
-                        <span>#Unity3D</span>
-                        <span>#CSharp</span>
-                        <span>#UIDesign</span>
-                        <span>#Anime</span>
-                        <span>#Cyberpunk</span>
-                    </div>
-                </div>
-            </aside>
-
-            <main class="main-content">
-                <div class="tabs">
-                    <a href="#" class="active">POSTS</a>
-                    <a href="#">ANIME LIST</a>
-                    <a href="#">ABOUT</a>
-                    <a href="#">PORTFOLIO</a>
-                </div>
-
-                <div class="content-card">
-                    <div class="card-header">
-                        <h2>:: about me</h2>
-                        <i class="fa-solid fa-bookmark"></i>
-                    </div>
-                    <div class="card-body">
-                        <p>
-                            Hi! Mình là <strong>Khiêm</strong>, nhưng cứ gọi mình là Khizm. 
-                            Hiện mình đang là sinh viên tại <strong>VKU</strong>. Mình thích dành cả ngày để ngồi code game và nghiên cứu UI/UX.
-                        </p>
-                        <p>
-                            Mình là một người hướng nội (Introvert) nhưng khi nói về Tech hay Anime thì mình nói hơi nhiều.
-                            Mục tiêu của mình là trở thành một <strong>Game Developer</strong> chuyên nghiệp.
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <span><i class="fa-solid fa-pen"></i> Updated: Dec 18, 2025</span>
-                        <div class="reactions">
-                             <i class="fa-regular fa-heart"></i> 124 notes
-                        </div>
-                    </div>
-                </div>
-
-                <div class="content-card project-list">
-                    <div class="project-item">
-                        <img src="https://i.pinimg.com/564x/d5/b6/a5/d5b6a50d3032d8478d1f05908e063df4.jpg" class="proj-img">
-                        <div class="proj-info">
-                            <h3>GAME RPG PROJECT</h3>
-                            <ul class="stats">
-                                <li>Engine: <span>Unity</span></li>
-                                <li>Lang: <span>C#</span></li>
-                                <li>Status: <span>Developing</span></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="project-item">
-                        <img src="https://i.pinimg.com/564x/56/65/56/566556e87b7381598f45a70711690460.jpg" class="proj-img">
-                        <div class="proj-info">
-                            <h3>PORTFOLIO UI</h3>
-                            <ul class="stats">
-                                <li>Type: <span>Web Design</span></li>
-                                <li>Style: <span>Anime/Clean</span></li>
-                                <li>Status: <span>Done</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-            </main>
+        <div class="social">
+            <a href="https://www.facebook.com/notkhizm/" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://discord.gg/h5RmRAycc3" target="_blank"><i class="fa-brands fa-discord"></i></a>
+            <a href="https://www.instagram.com/dr3xx8/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
         </div>
     </div>
+
+    <div class="terminal-log">
+        > SYSTEM_STATUS: ONLINE... <br>
+        > TRACKING_IP: 127.0.0.1...
+    </div>
+
+    <script>
+        // Dữ liệu ngôn ngữ
+        const langData = {
+            vi: {
+                role: "/// SINH VIÊN GAME DEV VKU",
+                btn1: "KHO TÀI NGUYÊN",
+                btn2: "NHẬT KÝ DỰ ÁN",
+                btn3: "MÃ NGUỒN GITHUB",
+                log: "> TRẠNG THÁI: TRỰC TUYẾN..."
+            },
+            en: {
+                role: "/// VKU.GAME_DEV_STUDENT",
+                btn1: "ACCESS RESOURCES",
+                btn2: "PROJECT LOGS",
+                btn3: "GITHUB REPO",
+                log: "> SYSTEM_STATUS: ONLINE..."
+            }
+        };
+
+        let currentLang = 'en';
+        let isDark = true;
+
+        // Chuyển đổi ngôn ngữ
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'vi' : 'en';
+            const data = langData[currentLang];
+            
+            // Cập nhật text
+            document.getElementById('langBtn').innerText = currentLang.toUpperCase();
+            document.getElementById('txt-role').innerText = data.role;
+            document.getElementById('btn-1').innerText = data.btn1;
+            document.getElementById('btn-2').innerText = data.btn2;
+            document.getElementById('btn-3').innerText = data.btn3;
+            document.querySelector('.terminal-log').innerHTML = data.log + "<br>> TRACKING_IP: 127.0.0.1...";
+        }
+
+        // Chuyển đổi Sáng/Tối
+        function toggleTheme() {
+            isDark = !isDark;
+            const body = document.body;
+            const btn = document.getElementById('themeBtn');
+            
+            if (isDark) {
+                body.removeAttribute('data-theme');
+                btn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                btn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+            }
+        }
+    </script>
 </body>
 </html>
