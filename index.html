@@ -3,203 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arch Linux Rice | Hyprland</title>
+    <title>khiem@arch: ~/holo-rice</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. THEME SETUP (Catppuccin Mocha) --- */
+        /* --- 1. THEME: HOLO MOONLIGHT (Lấy màu từ ảnh) --- */
         :root {
-            --bg: #1e1e2e;           /* Nền tổng */
-            --window-bg: rgba(30, 30, 46, 0.85); /* Nền cửa sổ bán trong suốt */
-            --text: #cdd6f4;         /* Màu chữ chính */
-            --subtext: #a6adc8;      /* Màu chữ phụ */
-            --accent: #89b4fa;       /* Màu xanh chủ đạo */
-            --pink: #f5c2e7;
-            --green: #a6e3a1;
-            --yellow: #f9e2af;
-            --border: #313244;
-            --radius: 12px;          /* Bo góc */
-            --gap: 15px;             /* Khoảng cách giữa các ô */
+            /* Màu nền cửa sổ (85% opacity như yêu cầu) */
+            --window-bg: rgba(22, 24, 33, 0.85); 
+            
+            /* Màu chữ & Viền */
+            --text: #c0caf5;         /* Màu ánh trăng (Moonlight) */
+            --subtext: #565f89;      /* Màu xám xanh tối */
+            --accent: #7dcfff;       /* Màu xanh dương nhạt (Highlight) */
+            --accent-dim: #3d59a1;   /* Màu xanh đậm hơn cho các nút chưa active */
+            
+            /* Màu phụ trợ */
+            --border-color: rgba(125, 207, 255, 0.2); /* Viền mờ */
+            --radius: 12px;
+            --gap: 20px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg);
-            background-image: url('https://w.wallhaven.cc/full/qz/wallhaven-qz3rrd.jpg'); /* Hình nền Anime/Landscape tối */
+            background-color: #1a1b26; /* Màu dự phòng nếu ảnh lỗi */
+            /* ĐẶT TÊN FILE ẢNH CỦA ÔNG LÀ bg.jpg NHÉ */
+            background-image: url('bg.jpg'); 
             background-size: cover; background-position: center;
             font-family: 'JetBrains Mono', monospace;
             color: var(--text);
             height: 100vh;
-            overflow: hidden; /* Không cuộn */
-            padding: var(--gap); /* Tạo khoảng hở viền màn hình */
+            overflow: hidden;
+            padding: 30px; /* Thêm padding cho layout thoáng hơn */
             display: flex; flex-direction: column; gap: var(--gap);
         }
 
-        /* --- 2. TOP BAR (Thanh trạng thái) --- */
+        /* --- 2. TOP BAR --- */
         .top-bar {
-            height: 40px;
+            height: 45px;
             background: var(--window-bg);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px); /* Blur mạnh hơn */
             border-radius: var(--radius);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid var(--border-color);
             display: flex; justify-content: space-between; align-items: center;
             padding: 0 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 10;
         }
 
-        /* Workspaces bên trái */
-        .workspaces { display: flex; gap: 10px; }
+        .workspaces { display: flex; gap: 8px; }
         .ws-btn {
-            width: 25px; height: 25px;
-            border-radius: 50%;
-            background: var(--border);
-            color: var(--subtext);
-            border: none; cursor: pointer;
-            font-family: inherit; font-weight: bold;
-            transition: 0.3s;
-            display: flex; align-items: center; justify-content: center;
+            width: 30px; height: 30px; border-radius: 8px;
+            background: rgba(255,255,255,0.05); color: var(--subtext);
+            border: none; cursor: pointer; font-weight: bold; transition: 0.3s;
         }
-        .ws-btn:hover { background: var(--pink); color: var(--bg); }
-        .ws-btn.active { background: var(--accent); color: var(--bg); width: 40px; border-radius: 15px; }
+        .ws-btn:hover { background: var(--accent-dim); color: #fff; }
+        .ws-btn.active { background: var(--accent); color: #1a1b26; width: 45px; }
 
-        /* Icon Galaxy ở giữa */
-        .center-module {
-            font-size: 20px; color: var(--pink);
-            animation: spin 10s linear infinite;
-        }
-
-        /* Đồng hồ bên phải */
+        .center-module { font-size: 18px; color: var(--text); letter-spacing: 2px; }
+        
         .clock-module {
-            background: var(--border);
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-size: 13px;
-            color: var(--accent);
-            font-weight: bold;
+            font-size: 14px; font-weight: bold; color: var(--accent);
+            background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 6px;
         }
 
-        /* --- 3. WORKSPACE CONTAINER --- */
-        .workspace-container {
-            flex-grow: 1; /* Chiếm hết phần còn lại */
-            position: relative;
-        }
-
-        /* Các workspace (Mặc định ẩn hết, chỉ hiện active) */
+        /* --- 3. MAIN LAYOUT --- */
+        .workspace-container { flex-grow: 1; position: relative; }
         .workspace {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: none; /* Ẩn */
-            animation: fadeIn 0.4s ease;
+            position: absolute; inset: 0; display: none;
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .workspace.active { display: grid; } /* Hiện dưới dạng Grid */
+        .workspace.active { display: grid; }
 
-        /* LAYOUT CHO WORKSPACE 1 (Chia cột) */
+        /* Chia cột WS-1 */
         #ws-1 {
-            grid-template-columns: 1.2fr 0.8fr; /* Trái to hơn xíu */
+            grid-template-columns: 450px 1fr; /* Cố định cột trái, cột phải giãn hết cỡ */
             gap: var(--gap);
         }
 
-        /* Styling chung cho các cửa sổ (Windows) */
+        /* Styling cửa sổ chung */
         .window {
             background: var(--window-bg);
-            backdrop-filter: blur(12px);
-            border: 2px solid rgba(137, 180, 250, 0.3); /* Viền xanh mờ */
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
             border-radius: var(--radius);
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
             display: flex; flex-direction: column;
-            transition: 0.3s;
+            transition: transform 0.2s;
         }
         .window:hover { border-color: var(--accent); }
 
-        /* --- CỬA SỔ TRÁI: TERMINAL FASTFETCH --- */
-        .terminal-window {
-            overflow-y: auto;
-        }
-        .term-header { margin-bottom: 20px; color: var(--subtext); font-size: 14px; }
-        .fetch-layout { display: flex; gap: 30px; align-items: flex-start; }
-        .ascii-logo {
-            color: var(--accent); font-weight: bold; line-height: 1.1;
-            white-space: pre; /* Giữ nguyên định dạng khoảng trắng */
-            text-shadow: 0 0 15px rgba(137, 180, 250, 0.4);
-        }
-        .info-lines { display: flex; flex-direction: column; gap: 5px; font-size: 14px; }
-        .info-lines div span:first-child { color: var(--pink); font-weight: bold; min-width: 90px; display: inline-block; }
-
-        /* --- CỬA SỔ PHẢI: CHIA ĐÔI (STACK) --- */
-        .right-stack {
-            display: flex; flex-direction: column; gap: var(--gap);
+        /* --- CỘT TRÁI: FASTFETCH INFO --- */
+        .terminal-window { overflow-y: auto; }
+        .cmd-header { 
+            color: var(--subtext); font-size: 13px; margin-bottom: 25px; 
+            border-bottom: 1px dashed var(--subtext); padding-bottom: 10px;
         }
 
-        /* PHẦN TRÊN: SOCIAL MEDIA */
-        .social-window {
-            flex: 1; /* Chiếm 1 phần */
-            justify-content: center;
+        /* ASCII ART MỚI (Anime Girl Profile) */
+        .ascii-art {
+            font-size: 10px; /* Chỉnh nhỏ lại cho vừa khung */
+            line-height: 10px;
+            color: var(--accent);
+            white-space: pre;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center; /* Căn giữa hình */
+            text-shadow: 0 0 15px var(--accent-dim);
         }
-        .social-title { margin-bottom: 15px; color: var(--green); font-weight: bold; }
-        .social-links { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .s-btn {
+
+        .info-grid {
+            display: grid; grid-template-columns: auto 1fr; gap: 8px 15px;
+            font-size: 14px;
+        }
+        .key { color: var(--accent); font-weight: bold; }
+        .val { color: var(--text); }
+        .separator { grid-column: 1 / -1; height: 1px; background: rgba(255,255,255,0.1); margin: 10px 0; }
+
+        /* --- CỘT PHẢI: STACK --- */
+        .right-stack { display: flex; flex-direction: column; gap: var(--gap); height: 100%; }
+
+        /* Social Window */
+        .social-window { flex: 0 0 auto; } /* Không giãn, chiều cao tự động */
+        .social-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .s-link {
             text-decoration: none; padding: 15px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 8px; color: var(--text);
-            display: flex; align-items: center; gap: 10px;
-            transition: 0.2s; border: 1px solid transparent;
+            background: rgba(0,0,0,0.2); border: 1px solid transparent;
+            color: var(--text); border-radius: 8px;
+            display: flex; align-items: center; gap: 12px; transition: 0.2s;
         }
-        .s-btn:hover { background: rgba(137, 180, 250, 0.1); border-color: var(--accent); transform: translateY(-2px); }
-        .s-btn i { font-size: 20px; }
+        .s-link:hover { background: var(--accent-dim); border-color: var(--accent); transform: translateX(5px); }
 
-        /* PHẦN DƯỚI: MUSIC PLAYER */
+        /* Music Window (To & Đẹp hơn) */
         .music-window {
-            flex: 1.2; /* Chiếm nhiều hơn chút */
-            justify-content: space-between;
+            flex: 1; /* Chiếm hết phần còn lại */
+            justify-content: center; align-items: center; text-align: center;
             position: relative; overflow: hidden;
         }
-        
-        /* Visualizer Sóng nhạc */
+
+        /* VISUALIZER KHỔNG LỒ */
         .visualizer-container {
             display: flex; align-items: flex-end; justify-content: center;
-            gap: 5px; height: 60px; margin-bottom: 10px;
+            gap: 8px; /* Khoảng cách các thanh */
+            height: 120px; /* Cao lên */
+            width: 80%;
+            margin-bottom: 40px; /* Đẩy chữ xuống xa hơn */
+            border-bottom: 2px solid rgba(255,255,255,0.05); /* Đường kẻ sàn */
         }
-        .bar { width: 8px; background: var(--pink); border-radius: 4px; height: 5px; transition: 0.1s; }
+        .bar {
+            width: 12px; /* Thanh to hơn */
+            background: var(--accent);
+            border-radius: 4px 4px 0 0;
+            height: 5px; min-height: 5px;
+            transition: height 0.1s ease;
+            box-shadow: 0 0 15px var(--accent-dim); /* Phát sáng */
+        }
         
-        /* Animation khi nhạc chạy */
-        .music-window.playing .bar { animation: bounce 0.6s infinite alternate ease-in-out; }
-        .music-window.playing .bar:nth-child(odd) { animation-duration: 0.5s; background: var(--accent); }
-        .music-window.playing .bar:nth-child(2) { animation-delay: 0.1s; }
-        .music-window.playing .bar:nth-child(4) { animation-delay: 0.3s; }
+        /* Animation nhạc */
+        .music-window.playing .bar { animation: dance 0.6s infinite alternate cubic-bezier(0.5, 0.05, 0.1, 0.3); }
+        .music-window.playing .bar:nth-child(1) { animation-duration: 0.5s; }
+        .music-window.playing .bar:nth-child(2) { animation-duration: 0.7s; height: 30%; }
+        .music-window.playing .bar:nth-child(3) { animation-duration: 0.4s; }
+        .music-window.playing .bar:nth-child(4) { animation-duration: 0.6s; height: 50%; }
+        .music-window.playing .bar:nth-child(5) { animation-duration: 0.5s; }
+        .music-window.playing .bar:nth-child(6) { animation-duration: 0.45s; height: 40%;} 
 
-        .song-details h3 { font-size: 18px; margin-bottom: 5px; color: var(--text); }
-        .song-details p { color: var(--subtext); font-size: 13px; }
+        .song-info { margin-bottom: 25px; }
+        .song-title { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 8px; letter-spacing: -1px; }
+        .song-artist { font-size: 16px; color: var(--accent); font-style: italic; }
 
-        .controls {
-            display: flex; gap: 20px; justify-content: center; margin-top: 20px;
-        }
+        .controls { display: flex; gap: 30px; justify-content: center; align-items: center; }
         .ctrl-btn {
-            background: none; border: none; color: var(--text);
+            background: none; border: none; color: var(--subtext);
             font-size: 24px; cursor: pointer; transition: 0.2s;
         }
-        .ctrl-btn:hover { color: var(--accent); transform: scale(1.2); }
-        .play-btn { width: 50px; height: 50px; background: var(--accent); border-radius: 50%; color: #1e1e2e; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-        .play-btn:hover { background: var(--pink); color: #1e1e2e; }
-
-        /* PLACEHOLDER CHO CÁC WORKSPACE KHÁC */
-        .empty-ws {
+        .ctrl-btn:hover { color: #fff; transform: scale(1.1); }
+        .play-btn {
+            width: 60px; height: 60px; font-size: 24px;
+            border-radius: 50%; background: var(--text); color: #1a1b26;
             display: flex; align-items: center; justify-content: center;
-            font-size: 24px; color: var(--subtext); flex-direction: column; gap: 20px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
         }
+        .play-btn:hover { background: var(--accent); transform: scale(1.1) rotate(360deg); }
 
-        /* --- ANIMATIONS --- */
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes bounce { 0% { height: 10px; } 100% { height: 100%; } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes dance { 0% { height: 10px; } 100% { height: 100%; } }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            body { height: auto; overflow-y: auto; }
-            #ws-1 { grid-template-columns: 1fr; display: flex; flex-direction: column; }
-            .right-stack { height: auto; }
-            .fetch-layout { flex-direction: column; align-items: center; text-align: center; }
+        @media (max-width: 900px) {
+            #ws-1 { grid-template-columns: 1fr; overflow-y: auto; }
+            body { padding: 10px; height: auto; }
+            .visualizer-container { height: 80px; }
         }
     </style>
 </head>
@@ -207,75 +203,58 @@
 
     <div class="top-bar">
         <div class="workspaces">
-            <button class="ws-btn active" onclick="switchWS(1)">1</button>
-            <button class="ws-btn" onclick="switchWS(2)">2</button>
-            <button class="ws-btn" onclick="switchWS(3)">3</button>
-            <button class="ws-btn" onclick="switchWS(4)">4</button>
+            <button class="ws-btn active">1</button>
+            <button class="ws-btn">2</button>
+            <button class="ws-btn">3</button>
         </div>
-
         <div class="center-module">
-            <i class="fa-solid fa-atom"></i>
+            <i class="fa-solid fa-moon"></i> MOONLIGHT_RICE
         </div>
-
-        <div class="clock-module" id="clock">
-            Loading...
-        </div>
+        <div class="clock-module" id="clock">00:00</div>
     </div>
 
     <div class="workspace-container">
-        
         <div class="workspace active" id="ws-1">
             
             <div class="window terminal-window">
-                <div class="term-header">khiem@arch-linux ~ </div>
-                <div class="fetch-layout">
-                    <div class="ascii-art">
-       /\
-      /  \
-     / /\ \
-    / /  \ \
-   / /    \ \
-  / /      \ \
- / /        \ \
-/_/          \_\
-                    </div>
-                    <div class="info-lines">
-                        <div><span>User</span> Phạm Anh Khiêm</div>
-                        <div><span>Host</span> VKU_Student</div>
-                        <div><span>OS</span> Arch Linux x86_64</div>
-                        <div><span>Kernel</span> 6.6.9-zen</div>
-                        <div><span>Uptime</span> 20 years</div>
-                        <div><span>Packages</span> 1337 (pacman)</div>
-                        <div><span>Shell</span> zsh 5.9</div>
-                        <div><span>WM</span> Hyprland</div>
-                        <div><span>Theme</span> Catppuccin Mocha</div>
-                        <br>
-                        <div style="color: var(--subtext)">
-                            <p>> Welcome to my portfolio.</p>
-                            <p>> I build games & design UI.</p>
-                            <p>> Select music on the right --></p>
-                        </div>
-                    </div>
+                <div class="cmd-header">khiem@arch ~ fastfetch</div>
+                
+                <div class="ascii-art">
+      .---.
+     /     \
+    |  O_O  |
+    |   ^   |
+     \  ~  /
+      '---'
+    // ATTENTION \\
+   //  WOLF GIRL  \\
+  //    DETECTED   \\
+                </div>
+
+                <div class="info-grid">
+                    <div class="key">User</div> <div class="val">khiem</div>
+                    <div class="key">Host</div> <div class="val">Arch_Machine</div>
+                    <div class="separator"></div>
+                    <div class="key">OS</div> <div class="val">Arch Linux</div>
+                    <div class="key">Kernel</div> <div class="val">6.8.1-zen</div>
+                    <div class="key">Uptime</div> <div class="val">20y 3m</div>
+                    <div class="key">Shell</div> <div class="val">zsh + oh-my-zsh</div>
+                    <div class="key">DE/WM</div> <div class="val">Hyprland</div>
+                    <div class="key">Font</div> <div class="val">JetBrains Mono</div>
+                    <div class="separator"></div>
+                    <div class="key">Status</div> <div class="val" style="color:var(--accent)">Running...</div>
                 </div>
             </div>
 
             <div class="right-stack">
                 
                 <div class="window social-window">
-                    <div class="social-title">/// CONNECT_TO_ME</div>
-                    <div class="social-links">
-                        <a href="https://github.com/drexx-cmd" target="_blank" class="s-btn">
-                            <i class="fa-brands fa-github"></i> GitHub
-                        </a>
-                        <a href="https://www.facebook.com/notkhizm/" target="_blank" class="s-btn">
-                            <i class="fa-brands fa-facebook"></i> Facebook
-                        </a>
-                        <a href="#" class="s-btn">
-                            <i class="fa-brands fa-discord"></i> Discord
-                        </a>
-                        <a href="#" class="s-btn">
-                            <i class="fa-solid fa-envelope"></i> Email
-                        </a>
+                    <div class="cmd-header" style="margin-bottom: 15px">/// LINKS</div>
+                    <div class="social-grid">
+                        <a href="https://github.com/drexx-cmd" class="s-link"><i class="fa-brands fa-github"></i> GitHub</a>
+                        <a href="https://www.facebook.com/notkhizm/" class="s-link"><i class="fa-brands fa-facebook"></i> Facebook</a>
+                        <a href="#" class="s-link"><i class="fa-brands fa-discord"></i> Discord</a>
+                        <a href="#" class="s-link"><i class="fa-solid fa-envelope"></i> Mail</a>
                     </div>
                 </div>
 
@@ -283,101 +262,64 @@
                     <div class="visualizer-container">
                         <div class="bar"></div><div class="bar"></div><div class="bar"></div>
                         <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                        <div class="bar"></div><div class="bar"></div>
+                        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                        <div class="bar"></div>
                     </div>
                     
-                    <div class="song-details">
-                        <h3 id="trackName">Waiting for Input...</h3>
-                        <p id="trackArtist">Click play to start</p>
+                    <div class="song-info">
+                        <div class="song-title" id="trackName">Holo's Theme</div>
+                        <div class="song-artist" id="trackArtist">Waiting for input...</div>
                     </div>
 
                     <div class="controls">
                         <button class="ctrl-btn" onclick="prevTrack()"><i class="fa-solid fa-backward-step"></i></button>
-                        <button class="ctrl-btn play-btn" onclick="togglePlay()">
+                        <button class="play-btn" onclick="togglePlay()">
                             <i class="fa-solid fa-play" id="playIcon"></i>
                         </button>
                         <button class="ctrl-btn" onclick="nextTrack()"><i class="fa-solid fa-forward-step"></i></button>
                     </div>
                 </div>
+            </div>
 
-            </div>
         </div>
-
-        <div class="workspace" id="ws-2">
-            <div class="window empty-ws">
-                <i class="fa-solid fa-code"></i>
-                <p>Workspace 2: Projects (Coming Soon)</p>
-            </div>
-        </div>
-        <div class="workspace" id="ws-3">
-            <div class="window empty-ws">
-                <i class="fa-solid fa-layer-group"></i>
-                <p>Workspace 3: Resources (Coming Soon)</p>
-            </div>
-        </div>
-        <div class="workspace" id="ws-4">
-            <div class="window empty-ws">
-                <i class="fa-solid fa-gear"></i>
-                <p>Workspace 4: Settings (Coming Soon)</p>
-            </div>
-        </div>
-
     </div>
 
     <audio id="audioSource"></audio>
 
     <script>
-        // --- 1. CLOCK LOGIC ---
-        function updateClock() {
+        // Clock
+        setInterval(() => {
             const now = new Date();
-            const dateStr = now.toLocaleDateString('vi-VN', { weekday: 'short', day: '2-digit', month: '2-digit' });
-            const timeStr = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('clock').innerHTML = `<i class="fa-regular fa-clock"></i> ${timeStr} | ${dateStr}`;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
+            document.getElementById('clock').innerText = now.toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'}) + " | " + now.getDate() + "/" + (now.getMonth()+1);
+        }, 1000);
 
-        // --- 2. WORKSPACE SWITCHER LOGIC ---
-        function switchWS(num) {
-            // Ẩn hết ws
-            document.querySelectorAll('.workspace').forEach(ws => ws.classList.remove('active'));
-            document.querySelectorAll('.ws-btn').forEach(btn => btn.classList.remove('active'));
-
-            // Hiện ws được chọn
-            document.getElementById(`ws-${num}`).classList.add('active');
-            // Active nút tương ứng (nút thứ num-1 vì mảng bắt đầu từ 0)
-            document.querySelectorAll('.ws-btn')[num-1].classList.add('active');
-        }
-
-        // --- 3. MUSIC PLAYER LOGIC ---
+        // Music Logic
         const playlist = [
-            { title: "Arch Linux Flow", artist: "Hacker Vibes", src: "https://cdn.pixabay.com/audio/2022/03/15/audio_7368686256.mp3" },
-            { title: "Coding in the Rain", artist: "Lofi Girl", src: "https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" },
-            { title: "Sudo Apt-Get", artist: "Root User", src: "https://cdn.pixabay.com/audio/2024/01/16/audio_e2b992254f.mp3" }
+            { title: "Spice & Wolf OP", artist: "Tabi no Tochuu", src: "https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" },
+            { title: "Moonlight", artist: "Kali Uchis", src: "https://cdn.pixabay.com/audio/2022/03/15/audio_7368686256.mp3" },
+            { title: "Night Coding", artist: "Lofi Beats", src: "https://cdn.pixabay.com/audio/2024/01/16/audio_e2b992254f.mp3" }
         ];
 
         let currentIdx = 0;
         const audio = document.getElementById('audioSource');
         const playIcon = document.getElementById('playIcon');
-        const trackName = document.getElementById('trackName');
-        const trackArtist = document.getElementById('trackArtist');
-        const playerWindow = document.getElementById('musicPlayer');
+        const playerWin = document.getElementById('musicPlayer');
 
-        function loadTrack(idx) {
-            trackName.innerText = playlist[idx].title;
-            trackArtist.innerText = playlist[idx].artist;
-            audio.src = playlist[idx].src;
+        function loadTrack(i) {
+            document.getElementById('trackName').innerText = playlist[i].title;
+            document.getElementById('trackArtist').innerText = playlist[i].artist;
+            audio.src = playlist[i].src;
         }
 
         function togglePlay() {
             if (audio.paused) {
                 audio.play();
-                playIcon.classList.replace('fa-play', 'fa-pause');
-                playerWindow.classList.add('playing'); // Bật visualizer
+                playIcon.className = "fa-solid fa-pause";
+                playerWin.classList.add('playing');
             } else {
                 audio.pause();
-                playIcon.classList.replace('fa-pause', 'fa-play');
-                playerWindow.classList.remove('playing'); // Tắt visualizer
+                playIcon.className = "fa-solid fa-play";
+                playerWin.classList.remove('playing');
             }
         }
 
@@ -395,8 +337,6 @@
 
         audio.addEventListener('ended', nextTrack);
         loadTrack(0);
-        audio.volume = 0.5;
-
     </script>
 </body>
 </html>
