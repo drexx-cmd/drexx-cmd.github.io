@@ -10,17 +10,11 @@
     <style>
         /* --- 1. THEME SETTINGS --- */
         :root {
-            /* Màu nền cửa sổ: Nâu xám đen, trong suốt 85% */
             --window-bg: rgba(30, 28, 26, 0.85); 
-            
-            /* Màu chữ */
             --text: #e6e1cf;         
             --subtext: #948e85;      
-            
-            /* Màu nhấn (Accent) - Vàng nâu sang trọng */
             --accent: #dcb175;       
             --border: rgba(220, 177, 117, 0.2); 
-            
             --radius: 8px;           
             --gap: 20px;
         }
@@ -28,12 +22,10 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            /* Backup color */
             background-color: #151412; 
-            /* ẢNH NỀN CỦA ÔNG (bg.jpg) */
+            /* ĐỔI TÊN FILE ẢNH CỦA ÔNG THÀNH bg.jpg */
             background-image: url('bg.jpg'); 
             background-size: cover; background-position: center;
-            
             font-family: 'JetBrains Mono', monospace;
             color: var(--text);
             height: 100vh;
@@ -42,7 +34,7 @@
             display: flex; flex-direction: column; gap: var(--gap);
         }
 
-        /* --- 2. TOP BAR (Giữ nguyên cái đẹp) --- */
+        /* --- 2. TOP BAR --- */
         .top-bar {
             height: 45px; flex-shrink: 0;
             background: var(--window-bg);
@@ -57,11 +49,9 @@
         .workspaces { display: flex; gap: 8px; }
         .ws-btn {
             width: 12px; height: 12px; border-radius: 50%;
-            background: var(--subtext); border: none; cursor: pointer;
-            transition: 0.2s;
+            background: var(--subtext); border: none; cursor: pointer; transition: 0.2s;
         }
         .ws-btn.active { background: var(--accent); transform: scale(1.2); }
-        .ws-btn:hover { background: #fff; }
 
         .center-module { 
             font-size: 16px; color: var(--accent); 
@@ -72,16 +62,12 @@
         .clock-module { font-size: 13px; font-weight: bold; color: var(--subtext); }
         .clock-module span { color: var(--text); margin-left: 5px; }
 
-        /* --- 3. MAIN GRID LAYOUT (50/50 Split) --- */
+        /* --- 3. MAIN LAYOUT --- */
         .main-container {
-            flex-grow: 1; /* Chiếm hết chiều cao còn lại */
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* Chia đôi đều nhau */
-            gap: var(--gap);
-            height: 100%; /* Đảm bảo căng hết chiều cao */
+            flex-grow: 1; display: grid;
+            grid-template-columns: 1fr 1fr; gap: var(--gap); height: 100%;
         }
 
-        /* Style chung cửa sổ */
         .window {
             background: var(--window-bg);
             backdrop-filter: blur(20px);
@@ -91,51 +77,56 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             display: flex; flex-direction: column;
         }
-        .window:hover { border-color: var(--accent); }
 
-        /* --- CỘT TRÁI: TERMINAL --- */
+        /* --- CỘT TRÁI: TERMINAL (Đã sửa layout) --- */
         .left-col {
-            height: 100%;
-            overflow-y: auto;
+            height: 100%; overflow-y: auto;
+            align-items: flex-start; /* Căn lề trái */
+            justify-content: flex-start; /* Căn lên trên */
         }
 
-        .term-header {
-            color: var(--subtext); font-size: 13px; margin-bottom: 20px;
-            border-bottom: 1px dashed var(--subtext); padding-bottom: 10px;
-            display: flex; justify-content: space-between;
+        /* Dòng lệnh cmd */
+        .cmd-line {
+            font-size: 14px; margin-bottom: 20px;
+            display: flex; align-items: center; gap: 8px; width: 100%;
         }
-
-        .fetch-layout {
-            display: flex; align-items: center; justify-content: center; gap: 30px; height: 80%;
+        .p-user { color: var(--accent); font-weight: bold; }
+        .p-path { color: #89b4fa; font-weight: bold; }
+        .p-arrow { color: var(--subtext); margin-right: 5px; }
+        
+        /* Hiệu ứng con trỏ nhấp nháy */
+        .cursor {
+            display: inline-block; width: 8px; height: 16px;
+            background: var(--text); animation: blink 1s step-end infinite;
         }
+        @keyframes blink { 50% { opacity: 0; } }
 
-        /* ASCII Art Arch Linux */
+        /* Kết quả Fastfetch (Ẩn lúc đầu) */
+        .fetch-result {
+            display: none; /* Mặc định ẩn */
+            flex-direction: row; gap: 30px; align-items: flex-start;
+            padding-left: 10px;
+            animation: slideDown 0.3s ease-out;
+        }
+        .fetch-result.show { display: flex; }
+
         .ascii-art {
             font-size: 12px; line-height: 12px;
             color: var(--accent); font-weight: bold;
             white-space: pre; text-align: left;
         }
 
-        /* Info List có Icon */
         .info-list { display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
         .info-row { display: flex; align-items: center; gap: 10px; }
         .icon { width: 20px; text-align: center; color: var(--accent); }
         .key { color: var(--accent); font-weight: bold; min-width: 70px; }
         .val { color: var(--text); }
 
-        /* --- CỘT PHẢI: STACK (Social Top - Music Bottom) --- */
-        .right-col {
-            display: flex; flex-direction: column; 
-            gap: var(--gap); height: 100%;
-        }
+        /* --- CỘT PHẢI --- */
+        .right-col { display: flex; flex-direction: column; gap: var(--gap); height: 100%; }
 
-        /* SOCIAL MEDIA (Ở trên, giãn ra hết mức có thể) */
-        .social-window {
-            flex-grow: 1; /* Giãn ra */
-            justify-content: center;
-        }
+        .social-window { flex-grow: 1; justify-content: center; }
         .social-title { margin-bottom: 20px; color: var(--accent); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        
         .social-links { display: flex; flex-direction: column; gap: 15px; }
         .s-link {
             text-decoration: none; color: var(--text);
@@ -146,40 +137,30 @@
         .s-link:hover { background: var(--accent); color: #151412; transform: translateX(5px); }
         .s-link i { width: 25px; text-align: center; font-size: 18px; }
 
-        /* MUSIC PLAYER (Ở dưới, nhỏ gọn) */
         .music-window {
-            flex-grow: 0; /* Không giãn, kích thước cố định theo nội dung */
-            padding: 20px;
+            flex-grow: 0; padding: 20px;
             background: linear-gradient(135deg, var(--window-bg), rgba(220, 177, 117, 0.05));
         }
-
-        .music-layout {
-            display: flex; align-items: center; justify-content: space-between;
-        }
-
+        .music-layout { display: flex; align-items: center; justify-content: space-between; }
         .track-info { display: flex; flex-direction: column; gap: 5px; }
         .t-title { font-weight: bold; font-size: 16px; color: var(--text); }
         .t-artist { font-size: 12px; color: var(--subtext); }
-
         .controls { display: flex; gap: 15px; align-items: center; }
-        .btn {
-            background: none; border: none; color: var(--subtext);
-            cursor: pointer; font-size: 16px; transition: 0.2s;
-        }
+        .btn { background: none; border: none; color: var(--subtext); cursor: pointer; font-size: 16px; transition: 0.2s; }
         .btn:hover { color: var(--accent); }
         .btn-play {
             width: 40px; height: 40px; border-radius: 50%;
             background: var(--text); color: #151412;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 14px;
+            display: flex; align-items: center; justify-content: center; font-size: 14px;
         }
         .btn-play:hover { background: var(--accent); transform: scale(1.1); }
 
-        /* Responsive Mobile */
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
         @media (max-width: 900px) {
             .main-container { grid-template-columns: 1fr; height: auto; }
             body { overflow-y: auto; height: auto; }
-            .fetch-layout { flex-direction: column; text-align: center; }
+            .fetch-result { flex-direction: column; }
         }
     </style>
 </head>
@@ -190,27 +171,21 @@
             <button class="ws-btn active"></button>
             <button class="ws-btn"></button>
             <button class="ws-btn"></button>
-            <button class="ws-btn"></button>
         </div>
-        
-        <div class="center-module">
-            ✦ ⋆ ⁺ ₊ ✦
-        </div>
-
-        <div class="clock-module" id="clock">
-            Loading...
-        </div>
+        <div class="center-module">✦ ⋆ ⁺ ₊ ✦</div>
+        <div class="clock-module" id="clock">Loading...</div>
     </div>
 
     <div class="main-container">
-        
         <div class="window left-col">
-            <div class="term-header">
-                <span><i class="fa-solid fa-terminal"></i> khiem@arch</span>
-                <span>/bin/zsh</span>
+            <div class="cmd-line">
+                <span class="p-user">khiem@arch</span>
+                <span class="p-path">~</span>
+                <span class="p-arrow">❯</span>
+                <span id="type-text"></span><span class="cursor" id="cursor"></span>
             </div>
 
-            <div class="fetch-layout">
+            <div class="fetch-result" id="result-box">
                 <div class="ascii-art">
        /\
       /  \
@@ -221,66 +196,28 @@
  / /        \ \
 /_/          \_\
                 </div>
-
                 <div class="info-list">
-                    <div class="info-row">
-                        <span class="icon"><i class="fa-brands fa-linux"></i></span>
-                        <span class="key">OS</span> <span class="val">Arch Linux</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="icon"><i class="fa-solid fa-microchip"></i></span>
-                        <span class="key">Kernel</span> <span class="val">6.8.9-zen</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="icon"><i class="fa-solid fa-clock"></i></span>
-                        <span class="key">Uptime</span> <span class="val">20y 3m 12d</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="icon"><i class="fa-solid fa-box-open"></i></span>
-                        <span class="key">Pkgs</span> <span class="val">1420 (pacman)</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="icon"><i class="fa-solid fa-terminal"></i></span>
-                        <span class="key">Shell</span> <span class="val">zsh 5.9</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="icon"><i class="fa-solid fa-window-maximize"></i></span>
-                        <span class="key">WM</span> <span class="val">Hyprland</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="icon"><i class="fa-solid fa-palette"></i></span>
-                        <span class="key">Theme</span> <span class="val">Warm_Shadow</span>
-                    </div>
+                    <div class="info-row"><span class="icon"><i class="fa-brands fa-linux"></i></span><span class="key">OS</span> <span class="val">Arch Linux</span></div>
+                    <div class="info-row"><span class="icon"><i class="fa-solid fa-microchip"></i></span><span class="key">Kernel</span> <span class="val">6.8.9-zen</span></div>
+                    <div class="info-row"><span class="icon"><i class="fa-solid fa-clock"></i></span><span class="key">Uptime</span> <span class="val">20y 3m 12d</span></div>
+                    <div class="info-row"><span class="icon"><i class="fa-solid fa-box-open"></i></span><span class="key">Pkgs</span> <span class="val">1420 (pacman)</span></div>
+                    <div class="info-row"><span class="icon"><i class="fa-solid fa-terminal"></i></span><span class="key">Shell</span> <span class="val">zsh 5.9</span></div>
+                    <div class="info-row"><span class="icon"><i class="fa-solid fa-window-maximize"></i></span><span class="key">WM</span> <span class="val">Hyprland</span></div>
+                    <div class="info-row"><span class="icon"><i class="fa-solid fa-palette"></i></span><span class="key">Theme</span> <span class="val">Warm_Shadow</span></div>
                     <br>
-                    <div class="info-row">
-                        <span class="icon" style="color:#a6e3a1">●</span>
-                        <span class="val">System is up to date</span>
-                    </div>
+                    <div class="info-row"><span class="icon" style="color:#a6e3a1">●</span><span class="val">System is up to date</span></div>
                 </div>
             </div>
         </div>
 
         <div class="right-col">
-            
             <div class="window social-window">
                 <div class="social-title">// Contact Me</div>
                 <div class="social-links">
-                    <a href="https://github.com/drexx-cmd" class="s-link" target="_blank">
-                        <i class="fa-brands fa-github"></i>
-                        <span>github.com/drexx-cmd</span>
-                    </a>
-                    <a href="https://www.facebook.com/notkhizm/" class="s-link" target="_blank">
-                        <i class="fa-brands fa-facebook"></i>
-                        <span>facebook.com/notkhizm</span>
-                    </a>
-                    <a href="#" class="s-link">
-                        <i class="fa-brands fa-discord"></i>
-                        <span>Discord: khiem#1234</span>
-                    </a>
-                    <a href="#" class="s-link">
-                        <i class="fa-solid fa-envelope"></i>
-                        <span>mail@example.com</span>
-                    </a>
+                    <a href="https://github.com/drexx-cmd" class="s-link" target="_blank"><i class="fa-brands fa-github"></i><span>github.com/drexx-cmd</span></a>
+                    <a href="https://www.facebook.com/notkhizm/" class="s-link" target="_blank"><i class="fa-brands fa-facebook"></i><span>facebook.com/notkhizm</span></a>
+                    <a href="#" class="s-link"><i class="fa-brands fa-discord"></i><span>Discord: khiem#1234</span></a>
+                    <a href="#" class="s-link"><i class="fa-solid fa-envelope"></i><span>mail@example.com</span></a>
                 </div>
             </div>
 
@@ -292,35 +229,59 @@
                     </div>
                     <div class="controls">
                         <button class="btn" onclick="prevTrack()"><i class="fa-solid fa-backward-step"></i></button>
-                        <button class="btn btn-play" onclick="togglePlay()">
-                            <i class="fa-solid fa-play" id="playIcon"></i>
-                        </button>
+                        <button class="btn btn-play" onclick="togglePlay()"><i class="fa-solid fa-play" id="playIcon"></i></button>
                         <button class="btn" onclick="nextTrack()"><i class="fa-solid fa-forward-step"></i></button>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
     <audio id="audioSource"></audio>
 
     <script>
-        // Clock
-        setInterval(() => {
+        // --- TYPEWRITER EFFECT (Hiệu ứng gõ phím) ---
+        const commandText = "fastfetch";
+        const typeDelay = 100; // Tốc độ gõ (ms)
+        const typeTarget = document.getElementById("type-text");
+        const resultBox = document.getElementById("result-box");
+        const cursor = document.getElementById("cursor");
+        let charIndex = 0;
+
+        function typeWriter() {
+            if (charIndex < commandText.length) {
+                typeTarget.innerHTML += commandText.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, typeDelay);
+            } else {
+                // Gõ xong thì hiện kết quả
+                setTimeout(() => {
+                    resultBox.classList.add("show");
+                    cursor.style.display = 'none'; // Ẩn con trỏ đi hoặc giữ lại tùy thích
+                }, 300);
+            }
+        }
+
+        // Chạy hiệu ứng khi load trang
+        window.onload = function() {
+            typeWriter();
+            updateClock();
+        };
+
+        // --- CLOCK ---
+        function updateClock() {
             const now = new Date();
             const time = now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
             const date = now.toLocaleDateString('en-GB', {day:'2-digit', month:'2-digit', year:'numeric'});
             document.getElementById('clock').innerHTML = `${time} <span>|</span> ${date}`;
-        }, 1000);
+        }
+        setInterval(updateClock, 1000);
 
-        // Simple Music Logic
+        // --- MUSIC ---
         const playlist = [
-            { title: "Background Noise", artist: "Relaxing", src: "https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" },
             { title: "Deep Focus", artist: "Ambient", src: "https://cdn.pixabay.com/audio/2022/03/15/audio_7368686256.mp3" },
-            { title: "Code Rhythm", artist: "Lo-Fi", src: "https://cdn.pixabay.com/audio/2024/01/16/audio_e2b992254f.mp3" }
+            { title: "Coding Mode", artist: "Lofi", src: "https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" }
         ];
-
         let currentIdx = 0;
         const audio = document.getElementById('audioSource');
         const playIcon = document.getElementById('playIcon');
@@ -330,29 +291,20 @@
             document.getElementById('trackArtist').innerText = playlist[i].artist;
             audio.src = playlist[i].src;
         }
-
         function togglePlay() {
-            if (audio.paused) {
-                audio.play();
-                playIcon.className = "fa-solid fa-pause";
-            } else {
-                audio.pause();
-                playIcon.className = "fa-solid fa-play";
-            }
+            if (audio.paused) { audio.play(); playIcon.className = "fa-solid fa-pause"; } 
+            else { audio.pause(); playIcon.className = "fa-solid fa-play"; }
         }
-
         function nextTrack() {
             currentIdx = (currentIdx + 1) % playlist.length;
             loadTrack(currentIdx);
-            if (!audio.paused || audio.currentTime > 0) audio.play();
+            if (!audio.paused) audio.play();
         }
-
         function prevTrack() {
             currentIdx = (currentIdx - 1 + playlist.length) % playlist.length;
             loadTrack(currentIdx);
-            if (!audio.paused || audio.currentTime > 0) audio.play();
+            if (!audio.paused) audio.play();
         }
-
         audio.addEventListener('ended', nextTrack);
         loadTrack(0);
     </script>
