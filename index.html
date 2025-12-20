@@ -3,153 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>khiem@arch: ~</title>
+    <title>Khiem's Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. THEME DEFINITION (TOKYO NIGHT / NORD VIBE) --- */
+        /* --- THEME --- */
         :root {
-            --bg-color: #1a1b26;
-            --window-bg: rgba(26, 27, 38, 0.85);
-            --bar-bg: rgba(26, 27, 38, 0.95);
-            
-            /* Color Palette */
-            --c-red: #f7768e; --c-green: #9ece6a; --c-yellow: #e0af68;
-            --c-blue: #7aa2f7; --c-magenta: #bb9af7; --c-cyan: #7dcfff;
-            --c-white: #a9b1d6; --c-gray: #565f89;
-            
+            --window-bg: rgba(20, 20, 25, 0.85);
+            --bar-bg: rgba(20, 20, 25, 0.95);
             --text: #c0caf5;
+            --subtext: #a9b1d6;
+            --accent: #7aa2f7; /* Blue */
+            --accent-2: #f7768e; /* Red */
             --border: rgba(122, 162, 247, 0.2);
-            --radius: 10px;
-            --gap: 15px; /* Khoảng cách giữa các cửa sổ */
+            --radius: 12px;
+            --gap: 15px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-color);
-            /* HÌNH NỀN MẶC ĐỊNH (Ảnh 1) */
-            background-image: url('https://i.ibb.co/MkQwnDMN/shadow-shape-holo.jpg'); 
+            background-color: #1a1b26;
+            background-image: url('https://i.ibb.co/MkQwnDMN/shadow-shape-holo.jpg');
             background-size: cover; background-position: center;
             font-family: 'JetBrains Mono', monospace;
             color: var(--text);
             height: 100vh;
             overflow: hidden;
-            padding: var(--gap); /* Padding viền ngoài */
+            padding: var(--gap);
             display: flex; flex-direction: column; gap: var(--gap);
             transition: background-image 0.5s ease-in-out;
         }
 
-        /* --- 2. TOP BAR --- */
+        /* --- TOP BAR --- */
         .top-bar {
             height: 45px; flex-shrink: 0;
             background: var(--bar-bg);
             border-bottom: 1px solid var(--border);
             border-radius: var(--radius);
             display: grid; grid-template-columns: 1fr auto 1fr;
-            align-items: center; padding: 0 15px;
+            align-items: center; padding: 0 20px;
             backdrop-filter: blur(10px); z-index: 10;
         }
 
         .bar-left { display: flex; gap: 8px; align-items: center; }
-        .ws-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c-gray); transition: 0.3s; cursor: pointer; }
-        .ws-dot.active { background: var(--c-blue); width: 20px; border-radius: 4px; }
+        .ws-dot { width: 10px; height: 10px; border-radius: 50%; background: #565f89; cursor: pointer; }
+        .ws-dot.active { background: var(--accent); width: 25px; border-radius: 5px; }
 
-        .bar-center { display: flex; align-items: center; gap: 15px; font-size: 13px; font-weight: bold; }
-        .music-title { color: var(--c-cyan); max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .music-ctrls { display: flex; gap: 10px; }
-        .m-btn { background: none; border: none; color: var(--text); cursor: pointer; font-size: 12px; transition: 0.2s; }
-        .m-btn:hover { color: var(--c-magenta); }
+        .bar-center { display: flex; align-items: center; gap: 20px; font-size: 13px; font-weight: bold; }
+        .music-title { color: #7dcfff; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .m-btn { background: none; border: none; color: var(--text); cursor: pointer; transition: 0.2s; font-size: 14px; }
+        .m-btn:hover { color: var(--accent-2); transform: scale(1.1); }
 
-        .bar-right { display: flex; justify-content: flex-end; align-items: center; gap: 15px; font-size: 12px; }
-        .clock { color: var(--c-yellow); font-weight: bold; }
+        .bar-right { display: flex; justify-content: flex-end; align-items: center; gap: 15px; font-size: 13px; }
+        .clock { color: #e0af68; font-weight: bold; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 4px; }
 
-        /* --- 3. MAIN GRID (FILLING SPACE) --- */
+        /* --- MAIN LAYOUT --- */
         .main-grid {
-            flex-grow: 1; /* Chiếm hết chiều cao còn lại */
-            display: grid; grid-template-columns: 1.5fr 1fr; /* Tỉ lệ cột */
-            gap: var(--gap);
-            height: 100%; /* Căng chiều cao */
-            overflow: hidden;
+            flex-grow: 1; display: grid; 
+            grid-template-columns: 1.3fr 1fr; /* Trái to hơn chút */
+            gap: var(--gap); height: 100%; overflow: hidden;
         }
 
-        /* Window Style Chung */
         .window {
             background: var(--window-bg);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 20px;
+            padding: 25px;
             backdrop-filter: blur(20px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
             display: flex; flex-direction: column;
-            height: 100%; /* Căng chiều cao để lấp đầy ô grid */
+            position: relative;
         }
 
-        /* LEFT: TERMINAL */
-        .term-window { overflow-y: auto; } /* Cho phép cuộn nếu nội dung dài */
-        .term-header { display: flex; gap: 8px; margin-bottom: 15px; }
-        .win-btn { width: 10px; height: 10px; border-radius: 50%; }
+        /* --- LEFT: TERMINAL --- */
+        .term-header { display: flex; gap: 8px; margin-bottom: 20px; }
+        .win-btn { width: 12px; height: 12px; border-radius: 50%; }
         
         .cmd-line { margin-bottom: 20px; font-size: 14px; }
-        .u-name { color: var(--c-green); font-weight: bold; }
-        .at { color: var(--c-white); }
-        .host { color: var(--c-blue); font-weight: bold; }
-        .path { color: var(--c-cyan); font-weight: bold; }
+        .u-name { color: #9ece6a; font-weight: bold; }
+        .host { color: var(--accent); font-weight: bold; }
+        .path { color: #7dcfff; font-weight: bold; }
         .cursor { display: inline-block; width: 8px; height: 16px; background: var(--text); animation: blink 1s infinite; }
 
-        .fetch-box { display: none; gap: 25px; animation: fadeIn 0.5s ease; height: 100%; align-items: flex-start; }
+        .fetch-box { display: none; gap: 30px; animation: slideUp 0.5s ease; height: 100%; align-items: flex-start; }
         .fetch-box.show { display: flex; }
-        .ascii-logo { color: var(--c-blue); font-weight: bold; font-size: 13px; line-height: 13px; white-space: pre; }
-        .info-grid { display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
-        .i-row { display: flex; gap: 10px; }
-        .i-key { color: var(--c-yellow); font-weight: bold; min-width: 70px; }
+        .ascii-logo { color: var(--accent); font-weight: bold; font-size: 12px; line-height: 12px; white-space: pre; }
+        
+        .info-grid { display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+        .i-row { display: flex; gap: 15px; }
+        .i-key { color: #e0af68; font-weight: bold; min-width: 80px; }
         .i-val { color: var(--text); }
-        .color-palette { margin-top: 20px; display: flex; gap: 0; }
-        .c-block { width: 20px; height: 20px; display: inline-block; }
 
-        /* RIGHT: STACK (FILLING SPACE) */
-        .right-stack {
-            display: flex; flex-direction: column;
-            gap: var(--gap);
-            height: 100%; /* Căng chiều cao */
-        }
+        /* --- RIGHT: PROFILE & TOOLS --- */
+        .right-stack { display: flex; flex-direction: column; gap: var(--gap); height: 100%; }
 
-        /* Các cửa sổ bên phải tự giãn chia đều chiều cao */
-        .bg-window, .social-window {
-            flex: 1; /* Mỗi thằng chiếm 1 phần bằng nhau */
+        /* 1. PROFILE CARD (NEW) */
+        .profile-window { flex: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        
+        .avatar {
+            width: 100px; height: 100px; border-radius: 50%;
+            background-image: url('https://i.ibb.co/Z1Nn7CkG/kita.png'); /* Avatar của ông */
+            background-size: cover; background-position: center top;
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 20px rgba(122, 162, 247, 0.4);
+            margin-bottom: 15px;
+            transition: 0.3s;
         }
+        .avatar:hover { transform: rotate(5deg) scale(1.05); border-color: var(--accent-2); }
 
-        /* WALLPAPER SWITCHER (4 Cột cho 4 ảnh) */
-        .section-title { color: var(--c-magenta); font-weight: bold; margin-bottom: 15px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
-        .bg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; height: calc(100% - 30px); }
-        .bg-thumb {
-            height: 100%; /* Căng chiều cao thumbnail */
-            border-radius: 8px; cursor: pointer;
-            border: 2px solid transparent; background-size: cover; background-position: center;
-            transition: 0.2s; opacity: 0.7;
-        }
-        .bg-thumb:hover { opacity: 1; transform: scale(1.03); border-color: var(--c-cyan); }
+        .my-name { font-size: 24px; font-weight: 800; color: #fff; letter-spacing: 1px; margin-bottom: 5px; }
+        .my-role { color: var(--accent-2); font-weight: bold; font-size: 14px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; }
+        .my-bio { color: var(--subtext); font-size: 13px; line-height: 1.6; max-width: 90%; margin-bottom: 20px; }
 
-        /* SOCIAL LINKS */
-        .link-container { display: flex; flex-direction: column; gap: 10px; height: 100%; justify-content: center; }
-        .link-row { 
-            display: flex; align-items: center; gap: 15px; padding: 15px; 
-            border-radius: 8px; text-decoration: none; color: var(--text);
-            transition: 0.2s; background: rgba(255,255,255,0.03);
+        /* Tech Stack Icons */
+        .tech-stack { display: flex; gap: 15px; justify-content: center; margin-top: auto; }
+        .tech-icon { font-size: 20px; color: var(--subtext); transition: 0.2s; }
+        .tech-icon:hover { color: var(--accent); transform: translateY(-3px); }
+
+        /* 2. CONTROL CENTER (Wallpaper + Social) */
+        .control-window { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        
+        .control-title { font-size: 11px; font-weight: bold; color: var(--subtext); text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; }
+        
+        /* Wallpaper Mini Pickers */
+        .wp-picker { display: flex; gap: 10px; margin-bottom: 15px; }
+        .wp-dot { 
+            width: 40px; height: 40px; border-radius: 8px; cursor: pointer; 
+            border: 2px solid transparent; background-size: cover; background-position: center; opacity: 0.6; transition: 0.2s;
         }
-        .link-row:hover { background: var(--c-blue); color: var(--bg-color); transform: translateX(5px); }
-        .s-icon { width: 20px; text-align: center; font-size: 18px; }
+        .wp-dot:hover { opacity: 1; transform: scale(1.1); border-color: var(--text); }
+
+        /* Social Buttons Compact */
+        .social-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .s-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid transparent;
+            color: var(--text); text-decoration: none;
+            padding: 10px; border-radius: 6px; font-size: 13px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: 0.2s;
+        }
+        .s-btn:hover { background: var(--accent); color: #1a1b26; border-color: var(--accent); }
 
         @keyframes blink { 50% { opacity: 0; } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: 0; } }
-        
-        /* Mobile */
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: 0; } }
+
         @media(max-width: 900px) {
             .main-grid { grid-template-columns: 1fr; height: auto; overflow-y: auto; }
-            .fetch-box { flex-direction: column; text-align: left; }
-            .window { height: auto; min-height: 300px; }
-            .right-stack { height: auto; }
+            .window { min-height: auto; }
+            .fetch-box { flex-direction: column; }
         }
     </style>
 </head>
@@ -160,21 +163,15 @@
             <div class="ws-dot active"></div>
             <div class="ws-dot"></div>
             <div class="ws-dot"></div>
-            <div class="ws-dot"></div>
         </div>
-
         <div class="bar-center">
-            <span class="music-title" id="song-name">Choose a song...</span>
-            <div class="music-ctrls">
-                <button class="m-btn" onclick="prevTrack()"><i class="fa-solid fa-backward"></i></button>
-                <button class="m-btn" onclick="togglePlay()"><i class="fa-solid fa-play" id="play-icon"></i></button>
-                <button class="m-btn" onclick="nextTrack()"><i class="fa-solid fa-forward"></i></button>
-            </div>
+            <button class="m-btn" onclick="prevTrack()"><i class="fa-solid fa-backward-step"></i></button>
+            <button class="m-btn" onclick="togglePlay()"><i class="fa-solid fa-play" id="play-icon"></i></button>
+            <button class="m-btn" onclick="nextTrack()"><i class="fa-solid fa-forward-step"></i></button>
+            <span class="music-title" id="song-name">Lo-fi Radio</span>
         </div>
-
         <div class="bar-right">
-            <span style="color:var(--c-blue)">VOL 75%</span>
-            <span class="clock" id="clock">10:00</span>
+            <span class="clock" id="clock">00:00</span>
         </div>
     </div>
 
@@ -182,13 +179,13 @@
         
         <div class="window term-window">
             <div class="term-header">
-                <div class="win-btn" style="background:var(--c-red)"></div>
-                <div class="win-btn" style="background:var(--c-yellow)"></div>
-                <div class="win-btn" style="background:var(--c-green)"></div>
+                <div class="win-btn" style="background:#f7768e"></div>
+                <div class="win-btn" style="background:#e0af68"></div>
+                <div class="win-btn" style="background:#9ece6a"></div>
             </div>
 
             <div class="cmd-line">
-                <span class="u-name">khiem</span><span class="at">@</span><span class="host">archlinux</span>
+                <span class="u-name">khiem</span><span style="color:#fff">@</span><span class="host">portfolio</span>
                 <span class="path">~</span>
                 <span>❯</span>
                 <span id="typing"></span><span class="cursor" id="cursor"></span>
@@ -196,101 +193,96 @@
 
             <div class="fetch-box" id="result">
                 <div class="ascii-logo">
-  _,                          _                
-.'  `.                  ___.>"''-..-.          
-`-.   ;           .--"""        .-._@;         
-   ;  !_.--..._ .'      /     .[_@'`'.         
-  ;            /       : .'  ; :_.._  `.       
-  :           ;        ;[   _T-"  `.'-. `-.    
-   \        .-:      ; `.`-=_,88p.   _.}.-"    
-    `-.__.-'   \    /L._ Y",P$T888;  ""        
-             .-'_.-'  / ;$$$$$$]8P;            
-             \ /     / / "Y$$P" ^"             
-     fsc      ;\_    `.\_._                    
-              ]__\     \___;
+      /\
+     /  \
+    / /\ \
+   / /  \ \
+  / /    \ \
+ / /      \ \
+/_/        \_\
                 </div>
                 
                 <div class="info-grid">
-                    <div class="i-row"><span class="i-key">User</span> <span class="i-val">Phạm Anh Khiêm</span></div>
-                    <div class="i-row"><span class="i-key">Host</span> <span class="i-val">VKU_Student</span></div>
-                    <div class="i-row"><span class="i-key">OS</span> <span class="i-val">Arch Linux x86_64</span></div>
-                    <div class="i-row"><span class="i-key">Kernel</span> <span class="i-val" style="color:var(--c-red)">6.9.1-zen</span></div>
-                    <div class="i-row"><span class="i-key">Uptime</span> <span class="i-val" style="color:var(--c-green)">20y 3m 12d</span></div>
-                    <div class="i-row"><span class="i-key">Pkgs</span> <span class="i-val">1420 (pacman)</span></div>
-                    <div class="i-row"><span class="i-key">Shell</span> <span class="i-val">zsh 5.9</span></div>
-                    <div class="i-row"><span class="i-key">WM</span> <span class="i-val" style="color:var(--c-magenta)">Hyprland</span></div>
-                    <div class="i-row"><span class="i-key">Theme</span> <span class="i-val">Tokyo_Night</span></div>
-                    
-                    <div class="color-palette">
-                        <div class="c-block" style="background:var(--c-red)"></div>
-                        <div class="c-block" style="background:var(--c-green)"></div>
-                        <div class="c-block" style="background:var(--c-yellow)"></div>
-                        <div class="c-block" style="background:var(--c-blue)"></div>
-                        <div class="c-block" style="background:var(--c-magenta)"></div>
-                        <div class="c-block" style="background:var(--c-cyan)"></div>
-                        <div class="c-block" style="background:var(--c-white)"></div>
-                        <div class="c-block" style="background:#1a1b26"></div>
-                    </div>
+                    <div class="i-row"><span class="i-key">Name</span> <span class="i-val">Phạm Anh Khiêm</span></div>
+                    <div class="i-row"><span class="i-key">Role</span> <span class="i-val">Fullstack Developer</span></div>
+                    <div class="i-row"><span class="i-key">School</span> <span class="i-val">VKU University</span></div>
+                    <div class="i-row"><span class="i-key">Uptime</span> <span class="i-val" style="color:#9ece6a">20 years</span></div>
+                    <br>
+                    <div class="i-row"><span class="i-key">Langs</span> <span class="i-val">JavaScript, Python, C++</span></div>
+                    <div class="i-row"><span class="i-key">Frame</span> <span class="i-val">ReactJS, NextJS, Node</span></div>
+                    <div class="i-row"><span class="i-key">Tools</span> <span class="i-val">Git, Docker, Figma</span></div>
+                    <br>
+                    <div class="i-row"><span style="color:var(--subtext)">$ Ready to code...</span></div>
                 </div>
             </div>
         </div>
 
         <div class="right-stack">
             
-            <div class="window bg-window">
-                <div class="section-title"><i class="fa-solid fa-image"></i> Backgrounds</div>
-                <div class="bg-grid">
-                    <div class="bg-thumb" onclick="setBg('https://i.ibb.co/MkQwnDMN/shadow-shape-holo.jpg')" style="background-image:url('https://i.ibb.co/MkQwnDMN/shadow-shape-holo.jpg')"></div>
-                    
-                    <div class="bg-thumb" onclick="setBg('https://i.ibb.co/Z1Nn7CkG/kita.png')" style="background-image:url('https://i.ibb.co/Z1Nn7CkG/kita.png')"></div>
-                    
-                    <div class="bg-thumb" onclick="setBg('https://i.ibb.co/YBsgK4Wc/TN6.jpg')" style="background-image:url('https://i.ibb.co/YBsgK4Wc/TN6.jpg')"></div>
-
-                    <div class="bg-thumb" onclick="setBg('https://i.ibb.co/JRxshZqM/voyager-17.jpg')" style="background-image:url('https://i.ibb.co/JRxshZqM/voyager-17.jpg')"></div>
+            <div class="window profile-window">
+                <div class="avatar"></div>
+                <div class="my-name">Phạm Anh Khiêm</div>
+                <div class="my-role">Web Developer / Student</div>
+                <div class="my-bio">
+                    "I build things for the web. Passionate about Linux, Open Source, and creating beautiful user experiences."
+                </div>
+                
+                <div class="tech-stack">
+                    <i class="fa-brands fa-js tech-icon" title="JavaScript"></i>
+                    <i class="fa-brands fa-react tech-icon" title="React"></i>
+                    <i class="fa-brands fa-python tech-icon" title="Python"></i>
+                    <i class="fa-brands fa-linux tech-icon" title="Linux"></i>
+                    <i class="fa-brands fa-github tech-icon" title="Github"></i>
                 </div>
             </div>
 
-            <div class="window social-window">
-                <div class="section-title"><i class="fa-solid fa-link"></i> Connections</div>
-                <div class="link-container">
-                    <a href="https://github.com/drexx-cmd" target="_blank" class="link-row">
-                        <i class="fa-brands fa-github s-icon"></i> <span>Github / drexx-cmd</span>
-                    </a>
-                    <a href="https://www.facebook.com/notkhizm/" target="_blank" class="link-row">
-                        <i class="fa-brands fa-facebook s-icon"></i> <span>Facebook / notkhizm</span>
-                    </a>
-                    <a href="#" class="link-row">
-                        <i class="fa-brands fa-discord s-icon"></i> <span>Discord / khiem#1234</span>
-                    </a>
+            <div class="window control-window">
+                
+                <div>
+                    <div class="control-title"><span>THEME / BACKGROUND</span> <i class="fa-solid fa-paintbrush"></i></div>
+                    <div class="wp-picker">
+                        <div class="wp-dot" onclick="setBg('https://i.ibb.co/MkQwnDMN/shadow-shape-holo.jpg')" style="background-image:url('https://i.ibb.co/MkQwnDMN/shadow-shape-holo.jpg')"></div>
+                        <div class="wp-dot" onclick="setBg('https://i.ibb.co/Z1Nn7CkG/kita.png')" style="background-image:url('https://i.ibb.co/Z1Nn7CkG/kita.png')"></div>
+                        <div class="wp-dot" onclick="setBg('https://i.ibb.co/YBsgK4Wc/TN6.jpg')" style="background-image:url('https://i.ibb.co/YBsgK4Wc/TN6.jpg')"></div>
+                        <div class="wp-dot" onclick="setBg('https://i.ibb.co/JRxshZqM/voyager-17.jpg')" style="background-image:url('https://i.ibb.co/JRxshZqM/voyager-17.jpg')"></div>
+                    </div>
                 </div>
-            </div>
 
+                <div>
+                    <div class="control-title"><span>CONNECT</span></div>
+                    <div class="social-row">
+                        <a href="https://github.com/drexx-cmd" target="_blank" class="s-btn"><i class="fa-brands fa-github"></i> GitHub</a>
+                        <a href="https://www.facebook.com/notkhizm/" target="_blank" class="s-btn"><i class="fa-brands fa-facebook"></i> Facebook</a>
+                        <a href="#" class="s-btn"><i class="fa-brands fa-discord"></i> Discord</a>
+                        <a href="mailto:mail@example.com" class="s-btn"><i class="fa-solid fa-envelope"></i> Email</a>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 
     <audio id="audio"></audio>
 
     <script>
-        // --- 1. WALLPAPER CHANGER ---
+        // --- 1. SET BACKGROUND ---
         function setBg(url) {
             document.body.style.backgroundImage = `url('${url}')`;
         }
-        // Set mặc định là ảnh đầu tiên trong list
-        setBg('https://i.ibb.co/MkQwnDMN/shadow-shape-holo.jpg');
 
-        // --- 2. TYPING EFFECT ---
-        const cmd = "fastfetch";
+        // --- 2. TERMINAL TYPEWRITER ---
+        const cmd = "cat portfolio.json"; // Đổi câu lệnh cho hợp lý
         let i = 0;
         function typeWriter() {
             if (i < cmd.length) {
                 document.getElementById("typing").innerHTML += cmd.charAt(i);
                 i++;
-                setTimeout(typeWriter, 100);
+                setTimeout(typeWriter, 80);
             } else {
                 setTimeout(() => {
                     document.getElementById("result").classList.add("show");
                     document.getElementById("cursor").style.display = "none";
-                }, 300);
+                }, 400);
             }
         }
         window.onload = () => { typeWriter(); updateTime(); };
@@ -316,29 +308,12 @@
             title.innerText = songs[index].name;
             audio.src = songs[index].src;
         }
-
         function togglePlay() {
-            if (audio.paused) {
-                audio.play();
-                playIcon.className = "fa-solid fa-pause";
-            } else {
-                audio.pause();
-                playIcon.className = "fa-solid fa-play";
-            }
+            if (audio.paused) { audio.play(); playIcon.className = "fa-solid fa-pause"; } 
+            else { audio.pause(); playIcon.className = "fa-solid fa-play"; }
         }
-
-        function nextTrack() {
-            idx = (idx + 1) % songs.length;
-            loadSong(idx);
-            togglePlay();
-        }
-        
-        function prevTrack() {
-            idx = (idx - 1 + songs.length) % songs.length;
-            loadSong(idx);
-            togglePlay();
-        }
-
+        function nextTrack() { idx = (idx + 1) % songs.length; loadSong(idx); togglePlay(); }
+        function prevTrack() { idx = (idx - 1 + songs.length) % songs.length; loadSong(idx); togglePlay(); }
         audio.addEventListener('ended', nextTrack);
         loadSong(0);
     </script>
