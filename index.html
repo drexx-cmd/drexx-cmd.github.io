@@ -3,319 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khiem's Profile</title>
+    <title>Khiem's Portfolio | Sparkle Theme</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- THEME --- */
+        /* --- THEME: SPARKLE FOX (Đỏ - Trắng) --- */
         :root {
-            --window-bg: rgba(20, 20, 25, 0.85);
-            --bar-bg: rgba(20, 20, 25, 0.95);
-            --text: #c0caf5;
-            --subtext: #a9b1d6;
-            --accent: #7aa2f7; /* Blue */
-            --accent-2: #f7768e; /* Red */
-            --border: rgba(122, 162, 247, 0.2);
-            --radius: 12px;
-            --gap: 15px;
+            --bg-color: #1a0b0b;       /* Nền tối đỏ đen */
+            --card-bg: #fffafb;        /* Nền card trắng kem */
+            --accent-red: #d32f2f;     /* Đỏ tươi (Sparkle Red) */
+            --accent-dark: #9a0007;    /* Đỏ đậm hơn cho hover */
+            --text-dark: #2c2c2c;
+            --text-light: #666;
+            --border-radius: 20px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: #1a1b26;
-            background-image: url('https://i.ibb.co/MkQwnDMN/shadow-shape-holo.jpg');
-            background-size: cover; background-position: center;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--text);
-            height: 100vh;
-            overflow: hidden;
-            padding: var(--gap);
-            display: flex; flex-direction: column; gap: var(--gap);
-            transition: background-image 0.5s ease-in-out;
+            background-color: var(--bg-color);
+            /* Họa tiết nền mờ kiểu Nhật (Tùy chọn) */
+            background-image: radial-gradient(circle at 50% 50%, #3e1414 0%, #1a0b0b 100%);
+            min-height: 100vh; display: flex; justify-content: center; align-items: center;
+            font-family: 'Noto Sans JP', sans-serif; padding: 20px;
         }
 
-        /* --- TOP BAR --- */
-        .top-bar {
-            height: 45px; flex-shrink: 0;
-            background: var(--bar-bg);
-            border-bottom: 1px solid var(--border);
-            border-radius: var(--radius);
-            display: grid; grid-template-columns: 1fr auto 1fr;
-            align-items: center; padding: 0 20px;
-            backdrop-filter: blur(10px); z-index: 10;
+        /* --- CARD CONTAINER --- */
+        .card-container {
+            background: var(--card-bg);
+            width: 100%; max-width: 850px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 20px 50px rgba(211, 47, 47, 0.3); /* Bóng màu đỏ */
+            display: flex; overflow: hidden; position: relative;
+            border: 2px solid rgba(211, 47, 47, 0.1);
         }
 
-        .bar-left { display: flex; gap: 8px; align-items: center; }
-        .ws-dot { width: 10px; height: 10px; border-radius: 50%; background: #565f89; cursor: pointer; }
-        .ws-dot.active { background: var(--accent); width: 25px; border-radius: 5px; }
-
-        .bar-center { display: flex; align-items: center; gap: 20px; font-size: 13px; font-weight: bold; }
-        .music-title { color: #7dcfff; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .m-btn { background: none; border: none; color: var(--text); cursor: pointer; transition: 0.2s; font-size: 14px; }
-        .m-btn:hover { color: var(--accent-2); transform: scale(1.1); }
-
-        .bar-right { display: flex; justify-content: flex-end; align-items: center; gap: 15px; font-size: 13px; }
-        .clock { color: #e0af68; font-weight: bold; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 4px; }
-
-        /* --- MAIN LAYOUT --- */
-        .main-grid {
-            flex-grow: 1; display: grid; 
-            grid-template-columns: 1.3fr 1fr; /* Trái to hơn chút */
-            gap: var(--gap); height: 100%; overflow: hidden;
+        /* Trang trí góc (Họa tiết hồ ly) */
+        .card-container::before {
+            content: ""; position: absolute; top: -50px; right: -50px; width: 150px; height: 150px;
+            background: url('https://i.ibb.co/WvpvyZ3/pngegg.png') no-repeat center/contain; /* Icon mặt nạ hồ ly (ví dụ) */
+            opacity: 0.1; pointer-events: none; transform: rotate(30deg);
         }
 
-        .window {
-            background: var(--window-bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 25px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-            display: flex; flex-direction: column;
-            position: relative;
+        /* LEFT COLUMN: Avatar */
+        .card-left {
+            flex: 2; background: linear-gradient(135deg, var(--accent-red), var(--accent-dark));
+            display: flex; justify-content: center; align-items: center;
+            padding: 40px; position: relative; overflow: hidden;
         }
-
-        /* --- LEFT: TERMINAL --- */
-        .term-header { display: flex; gap: 8px; margin-bottom: 20px; }
-        .win-btn { width: 12px; height: 12px; border-radius: 50%; }
-        
-        .cmd-line { margin-bottom: 20px; font-size: 14px; }
-        .u-name { color: #9ece6a; font-weight: bold; }
-        .host { color: var(--accent); font-weight: bold; }
-        .path { color: #7dcfff; font-weight: bold; }
-        .cursor { display: inline-block; width: 8px; height: 16px; background: var(--text); animation: blink 1s infinite; }
-
-        .fetch-box { display: none; gap: 30px; animation: slideUp 0.5s ease; height: 100%; align-items: flex-start; }
-        .fetch-box.show { display: flex; }
-        .ascii-logo { color: var(--accent); font-weight: bold; font-size: 12px; line-height: 12px; white-space: pre; }
-        
-        .info-grid { display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
-        .i-row { display: flex; gap: 15px; }
-        .i-key { color: #e0af68; font-weight: bold; min-width: 80px; }
-        .i-val { color: var(--text); }
-
-        /* --- RIGHT: PROFILE & TOOLS --- */
-        .right-stack { display: flex; flex-direction: column; gap: var(--gap); height: 100%; }
-
-        /* 1. PROFILE CARD (NEW) */
-        .profile-window { flex: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        
-        .avatar {
-            width: 100px; height: 100px; border-radius: 50%;
-            background-image: url('https://i.ibb.co/Z1Nn7CkG/kita.png'); /* Avatar của ông */
-            background-size: cover; background-position: center top;
-            border: 3px solid var(--accent);
-            box-shadow: 0 0 20px rgba(122, 162, 247, 0.4);
-            margin-bottom: 15px;
+        .card-left::after { /* Hiệu ứng sóng nhẹ */
+            content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 50%;
+            background: url('https://i.ibb.co/Czd67b9/wave.png') repeat-x bottom; opacity: 0.2;
+        }
+        .avatar-frame {
+            width: 220px; height: 220px; border-radius: 50%;
+            border: 5px solid #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden; position: relative; z-index: 2;
             transition: 0.3s;
         }
-        .avatar:hover { transform: rotate(5deg) scale(1.05); border-color: var(--accent-2); }
+        .avatar-frame:hover { transform: scale(1.05) rotate(-3deg); }
+        .avatar-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-        .my-name { font-size: 24px; font-weight: 800; color: #fff; letter-spacing: 1px; margin-bottom: 5px; }
-        .my-role { color: var(--accent-2); font-weight: bold; font-size: 14px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; }
-        .my-bio { color: var(--subtext); font-size: 13px; line-height: 1.6; max-width: 90%; margin-bottom: 20px; }
-
-        /* Tech Stack Icons */
-        .tech-stack { display: flex; gap: 15px; justify-content: center; margin-top: auto; }
-        .tech-icon { font-size: 20px; color: var(--subtext); transition: 0.2s; }
-        .tech-icon:hover { color: var(--accent); transform: translateY(-3px); }
-
-        /* 2. CONTROL CENTER (Wallpaper + Social) */
-        .control-window { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        
-        .control-title { font-size: 11px; font-weight: bold; color: var(--subtext); text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; }
-        
-        /* Wallpaper Mini Pickers */
-        .wp-picker { display: flex; gap: 10px; margin-bottom: 15px; }
-        .wp-dot { 
-            width: 40px; height: 40px; border-radius: 8px; cursor: pointer; 
-            border: 2px solid transparent; background-size: cover; background-position: center; opacity: 0.6; transition: 0.2s;
+        /* RIGHT COLUMN: Info */
+        .card-right {
+            flex: 3; padding: 40px;
+            display: flex; flex-direction: column; gap: 25px;
         }
-        .wp-dot:hover { opacity: 1; transform: scale(1.1); border-color: var(--text); }
 
-        /* Social Buttons Compact */
-        .social-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        /* Header */
+        .header h1 {
+            font-family: 'Cinzel Decorative', cursive; /* Font kiểu ma mị */
+            font-size: 38px; color: var(--accent-red);
+            margin-bottom: 5px; letter-spacing: 1px;
+        }
+        .role { font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 2px; font-size: 14px; }
+        .bio { color: var(--text-light); line-height: 1.6; margin-top: 15px; font-size: 15px; }
+
+        /* Tech Stack */
+        .tech-stack { display: flex; gap: 15px; }
+        .tech-icon {
+            font-size: 22px; color: var(--text-light); transition: 0.2s;
+            background: rgba(211, 47, 47, 0.05); padding: 8px; border-radius: 8px;
+        }
+        .tech-icon:hover { color: var(--accent-red); background: rgba(211, 47, 47, 0.1); transform: translateY(-3px); }
+
+        /* --- MUSIC PLAYER (Visualizer đỏ) --- */
+        .music-player {
+            background: #fff0f0; /* Nền hồng nhạt */
+            padding: 15px 20px; border-radius: 12px;
+            border: 1px solid rgba(211, 47, 47, 0.1);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        
+        .track-info { display: flex; align-items: center; gap: 15px; flex-grow: 1; }
+        
+        /* Visualizer Sóng nhạc */
+        .visualizer { display: flex; gap: 3px; height: 20px; align-items: flex-end; }
+        .bar { width: 4px; background: var(--accent-red); border-radius: 2px; height: 5px; transition: height 0.2s; opacity: 0.7; }
+        
+        .music-player.playing .bar { animation: jump 0.6s infinite alternate ease-in-out; }
+        .music-player.playing .bar:nth-child(1) { animation-delay: 0.1s; }
+        .music-player.playing .bar:nth-child(2) { animation-delay: 0.3s; }
+        .music-player.playing .bar:nth-child(3) { animation-delay: 0.5s; }
+        .music-player.playing .bar:nth-child(4) { animation-delay: 0.2s; }
+
+        .song-title { font-weight: bold; color: var(--accent-dark); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+
+        .controls { display: flex; gap: 10px; }
+        .ctrl-btn {
+            background: none; border: none; color: var(--accent-red);
+            cursor: pointer; font-size: 16px; transition: 0.2s;
+            width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+        }
+        .ctrl-btn:hover { background: var(--accent-red); color: #fff; }
+        .play-btn { font-size: 18px; background: rgba(211, 47, 47, 0.1); }
+
+        /* Social Links */
+        .social-links { display: flex; gap: 15px; margin-top: auto; }
         .s-btn {
-            background: rgba(255,255,255,0.05); border: 1px solid transparent;
-            color: var(--text); text-decoration: none;
-            padding: 10px; border-radius: 6px; font-size: 13px;
+            flex: 1; text-decoration: none; color: var(--accent-red); font-weight: bold;
+            padding: 12px; border-radius: 10px; text-align: center;
+            border: 2px solid var(--accent-red); transition: 0.2s;
             display: flex; align-items: center; justify-content: center; gap: 8px;
-            transition: 0.2s;
         }
-        .s-btn:hover { background: var(--accent); color: #1a1b26; border-color: var(--accent); }
+        .s-btn:hover { background: var(--accent-red); color: #fff; box-shadow: 0 5px 15px rgba(211, 47, 47, 0.3); }
 
-        @keyframes blink { 50% { opacity: 0; } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: 0; } }
+        @keyframes jump { to { height: 100%; opacity: 1; } }
 
-        @media(max-width: 900px) {
-            .main-grid { grid-template-columns: 1fr; height: auto; overflow-y: auto; }
-            .window { min-height: auto; }
-            .fetch-box { flex-direction: column; }
+        /* Mobile */
+        @media (max-width: 768px) {
+            .card-container { flex-direction: column; }
+            .card-left { padding: 30px; }
+            .avatar-frame { width: 160px; height: 160px; }
+            .card-right { padding: 30px; gap: 20px; }
+            .header h1 { font-size: 32px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="top-bar">
-        <div class="bar-left">
-            <div class="ws-dot active"></div>
-            <div class="ws-dot"></div>
-            <div class="ws-dot"></div>
-        </div>
-        <div class="bar-center">
-            <button class="m-btn" onclick="prevTrack()"><i class="fa-solid fa-backward-step"></i></button>
-            <button class="m-btn" onclick="togglePlay()"><i class="fa-solid fa-play" id="play-icon"></i></button>
-            <button class="m-btn" onclick="nextTrack()"><i class="fa-solid fa-forward-step"></i></button>
-            <span class="music-title" id="song-name">Lo-fi Radio</span>
-        </div>
-        <div class="bar-right">
-            <span class="clock" id="clock">00:00</span>
-        </div>
-    </div>
-
-    <div class="main-grid">
-        
-        <div class="window term-window">
-            <div class="term-header">
-                <div class="win-btn" style="background:#f7768e"></div>
-                <div class="win-btn" style="background:#e0af68"></div>
-                <div class="win-btn" style="background:#9ece6a"></div>
-            </div>
-
-            <div class="cmd-line">
-                <span class="u-name">khiem</span><span style="color:#fff">@</span><span class="host">portfolio</span>
-                <span class="path">~</span>
-                <span>❯</span>
-                <span id="typing"></span><span class="cursor" id="cursor"></span>
-            </div>
-
-            <div class="fetch-box" id="result">
-                <div class="ascii-logo">
-      /\
-     /  \
-    / /\ \
-   / /  \ \
-  / /    \ \
- / /      \ \
-/_/        \_\
-                </div>
-                
-                <div class="info-grid">
-                    <div class="i-row"><span class="i-key">Name</span> <span class="i-val">Phạm Anh Khiêm</span></div>
-                    <div class="i-row"><span class="i-key">Role</span> <span class="i-val">Fullstack Developer</span></div>
-                    <div class="i-row"><span class="i-key">School</span> <span class="i-val">VKU University</span></div>
-                    <div class="i-row"><span class="i-key">Uptime</span> <span class="i-val" style="color:#9ece6a">20 years</span></div>
-                    <br>
-                    <div class="i-row"><span class="i-key">Langs</span> <span class="i-val">JavaScript, Python, C++</span></div>
-                    <div class="i-row"><span class="i-key">Frame</span> <span class="i-val">ReactJS, NextJS, Node</span></div>
-                    <div class="i-row"><span class="i-key">Tools</span> <span class="i-val">Git, Docker, Figma</span></div>
-                    <br>
-                    <div class="i-row"><span style="color:var(--subtext)">$ Ready to code...</span></div>
-                </div>
+    <div class="card-container">
+        <div class="card-left">
+            <div class="avatar-frame">
+                <img src="https://i.ibb.co/1f25q4m/sparkle-fox.jpg" alt="Sparkle Avatar">
             </div>
         </div>
 
-        <div class="right-stack">
-            
-            <div class="window profile-window">
-                <div class="avatar"></div>
-                <div class="my-name">Phạm Anh Khiêm</div>
-                <div class="my-role">Web Developer / Student</div>
-                <div class="my-bio">
-                    "I build things for the web. Passionate about Linux, Open Source, and creating beautiful user experiences."
-                </div>
-                
-                <div class="tech-stack">
-                    <i class="fa-brands fa-js tech-icon" title="JavaScript"></i>
-                    <i class="fa-brands fa-react tech-icon" title="React"></i>
-                    <i class="fa-brands fa-python tech-icon" title="Python"></i>
-                    <i class="fa-brands fa-linux tech-icon" title="Linux"></i>
-                    <i class="fa-brands fa-github tech-icon" title="Github"></i>
-                </div>
+        <div class="card-right">
+            <div class="header">
+                <h1>Phạm Anh Khiêm</h1>
+                <p class="role">/// Game Developer & UI/UX Designer</p>
+                <p class="bio">
+                    "Chuyên trị Unity, C# và tạo ra những giao diện người dùng 'bánh cuốn'. Đam mê code, thích xem anime và yêu màu đỏ của Sparkle."
+                </p>
             </div>
 
-            <div class="window control-window">
-                
-                <div>
-                    <div class="control-title"><span>THEME / BACKGROUND</span> <i class="fa-solid fa-paintbrush"></i></div>
-                    <div class="wp-picker">
-                        <div class="wp-dot" onclick="setBg('https://i.ibb.co/MkQwnDMN/shadow-shape-holo.jpg')" style="background-image:url('https://i.ibb.co/MkQwnDMN/shadow-shape-holo.jpg')"></div>
-                        <div class="wp-dot" onclick="setBg('https://i.ibb.co/Z1Nn7CkG/kita.png')" style="background-image:url('https://i.ibb.co/Z1Nn7CkG/kita.png')"></div>
-                        <div class="wp-dot" onclick="setBg('https://i.ibb.co/YBsgK4Wc/TN6.jpg')" style="background-image:url('https://i.ibb.co/YBsgK4Wc/TN6.jpg')"></div>
-                        <div class="wp-dot" onclick="setBg('https://i.ibb.co/JRxshZqM/voyager-17.jpg')" style="background-image:url('https://i.ibb.co/JRxshZqM/voyager-17.jpg')"></div>
+            <div class="tech-stack">
+                <i class="fa-brands fa-unity tech-icon" title="Unity"></i>
+                <i class="fa-solid fa-code tech-icon" title="C#"></i>
+                <i class="fa-brands fa-figma tech-icon" title="Figma/UI"></i>
+                <i class="fa-brands fa-github tech-icon" title="Git"></i>
+            </div>
+
+            <div class="music-player" id="musicPlayer">
+                <div class="track-info">
+                    <div class="visualizer">
+                        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
                     </div>
+                    <span class="song-title" id="trackName">Chọn bài hát...</span>
                 </div>
-
-                <div>
-                    <div class="control-title"><span>CONNECT</span></div>
-                    <div class="social-row">
-                        <a href="https://github.com/drexx-cmd" target="_blank" class="s-btn"><i class="fa-brands fa-github"></i> GitHub</a>
-                        <a href="https://www.facebook.com/notkhizm/" target="_blank" class="s-btn"><i class="fa-brands fa-facebook"></i> Facebook</a>
-                        <a href="#" class="s-btn"><i class="fa-brands fa-discord"></i> Discord</a>
-                        <a href="mailto:mail@example.com" class="s-btn"><i class="fa-solid fa-envelope"></i> Email</a>
-                    </div>
+                
+                <div class="controls">
+                    <button class="ctrl-btn" onclick="prevTrack()"><i class="fa-solid fa-backward-step"></i></button>
+                    <button class="ctrl-btn play-btn" onclick="togglePlay()">
+                        <i class="fa-solid fa-play" id="playIcon"></i>
+                    </button>
+                    <button class="ctrl-btn" onclick="nextTrack()"><i class="fa-solid fa-forward-step"></i></button>
                 </div>
+            </div>
 
+            <div class="social-links">
+                <a href="https://github.com/drexx-cmd" target="_blank" class="s-btn">
+                    <i class="fa-brands fa-github"></i> GitHub
+                </a>
+                <a href="https://www.facebook.com/notkhizm/" target="_blank" class="s-btn">
+                    <i class="fa-brands fa-facebook"></i> Facebook
+                </a>
+                <a href="mailto:mail@example.com" class="s-btn">
+                    <i class="fa-solid fa-envelope"></i> Contact
+                </a>
             </div>
         </div>
     </div>
 
-    <audio id="audio"></audio>
+    <audio id="audioSource"></audio>
 
     <script>
-        // --- 1. SET BACKGROUND ---
-        function setBg(url) {
-            document.body.style.backgroundImage = `url('${url}')`;
+        // --- MUSIC PLAYER LOGIC ---
+        const playlist = [
+            { title: "Sparkle Theme (Honkai)", src: "https://cdn.pixabay.com/audio/2022/03/15/audio_7368686256.mp3" }, // Thay link nhạc thật vào đây
+            { title: "Japanese Lofi Beats", src: "https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" }
+        ];
+
+        let currentIdx = 0;
+        const audio = document.getElementById('audioSource');
+        const playIcon = document.getElementById('playIcon');
+        const trackName = document.getElementById('trackName');
+        const playerBox = document.getElementById('musicPlayer');
+
+        function loadTrack(idx) {
+            trackName.innerText = playlist[idx].title;
+            audio.src = playlist[idx].src;
         }
 
-        // --- 2. TERMINAL TYPEWRITER ---
-        const cmd = "cat portfolio.json"; // Đổi câu lệnh cho hợp lý
-        let i = 0;
-        function typeWriter() {
-            if (i < cmd.length) {
-                document.getElementById("typing").innerHTML += cmd.charAt(i);
-                i++;
-                setTimeout(typeWriter, 80);
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playIcon.className = "fa-solid fa-pause";
+                playerBox.classList.add('playing'); // Kích hoạt visualizer
             } else {
-                setTimeout(() => {
-                    document.getElementById("result").classList.add("show");
-                    document.getElementById("cursor").style.display = "none";
-                }, 400);
+                audio.pause();
+                playIcon.className = "fa-solid fa-play";
+                playerBox.classList.remove('playing'); // Tắt visualizer
             }
         }
-        window.onload = () => { typeWriter(); updateTime(); };
 
-        // --- 3. CLOCK ---
-        function updateTime() {
-            const now = new Date();
-            document.getElementById("clock").innerText = now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
+        function nextTrack() {
+            currentIdx = (currentIdx + 1) % playlist.length;
+            loadTrack(currentIdx);
+            togglePlay();
         }
-        setInterval(updateTime, 1000);
+        function prevTrack() {
+            currentIdx = (currentIdx - 1 + playlist.length) % playlist.length;
+            loadTrack(currentIdx);
+            togglePlay();
+        }
 
-        // --- 4. MUSIC PLAYER ---
-        const songs = [
-            { name: "Lofi Coding Night", src: "https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" },
-            { name: "Cyberpunk City", src: "https://cdn.pixabay.com/audio/2022/03/15/audio_7368686256.mp3" }
-        ];
-        let idx = 0;
-        const audio = document.getElementById("audio");
-        const title = document.getElementById("song-name");
-        const playIcon = document.getElementById("play-icon");
-
-        function loadSong(index) {
-            title.innerText = songs[index].name;
-            audio.src = songs[index].src;
-        }
-        function togglePlay() {
-            if (audio.paused) { audio.play(); playIcon.className = "fa-solid fa-pause"; } 
-            else { audio.pause(); playIcon.className = "fa-solid fa-play"; }
-        }
-        function nextTrack() { idx = (idx + 1) % songs.length; loadSong(idx); togglePlay(); }
-        function prevTrack() { idx = (idx - 1 + songs.length) % songs.length; loadSong(idx); togglePlay(); }
         audio.addEventListener('ended', nextTrack);
-        loadSong(0);
+        loadTrack(0); // Load bài đầu
     </script>
 </body>
 </html>
