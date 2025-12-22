@@ -3,198 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khiem's Portfolio | Sparkle Theme</title>
+    <title>Khiem's Profile | Sparkle Fox</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Nunito:wght@400;600;800&display=swap&subset=vietnamese" rel="stylesheet">
 
     <style>
-        /* --- THEME: SPARKLE FOX (Đỏ - Trắng) --- */
+        /* --- THEME CONFIG --- */
         :root {
-            --bg-color: #1a0b0b;       /* Nền tối đỏ đen */
-            --card-bg: #fffafb;        /* Nền card trắng kem */
-            --accent-red: #d32f2f;     /* Đỏ tươi (Sparkle Red) */
-            --accent-dark: #9a0007;    /* Đỏ đậm hơn cho hover */
-            --text-dark: #2c2c2c;
-            --text-light: #666;
-            --border-radius: 20px;
+            --bg-dark: #120505;       /* Đỏ đen thẫm */
+            --card-bg: rgba(255, 250, 250, 0.95); /* Trắng kem, hơi trong suốt */
+            --primary: #c62828;       /* Đỏ Sparkle */
+            --primary-glow: #ff5252;  /* Đỏ phát sáng */
+            --text-main: #2d1b1b;
+            --text-sub: #5c4040;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-color);
-            /* Họa tiết nền mờ kiểu Nhật (Tùy chọn) */
-            background-image: radial-gradient(circle at 50% 50%, #3e1414 0%, #1a0b0b 100%);
-            min-height: 100vh; display: flex; justify-content: center; align-items: center;
-            font-family: 'Noto Sans JP', sans-serif; padding: 20px;
-        }
-
-        /* --- CARD CONTAINER --- */
-        .card-container {
-            background: var(--card-bg);
-            width: 100%; max-width: 850px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 20px 50px rgba(211, 47, 47, 0.3); /* Bóng màu đỏ */
-            display: flex; overflow: hidden; position: relative;
-            border: 2px solid rgba(211, 47, 47, 0.1);
-        }
-
-        /* Trang trí góc (Họa tiết hồ ly) */
-        .card-container::before {
-            content: ""; position: absolute; top: -50px; right: -50px; width: 150px; height: 150px;
-            background: url('https://i.ibb.co/WvpvyZ3/pngegg.png') no-repeat center/contain; /* Icon mặt nạ hồ ly (ví dụ) */
-            opacity: 0.1; pointer-events: none; transform: rotate(30deg);
-        }
-
-        /* LEFT COLUMN: Avatar */
-        .card-left {
-            flex: 2; background: linear-gradient(135deg, var(--accent-red), var(--accent-dark));
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at center, #2b0a0a 0%, #000000 100%);
+            min-height: 100vh;
             display: flex; justify-content: center; align-items: center;
-            padding: 40px; position: relative; overflow: hidden;
-        }
-        .card-left::after { /* Hiệu ứng sóng nhẹ */
-            content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 50%;
-            background: url('https://i.ibb.co/Czd67b9/wave.png') repeat-x bottom; opacity: 0.2;
-        }
-        .avatar-frame {
-            width: 220px; height: 220px; border-radius: 50%;
-            border: 5px solid #fff;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            overflow: hidden; position: relative; z-index: 2;
-            transition: 0.3s;
-        }
-        .avatar-frame:hover { transform: scale(1.05) rotate(-3deg); }
-        .avatar-frame img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* RIGHT COLUMN: Info */
-        .card-right {
-            flex: 3; padding: 40px;
-            display: flex; flex-direction: column; gap: 25px;
+            font-family: 'Nunito', sans-serif; /* Font body tròn trịa, dễ đọc */
+            overflow: hidden; /* Để cánh hoa không làm scroll */
+            padding: 15px;
+            position: relative;
         }
 
-        /* Header */
-        .header h1 {
-            font-family: 'Cinzel Decorative', cursive; /* Font kiểu ma mị */
-            font-size: 38px; color: var(--accent-red);
-            margin-bottom: 5px; letter-spacing: 1px;
+        /* --- SAKURA FALLING EFFECT (Cánh hoa rơi) --- */
+        .sakura-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
+        .sakura {
+            position: absolute; background: #ffb7b2; border-radius: 100% 0 100% 0; opacity: 0.7;
+            animation: fall linear infinite;
         }
-        .role { font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 2px; font-size: 14px; }
-        .bio { color: var(--text-light); line-height: 1.6; margin-top: 15px; font-size: 15px; }
+        .sakura:nth-child(1) { left: 10%; width: 10px; height: 10px; animation-duration: 8s; animation-delay: 0s; }
+        .sakura:nth-child(2) { left: 20%; width: 15px; height: 15px; animation-duration: 12s; animation-delay: 2s; }
+        .sakura:nth-child(3) { left: 70%; width: 12px; height: 12px; animation-duration: 7s; animation-delay: 1s; }
+        .sakura:nth-child(4) { left: 85%; width: 8px; height: 8px; animation-duration: 10s; animation-delay: 3s; }
+        .sakura:nth-child(5) { left: 40%; width: 14px; height: 14px; animation-duration: 9s; animation-delay: 4s; }
 
-        /* Tech Stack */
-        .tech-stack { display: flex; gap: 15px; }
-        .tech-icon {
-            font-size: 22px; color: var(--text-light); transition: 0.2s;
-            background: rgba(211, 47, 47, 0.05); padding: 8px; border-radius: 8px;
+        @keyframes fall {
+            0% { top: -10%; transform: rotate(0deg) translateX(0); }
+            100% { top: 110%; transform: rotate(360deg) translateX(50px); }
         }
-        .tech-icon:hover { color: var(--accent-red); background: rgba(211, 47, 47, 0.1); transform: translateY(-3px); }
 
-        /* --- MUSIC PLAYER (Visualizer đỏ) --- */
-        .music-player {
-            background: #fff0f0; /* Nền hồng nhạt */
-            padding: 15px 20px; border-radius: 12px;
-            border: 1px solid rgba(211, 47, 47, 0.1);
+        /* --- CARD STYLE --- */
+        .profile-card {
+            position: relative; z-index: 10;
+            width: 100%; max-width: 800px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            display: flex;
+            box-shadow: 0 0 40px rgba(198, 40, 40, 0.4); /* Bóng đỏ */
+            overflow: hidden;
+            border: 4px solid #fff;
+        }
+
+        /* Decoration Ribbon (Góc trên trái) */
+        .ribbon {
+            position: absolute; top: -15px; left: -15px; width: 100px; height: 100px;
+            background: var(--primary); transform: rotate(45deg); z-index: 20;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+        }
+        .ribbon::after { content: "🦊"; position: absolute; bottom: 5px; right: 40px; transform: rotate(-45deg); font-size: 24px; color: white; }
+
+        /* LEFT: BIG AVATAR */
+        .left-col {
+            flex: 1.2;
+            background: url('https://i.ibb.co/C5d8rZ8/a964f234282c4f7f8e71e38c96907929.jpg') no-repeat center center;
+            background-size: cover;
+            min-height: 350px;
+            position: relative;
+        }
+        /* Lớp phủ màu đỏ nhẹ lên ảnh để blend màu */
+        .left-col::before {
+            content: ""; position: absolute; inset: 0;
+            background: linear-gradient(to right, rgba(198, 40, 40, 0.2), rgba(255, 255, 255, 0));
+        }
+
+        /* RIGHT: CONTENT */
+        .right-col {
+            flex: 1.8; padding: 40px;
+            display: flex; flex-direction: column; justify-content: center;
+            position: relative;
+        }
+
+        /* Mask Watermark (Cái mặt nạ mờ mờ phía sau) */
+        .watermark {
+            position: absolute; bottom: -20px; right: -20px;
+            font-size: 180px; color: rgba(198, 40, 40, 0.08);
+            transform: rotate(-20deg); pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Text Styles */
+        h1 {
+            font-family: 'Montserrat', sans-serif; /* Font tiêu đề cứng cáp */
+            font-weight: 900; font-size: 36px;
+            color: var(--primary); text-transform: uppercase;
+            margin-bottom: 5px; letter-spacing: -1px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            position: relative; z-index: 1;
+        }
+        .tag {
+            display: inline-block; background: var(--text-main); color: #fff;
+            padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: bold;
+            margin-bottom: 20px; position: relative; z-index: 1;
+        }
+        .bio {
+            color: var(--text-sub); font-size: 16px; line-height: 1.6;
+            margin-bottom: 30px; font-weight: 600;
+            position: relative; z-index: 1;
+        }
+
+        /* Music Bar (Giữ lại theo yêu cầu) */
+        .music-strip {
+            background: #ffebee; border-left: 4px solid var(--primary);
+            padding: 12px 15px; border-radius: 0 8px 8px 0;
             display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 30px; position: relative; z-index: 1;
         }
+        .song-info { display: flex; flex-direction: column; }
+        .song-name { font-weight: 800; color: var(--primary); font-size: 14px; }
+        .artist { font-size: 11px; color: var(--text-sub); }
         
-        .track-info { display: flex; align-items: center; gap: 15px; flex-grow: 1; }
-        
-        /* Visualizer Sóng nhạc */
-        .visualizer { display: flex; gap: 3px; height: 20px; align-items: flex-end; }
-        .bar { width: 4px; background: var(--accent-red); border-radius: 2px; height: 5px; transition: height 0.2s; opacity: 0.7; }
-        
-        .music-player.playing .bar { animation: jump 0.6s infinite alternate ease-in-out; }
-        .music-player.playing .bar:nth-child(1) { animation-delay: 0.1s; }
-        .music-player.playing .bar:nth-child(2) { animation-delay: 0.3s; }
-        .music-player.playing .bar:nth-child(3) { animation-delay: 0.5s; }
-        .music-player.playing .bar:nth-child(4) { animation-delay: 0.2s; }
+        .play-controls { display: flex; gap: 10px; }
+        .mini-btn { border: none; background: none; color: var(--text-main); cursor: pointer; font-size: 16px; transition: 0.2s; }
+        .mini-btn:hover { color: var(--primary); transform: scale(1.2); }
 
-        .song-title { font-weight: bold; color: var(--accent-dark); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
-
-        .controls { display: flex; gap: 10px; }
-        .ctrl-btn {
-            background: none; border: none; color: var(--accent-red);
-            cursor: pointer; font-size: 16px; transition: 0.2s;
-            width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
-            border-radius: 50%;
+        /* Social Icons */
+        .socials { display: flex; gap: 15px; position: relative; z-index: 1; }
+        .s-icon {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: #fff; border: 2px solid var(--primary);
+            color: var(--primary); display: flex; align-items: center; justify-content: center;
+            text-decoration: none; font-size: 18px; transition: 0.3s;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
         }
-        .ctrl-btn:hover { background: var(--accent-red); color: #fff; }
-        .play-btn { font-size: 18px; background: rgba(211, 47, 47, 0.1); }
-
-        /* Social Links */
-        .social-links { display: flex; gap: 15px; margin-top: auto; }
-        .s-btn {
-            flex: 1; text-decoration: none; color: var(--accent-red); font-weight: bold;
-            padding: 12px; border-radius: 10px; text-align: center;
-            border: 2px solid var(--accent-red); transition: 0.2s;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
+        .s-icon:hover {
+            background: var(--primary); color: #fff; transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(198, 40, 40, 0.4);
         }
-        .s-btn:hover { background: var(--accent-red); color: #fff; box-shadow: 0 5px 15px rgba(211, 47, 47, 0.3); }
 
-        @keyframes jump { to { height: 100%; opacity: 1; } }
-
-        /* Mobile */
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .card-container { flex-direction: column; }
-            .card-left { padding: 30px; }
-            .avatar-frame { width: 160px; height: 160px; }
-            .card-right { padding: 30px; gap: 20px; }
-            .header h1 { font-size: 32px; }
+            .profile-card { flex-direction: column; width: 95%; max-height: 90vh; overflow-y: auto; }
+            .left-col { height: 250px; min-height: 250px; width: 100%; flex: none; }
+            .right-col { padding: 25px; }
+            h1 { font-size: 28px; }
+            .watermark { font-size: 120px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="card-container">
-        <div class="card-left">
-            <div class="avatar-frame">
-                <img src="https://i.ibb.co/1f25q4m/sparkle-fox.jpg" alt="Sparkle Avatar">
-            </div>
-        </div>
+    <div class="sakura-container">
+        <div class="sakura"></div><div class="sakura"></div>
+        <div class="sakura"></div><div class="sakura"></div>
+        <div class="sakura"></div>
+    </div>
 
-        <div class="card-right">
-            <div class="header">
-                <h1>Phạm Anh Khiêm</h1>
-                <p class="role">/// Game Developer & UI/UX Designer</p>
-                <p class="bio">
-                    "Chuyên trị Unity, C# và tạo ra những giao diện người dùng 'bánh cuốn'. Đam mê code, thích xem anime và yêu màu đỏ của Sparkle."
-                </p>
-            </div>
+    <div class="profile-card">
+        <div class="watermark"><i class="fa-solid fa-mask"></i></div>
+        <div class="ribbon"></div>
 
-            <div class="tech-stack">
-                <i class="fa-brands fa-unity tech-icon" title="Unity"></i>
-                <i class="fa-solid fa-code tech-icon" title="C#"></i>
-                <i class="fa-brands fa-figma tech-icon" title="Figma/UI"></i>
-                <i class="fa-brands fa-github tech-icon" title="Git"></i>
-            </div>
+        <div class="left-col"></div>
 
-            <div class="music-player" id="musicPlayer">
-                <div class="track-info">
-                    <div class="visualizer">
-                        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                    </div>
-                    <span class="song-title" id="trackName">Chọn bài hát...</span>
+        <div class="right-col">
+            <h1>Phạm Anh Khiêm</h1>
+            <div><span class="tag">/// SPARKLE_MAIN</span> <span class="tag" style="background:var(--primary)">DEV</span></div>
+            
+            <p class="bio">
+                "Thợ code dạo yêu cái đẹp. Chuyên trị các kèo Unity, C#, ReactJS. Thích hóng drama và yêu màu đỏ của Sparkle."
+            </p>
+
+            <div class="music-strip">
+                <div class="song-info">
+                    <span class="song-name" id="trackName">Monodrama (Sparkle Theme)</span>
+                    <span class="artist">Honkai Star Rail</span>
                 </div>
-                
-                <div class="controls">
-                    <button class="ctrl-btn" onclick="prevTrack()"><i class="fa-solid fa-backward-step"></i></button>
-                    <button class="ctrl-btn play-btn" onclick="togglePlay()">
-                        <i class="fa-solid fa-play" id="playIcon"></i>
-                    </button>
-                    <button class="ctrl-btn" onclick="nextTrack()"><i class="fa-solid fa-forward-step"></i></button>
+                <div class="play-controls">
+                    <button class="mini-btn" onclick="togglePlay()"><i class="fa-solid fa-play" id="playIcon"></i></button>
+                    <button class="mini-btn" onclick="nextTrack()"><i class="fa-solid fa-forward-step"></i></button>
                 </div>
             </div>
 
-            <div class="social-links">
-                <a href="https://github.com/drexx-cmd" target="_blank" class="s-btn">
-                    <i class="fa-brands fa-github"></i> GitHub
-                </a>
-                <a href="https://www.facebook.com/notkhizm/" target="_blank" class="s-btn">
-                    <i class="fa-brands fa-facebook"></i> Facebook
-                </a>
-                <a href="mailto:mail@example.com" class="s-btn">
-                    <i class="fa-solid fa-envelope"></i> Contact
-                </a>
+            <div class="socials">
+                <a href="https://github.com/drexx-cmd" target="_blank" class="s-icon"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.facebook.com/notkhizm/" target="_blank" class="s-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="mailto:mail@example.com" class="s-icon"><i class="fa-solid fa-envelope"></i></a>
+                <a href="#" class="s-icon"><i class="fa-brands fa-discord"></i></a>
             </div>
         </div>
     </div>
@@ -202,48 +201,42 @@
     <audio id="audioSource"></audio>
 
     <script>
-        // --- MUSIC PLAYER LOGIC ---
+        // --- SIMPLE MUSIC PLAYER ---
         const playlist = [
-            { title: "Sparkle Theme (Honkai)", src: "https://cdn.pixabay.com/audio/2022/03/15/audio_7368686256.mp3" }, // Thay link nhạc thật vào đây
-            { title: "Japanese Lofi Beats", src: "https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" }
+            { title: "Monodrama (Sparkle)", artist: "Honkai Star Rail", src: "https://cdn.pixabay.com/audio/2022/03/15/audio_7368686256.mp3" },
+            { title: "Lofi Coding", artist: "Chill Beats", src: "https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" }
         ];
 
-        let currentIdx = 0;
+        let idx = 0;
         const audio = document.getElementById('audioSource');
-        const playIcon = document.getElementById('playIcon');
         const trackName = document.getElementById('trackName');
-        const playerBox = document.getElementById('musicPlayer');
+        const artistName = document.querySelector('.artist');
+        const playIcon = document.getElementById('playIcon');
 
-        function loadTrack(idx) {
-            trackName.innerText = playlist[idx].title;
-            audio.src = playlist[idx].src;
+        function loadTrack(index) {
+            trackName.innerText = playlist[index].title;
+            artistName.innerText = playlist[index].artist;
+            audio.src = playlist[index].src;
         }
 
         function togglePlay() {
             if (audio.paused) {
                 audio.play();
                 playIcon.className = "fa-solid fa-pause";
-                playerBox.classList.add('playing'); // Kích hoạt visualizer
             } else {
                 audio.pause();
                 playIcon.className = "fa-solid fa-play";
-                playerBox.classList.remove('playing'); // Tắt visualizer
             }
         }
 
         function nextTrack() {
-            currentIdx = (currentIdx + 1) % playlist.length;
-            loadTrack(currentIdx);
-            togglePlay();
-        }
-        function prevTrack() {
-            currentIdx = (currentIdx - 1 + playlist.length) % playlist.length;
-            loadTrack(currentIdx);
+            idx = (idx + 1) % playlist.length;
+            loadTrack(idx);
             togglePlay();
         }
 
         audio.addEventListener('ended', nextTrack);
-        loadTrack(0); // Load bài đầu
+        loadTrack(0);
     </script>
 </body>
 </html>
